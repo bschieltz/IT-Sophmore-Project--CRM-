@@ -17,7 +17,8 @@ require 'header.php';
 ?>
 
 
-<p>test text</p>
+<p class="report">report text</p>
+<p class="form">form text</p>
 
 
 
