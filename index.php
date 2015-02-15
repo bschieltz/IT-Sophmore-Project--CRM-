@@ -14,7 +14,6 @@ require 'header.php';
 
 <?php
 if (($_SERVER['REQUEST_METHOD'] == 'POST') && (empty($_POST['business_name']))){
-    print'<script type="text/javascript">swapDisplay()</script>';
 } else {
     print'<script type="text/javascript">swapDisplay()</script>';
 }
