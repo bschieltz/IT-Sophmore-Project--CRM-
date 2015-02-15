@@ -1,3 +1,4 @@
+</body>
 <?php
 /**
  * Created by PhpStorm.
@@ -5,3 +6,4 @@
  * Date: 1/31/2015
  * Time: 1:53 PM
  */
+?>
