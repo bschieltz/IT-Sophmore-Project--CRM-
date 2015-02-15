@@ -10,10 +10,10 @@ html, body {
     font-variant: normal;
 }
 
-.report {
+.displayOn {
     display: inline;
 }
 
-.form {
+.displayOff {
     display: none;
 }

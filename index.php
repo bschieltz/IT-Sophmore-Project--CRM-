@@ -10,15 +10,15 @@ require 'header.php';
 ?>
 <?php
     if (($_SERVER['REQUEST_METHOD'] == 'POST') && (empty($_POST['business_name']))){
-        $displayForm = false;
+        print'<script type="text/javascript">swapDisplay(false)</script>';
     } else {
-        $displayForm = true;
+        print'<script type="text/javascript">swapDisplay(true)</script>';
     }
 ?>
 
 
-<p class="report">report text</p>
-<p class="form">form text</p>
+<p class="infoTag displayOn">report text</p>
+<p class="infoTag displayOff">form text</p>
 
 
 
