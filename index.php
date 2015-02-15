@@ -8,6 +8,14 @@
 
 require 'header.php';
 ?>
+<?php
+    if (($_SERVER['REQUEST_METHOD'] == 'POST') && (empty($_POST['business_name']))){
+        $displayForm = false;
+    } else {
+        $displayForm = true;
+    }
+?>
+
 
 <p>test text</p>
 
