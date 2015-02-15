@@ -9,14 +9,8 @@
 require 'header.php';
 ?>
 
-<p class="infoTag displayOn">report text</p>
-<p class="infoTag displayOff">form text</p>
-
 <?php
-if (($_SERVER['REQUEST_METHOD'] == 'POST') && (empty($_POST['business_name']))){
-} else {
-    print'<script type="text/javascript">swapDisplay()</script>';
-}
+print"<a class=\"formTag\" href = \"business.php?firstName=$firstName&lastName=$lastName&middleInitial=$middleInitial\">Click here<a/> to test business with info<br />";
 ?>
 
 

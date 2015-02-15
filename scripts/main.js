@@ -16,5 +16,6 @@ $(function(){
         event.preventDefault();
         $(this).text("Done reordering");
         $(".infoTag").toggleClass("displayOn displayOff");
+        $(".formTag").toggleClass("displayOn displayOff");
     });
 });
