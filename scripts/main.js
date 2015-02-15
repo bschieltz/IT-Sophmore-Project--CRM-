@@ -3,19 +3,26 @@
  */
 
 function swapDisplay(){
-    //if (displayForm) {
-        $(".infoTag").toggleClass("displayOn displayOff");
-    //} else {
-
-    //}
-    //$(this).parent().css({"display":"none"});
+    $(".infoTag").toggleClass("displayOn displayOff");
+    $(".formTag").toggleClass("displayOn displayOff");
 }
 
-$(function(){
-    $("#reorder").click(function(event) {
+//event handler to edit button
+$(function() {
+    $('#editButton').on('click', function(event){
         event.preventDefault();
-        //$(".infoTag").toggleClass("displayOn displayOff");
-        $(".formTag").toggleClass("displayOn displayOff");
-        $(".infoTag").fadeTo(100 , 0, function() {});
+        swapDisplay();
+    });
+});
+
+$(function() {
+    $('#cancelButton').on('click', function(event){
+        event.preventDefault();
+        if (window.location.search.substring(1) != "") {
+            swapDisplay();
+            console.log(window.location.search.substring(1))
+        } else {
+            window.location.href = 'index.php';
+        }
     });
 });

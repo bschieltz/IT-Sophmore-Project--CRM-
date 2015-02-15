@@ -30,12 +30,23 @@ if (!empty($_GET['BusinessName'])){
     $address = "123 Main St"; //insert database info here
 }
 ?>
+<div class="infoTag">
+    <p>Business Name: <?= $businessName ?></p>
+    <p>Primary Contact: <?= $primaryContact ?></p>
+    <p>Phone Number: <?= $phoneNumber ?></p>
+    <p>Address: <?= $address ?></p>
 
-<p class="infoTag displayOn">Business Name: <?= $businessName ?></p>
-<p class="infoTag displayOn">Primary contact: <?= $primaryContact ?></p>
-<p class="infoTag displayOn">Phone Number: <?= $phoneNumber ?></p>
-<p class="infoTag displayOn">Address: <?= $address ?></p>
+    <input id="editButton" type="submit" value="Edit" />
+</div>
 
+<form class="formTag displayOff">
+    <p>Business Name: <input type="text" name="BusinessName" size="20" value="<?= $businessName ?>" placeholder="Starbucks"/></p>
+    <p>Primary Contact: <input type="text" name="PrimaryContact" size="20" value="<?= $primaryContact ?>" placeholder="Bill Jones"/></p>
+    <p>Phone Number: <input type="text" name="PhoneNumber" size="20" value="<?= $phoneNumber ?>" placeholder="513-987-6543"/></p>
+    <p>Address: <input type="text" name="Address" size="20" value="<?= $address ?>" placeholder="456 Center St."/></p>
+
+    <input id="cancelButton" type="submit" value="Cancel" />
+</form>
 
 <br /><br /><br />
 <a class="formTag displayOff" href = "business.php?BusinessName=Chipotle">Click here to test business with info</a>
