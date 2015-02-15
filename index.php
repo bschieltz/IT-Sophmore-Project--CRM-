@@ -10,7 +10,7 @@ require 'header.php';
 ?>
 
 <?php
-print"<a class=\"formTag\" href = \"business.php?firstName=$firstName&lastName=$lastName&middleInitial=$middleInitial\">Click here<a/> to test business with info<br />";
+print"<a class=\"formTag\" href = \"business.php?BusinessName=Chipotle\">Click here<a/> to test business with info<br />";
 ?>
 
 

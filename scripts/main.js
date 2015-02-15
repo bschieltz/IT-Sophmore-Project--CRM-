@@ -14,8 +14,8 @@ function swapDisplay(){
 $(function(){
     $("#reorder").click(function(event) {
         event.preventDefault();
-        $(this).text("Done reordering");
-        $(".infoTag").toggleClass("displayOn displayOff");
+        //$(".infoTag").toggleClass("displayOn displayOff");
         $(".formTag").toggleClass("displayOn displayOff");
+        $(".infoTag").fadeTo(100 , 0, function() {});
     });
 });
