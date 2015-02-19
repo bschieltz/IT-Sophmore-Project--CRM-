@@ -1,0 +1,11 @@
+html,body{margin:0;padding:0;text-align:center;}
+#pagewidth{width:857px;text-align:left;margin:0 auto;}
+#header{position:relative;height:151px;background-color:#4F5C56;width:100%;display:block;overflow:auto;}
+#leftcol{width:100%;float:left;position:relative;background-color:#4F5C56;}
+#maincol{background-color:#eee;position:relative;width:0%;float:right;}
+#footer{height:150px;background-color:#4F5C56;clear:both;display:block;overflow:auto;}
+.clearfix:after{content:".";display:block;height:0;clear:both;visibility:hidden;}
+.clearfix{display:inline-block;}* html 
+.clearfix{height:1%;}
+.clearfix{display:block;}
+@media print{#leftcol{display:none;}#twocols,#maincol{width:100%;float:none;}}

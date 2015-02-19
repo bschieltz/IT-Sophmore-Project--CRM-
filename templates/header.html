@@ -1,0 +1,58 @@
+<?php
+ob_start();
+
+// Start the session
+session_start();
+include('functions.php');
+
+?>
+
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<title>
+	<?php 
+		// Print the page title.
+		if(defined('TITLE')){
+			print TITLE;
+		}
+		else {
+			print 'UCC CRMS';
+		}
+	?>
+	</title>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<link rel="stylesheet" href="css\index.css" type="text/css" media="screen,projection" />
+	<link rel="icon" type="image/ico" href="images\favicon.ico" />
+</head>
+<body>
+<div id="wrapper">
+	<div id="header">
+		<p class="description"></p>
+		<h1><a href="index.php"><image src="images\UCClermontBanner.png" /></a></h1>
+		<ul id="nav">
+			<li> </li>
+			<li><a href="index.php">Home</a></li>
+			<li><a href="business.php">Businesses</a></li>
+			<li><a href="users.php">Users</a></li>
+			<li><a href="reports.php">Reports</a></li>
+			<li><a href="logout.php?">Logout</a></li>
+		</ul>
+	</div><!-- header -->
+	
+	<div id="sidebar">
+		<h2>Navigation</h2>
+			<p class="navigation">
+			<ul>
+			<li><a href="index.php">Home</a></li>
+			<li><a href="business.php">Businesses</a></li>
+			<li><a href="users.php">Users</a></li>
+			<li><a href="reports.php">Reports</a></li>
+			<li><a href="logout.php?">Logout</a></li>
+			</ul>
+	</div><!-- sidebar -->
+
+	<div id="content">
+ 		<!-- BEGIN CHANGEABLE CONTENT. -->
+		<!-- Script 8.2 - header.html -->
