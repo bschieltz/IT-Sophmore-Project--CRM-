@@ -7,7 +7,7 @@
  * Landing page for all users.  If not logged in, show login info.  If logged in, it should be a dashboard of sorts
  */
 
-require 'header.php';
+require 'templates/header.html';
 ini_set('display_errors',1);  error_reporting(E_ALL);
 ?>
 
@@ -59,5 +59,5 @@ if (empty($_GET['BusinessName'])){
 ?>
 
 <?php
-require 'footer.php';
+require 'templates/footer.html';
 ?>
