@@ -1,0 +1,339 @@
+body {
+	font: 1em "Lucida Grande", "Lucida Sans Unicode", verdana, geneva, sans-serif;
+	color:#666;
+	margin:0;
+	border-top:2px solid #E00122;
+	background-color: #000000;
+}
+
+* {
+	margin:0;
+	padding:0;
+}
+
+h1 {
+	font-family:"Times New Roman", Times, serif;
+	font-size:3.8em;
+	font-weight:normal;
+	color:#333;
+	letter-spacing:-1px;
+	margin:20px 0;
+}
+
+h1 a {
+	text-decoration:none;
+	color:#333;
+}
+
+#footer {
+	padding:20px;
+	text-align:right;
+	border-top:1px solid #E00122;
+	margin:0;
+	color:#999;
+	background-color:#E00122
+	
+	}
+
+#header {
+	border-top:solid #000000;
+
+	
+	
+	
+	}
+#header img {
+	display: block;
+	max-width: 900px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#header .description {
+	float:right;
+	margin:45px 0 0 0;
+	color:#222;
+}
+
+#header h1 {
+	margin:15px 0 0 0;
+	padding:25px 25px 40px 0;
+	border-bottom:20px solid #fafafa;
+}
+
+#wrapper {
+	width:auto;
+	margin:0 auto;
+	background-color: #ffffff;
+	max-width: 960px;
+}
+
+#nav {
+	border-bottom:1px solid #eee;
+	padding:7px 0;
+	margin:0;
+	border-top:1px solid #eee;
+	height:28px;
+
+	}
+
+#nav li {
+	float:left;
+	list-style:none;
+	margin-left: 25px;
+	
+}
+
+#nav li a {
+	color:#999;
+	padding:5px 5px 7px 5px;
+	background:#fff;
+	font:1.6em Trebuchet MS;
+	margin:1px 2px 0 0;
+	font-weight:bold;
+	text-decoration:none;
+	display:block;
+}
+#nav li a:hover {
+	background-color:#E00122;
+	color:#333;
+	text-decoration:none;
+}
+
+#nav li a.active {
+	background-color:#E00122;
+	color:#444;
+	text-decoration:none;
+}
+
+.clear {
+	clear:both;
+}
+
+#content {
+	margin:0 275px 0 0 !important;
+	margin:0 277px 0 0;
+	border-right:1px solid #eee;
+	border-left:1px solid #eee;
+	padding:10px 25px 30px 25px;
+}
+
+#content p {
+	line-height:25px;
+	margin:25px 0;
+	font-size:160%;
+	word-spacing:2px;
+}
+
+#content a {
+	text-decoration:none;
+	color:#333;
+	border-bottom:1px solid #eee;
+}
+
+#content a:hover {
+	color:#000;
+}
+
+#content h2 {
+	font-family:"Times New Roman", Times, serif;
+	font-size:2.8em;
+	font-weight:normal;
+	margin:15px 0;
+	border-bottom:1px solid #f6f6f6;
+	padding:5px 0;
+}
+
+#content h2 a {
+	color:#444;
+	text-decoration:none;
+	border:none;
+}
+
+#sidebar {
+	width:250px;
+	float:right;
+	padding:10px 10px 30px 10px;
+	border-left:1px solid #eee;
+	border-right:1px solid #eee;
+	border-bottom:1px solid #eee;
+}
+
+#sidebar h2 {
+	letter-spacing:2px;
+	font-size:1.4em;
+	color:#333;
+	border-bottom:1px solid #f6f6f6;
+	padding:0 0 3px 0;
+}
+
+#sidebar ul {
+	list-style:none;
+	margin:0 0 20px 0;
+}
+
+#sidebar li {
+	padding:3px;
+	border-bottom:1px solid #f6f6f6;
+}
+
+#sidebar li a {
+	color:#333;
+	text-decoration:none;
+}
+
+#sidebar input {
+	width:240px;
+	padding:5px;
+	background:#fdfdfd;
+	color:#444;
+	border:1px solid #f6f6f6;
+	font:11px Verdana;
+}
+
+#sidebar input:focus {
+	background:#fff;
+	border:1px solid #eee;
+}
+
+#sidebar li a:hover {
+	color:#000;
+}
+
+p.navigation {
+	padding:10px;
+	background:#E00122;
+	margin:10px 0;
+	color:#E00122;
+	border-bottom:2px solid #E00122;
+	border-top:2px solid #E00122;
+}
+
+blockquote {
+	padding:5px 15px;
+	background:#f6f6f6;
+	margin:10px 0;
+	border:1px solid #eee;
+}
+
+#content ul, ol {
+	margin:10px 10px 10px 50px;
+	border-top:1px solid #eee;
+}
+#content li {
+	padding:10px;
+	border-bottom:1px solid #eee;
+}
+
+img {
+	background:#ccc;
+	padding:1px;
+	border:5px solid #eee;
+}
+
+#content h3 {
+	margin:10px 0;
+	font:160% Trebuchet MS;
+	color:#222;
+}
+
+a.more {
+	display:block;
+	text-align:right;
+	color:#800080;
+	text-decoration:none;
+	margin:10px 0 0 0 ;
+}
+a.more:hover {
+	text-decoration:underline;
+}
+
+/***************************** index page specific ***********************************************/
+#loginTable td {
+	line-height:25px;
+	font:14px Verdana;
+	padding: 15px;
+	padding-right: 0px;
+	padding-left: 5px;
+}
+
+#notesTable {
+	border: 1px solid #000;
+}
+
+#notesTable td {
+	border: 1px solid #000;
+	text-align: left;
+	padding: 5px;
+}
+
+.myButton {
+	margin-left: auto;
+	margin-right: auto;
+	width: 100%;
+	-moz-box-shadow:inset 0px 3px 0px 0px #f5978e;
+	-webkit-box-shadow:inset 0px 3px 0px 0px #f5978e;
+	box-shadow:inset 0px 3px 0px 0px #f5978e;
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #f24537), color-stop(1, #c62d1f));
+	background:-moz-linear-gradient(top, #f24537 5%, #E00122 100%);
+	background:-webkit-linear-gradient(top, #f24537 5%, #E00122 100%);
+	background:-o-linear-gradient(top, #f24537 5%, #E00122 100%);
+	background:-ms-linear-gradient(top, #f24537 5%, #E00122 100%);
+	background:linear-gradient(to bottom, #f24537 5%, #E00122 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#f24537', endColorstr='#E00122',GradientType=0);
+	background-color:#f24537;
+	-moz-border-radius:6px;
+	-webkit-border-radius:6px;
+	border-radius:6px;
+	border:1px solid #ffffff;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:arial;
+	font-size:20px;
+	font-weight:bold;
+	padding:6px 24px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #810e05;
+}
+.myButton:hover {
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #E00122), color-stop(1, #f24537));
+	background:-moz-linear-gradient(top, #E00122 5%, #f24537 100%);
+	background:-webkit-linear-gradient(top, #E00122 5%, #f24537 100%);
+	background:-o-linear-gradient(top, #E00122 5%, #f24537 100%);
+	background:-ms-linear-gradient(top, #E00122 5%, #f24537 100%);
+	background:linear-gradient(to bottom, #E00122 5%, #f24537 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#E00122', endColorstr='#f24537',GradientType=0);
+	background-color:#E00122;
+	color: #000000;
+}
+.myButton:active {
+	position:relative;
+	top:1px;
+}
+
+.displayOn {
+    display: block;
+}
+
+.displayOff {
+    display: none;
+}
+
+.infoTag{}
+
+.formTag{}
+/***************************** businesses page specific ***********************************************/
+
+
+
+/***************************** users page specific ***********************************************/
+
+
+
+/***************************** notes page specific ***********************************************/
+
+
+
+/***************************** Reports page specific ***********************************************/
+
