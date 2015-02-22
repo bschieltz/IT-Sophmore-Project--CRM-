@@ -57,7 +57,18 @@
 
 		return $userNotesQuery;
 	}
-		
+
+    /****************************************************************************************/
+    // Query to Pull Business
+
+    function pullBusiness($businessID){
+        include('includes/mysqli_connect.php');
+        $businessQuery = "SELECT `BusinessID`, `BusinessName`, `PrimaryContact`, `PrimaryPhone#`, `Notes`
+                  FROM `tbusiness` WHERE 'BusinessName = $businessID'";
+
+        return mysqli_query($dbc, $businessQuery);
+
+    }
 	/****************************************************************************************/
 	// Build Dashboard
 	function dashboard($userID, $userFullName) {
@@ -138,4 +149,5 @@
     </SCRIPT>";
 		logout();
 	}
+
 ?>

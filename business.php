@@ -17,24 +17,27 @@ ini_set('display_errors',1);  error_reporting(E_ALL);
 <br /><br /><br />
 
 <?php
-$businessName = "";
-$primaryContact = "";
-$phoneNumber = "";
-$address = "";
+    $businessName = "";
+    $primaryContact = "";
+    $primaryPhoneNumber = "";
+    $notes = "";
 
 
-if (!empty($_GET['BusinessName'])){
-    $businessName = ($_GET['BusinessName']);
-    $primaryContact = "Joe Smith"; //insert database info here
-    $phoneNumber = "513-123-4567"; //insert database info here
-    $address = "123 Main St"; //insert database info here
-}
+    if (!empty($businessID)) {
+        $businessQuery = pullBusiness($_GET['BusinessID']);
+        $business = mysqli_query($dbc, $businessQuery);
+        $row = mysqli_fetch_array($business);
+        $businessName = $row['BusinessName'];
+        $primaryContact = $row['PrimaryContact'];
+        $primaryPhoneNumber = $row['PrimaryPhone#'];
+        $notes = $row['Notes'];
+    }
 ?>
 <div class="infoTag">
     <p>Business Name: <?= $businessName ?></p>
     <p>Primary Contact: <?= $primaryContact ?></p>
-    <p>Phone Number: <?= $phoneNumber ?></p>
-    <p>Address: <?= $address ?></p>
+    <p>Phone Number: <?= $primaryPhoneNumber ?></p>
+    <p>Address: <?= $notes ?></p>
 
     <input id="editButton" type="submit" value="Edit" />
 </div>
@@ -42,8 +45,8 @@ if (!empty($_GET['BusinessName'])){
 <form class="formTag displayOff">
     <p>Business Name: <input type="text" name="BusinessName" size="20" value="<?= $businessName ?>" placeholder="Starbucks"/></p>
     <p>Primary Contact: <input type="text" name="PrimaryContact" size="20" value="<?= $primaryContact ?>" placeholder="Bill Jones"/></p>
-    <p>Phone Number: <input type="text" name="PhoneNumber" size="20" value="<?= $phoneNumber ?>" placeholder="513-987-6543"/></p>
-    <p>Address: <input type="text" name="Address" size="20" value="<?= $address ?>" placeholder="456 Center St."/></p>
+    <p>Phone Number: <input type="text" name="PhoneNumber" size="20" value="<?= $primaryPhoneNumber ?>" placeholder="513-987-6543"/></p>
+    <p>Address: <input type="text" name="Address" size="20" value="<?= $notes ?>" placeholder="456 Center St."/></p>
 
     <input id="cancelButton" type="submit" value="Cancel" />
 </form>
@@ -53,7 +56,7 @@ if (!empty($_GET['BusinessName'])){
 <a class="infoTag displayOn" href = "business.php">Click here to test new business page</a>
 
 <?php
-if (empty($_GET['BusinessName'])){
+if (empty($_GET['BusinessID'])){
     print'<script type="text/javascript">swapDisplay()</script>';
 }
 ?>
