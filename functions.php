@@ -62,11 +62,11 @@
     // Query to Pull Business
 
     function pullBusiness($businessID){
-        include('includes/mysqli_connect.php');
-        $businessQuery = "SELECT `BusinessID`, `BusinessName`, `PrimaryContact`, `PrimaryPhone#`, `Notes`
-                  FROM `tbusiness` WHERE 'BusinessName = $businessID'";
+        $businessQuery = "SELECT BusinessName, PrimaryContact, `PrimaryPhone#`, Notes
+                  FROM tbusiness WHERE BusinessID = $businessID";
 
-        return mysqli_query($dbc, $businessQuery);
+        return $businessQuery;
+        //return mysql_query($businessQuery);
 
     }
 	/****************************************************************************************/
