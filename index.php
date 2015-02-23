@@ -30,7 +30,7 @@
 						print "<div align='center'>";
 						print "<h1 style='color: red'>Sorry, we could not find you in our database.</h1>";
 						print "<p style='color: red'>You can try again or contact
-							this system administrator for access.
+							this system administrator for access to this site.
 						</p>";
 						print "</div>";
 						// Print the login form
