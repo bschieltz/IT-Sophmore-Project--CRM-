@@ -7,6 +7,8 @@ function showInfo(){
     $(".infoTag").removeClass("displayOff");
     $(".formTag").addClass("displayOff");
     $(".formTag").removeClass("displayOn");
+    $(".listTag").addClass("displayOff");
+    $(".listTag").removeClass("displayOn");
 }
 
 function showForm(){
@@ -14,10 +16,17 @@ function showForm(){
     $(".infoTag").removeClass("displayOn");
     $(".formTag").addClass("displayOn");
     $(".formTag").removeClass("displayOff");
+    $(".listTag").addClass("displayOff");
+    $(".listTag").removeClass("displayOn");
 }
 
 function showList(){
-
+    $(".infoTag").addClass("displayOff");
+    $(".infoTag").removeClass("displayOn");
+    $(".formTag").addClass("displayOff");
+    $(".formTag").removeClass("displayOn");
+    $(".listTag").addClass("displayOn");
+    $(".listTag").removeClass("displayOff");
 }
 
 //event handler to edit button

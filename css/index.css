@@ -248,6 +248,17 @@ a.more:hover {
 	text-decoration:underline;
 }
 
+.displayOn {
+    display: block;
+}
+
+.displayOff {
+    display: none;
+}
+
+.infoTag{}
+
+.formTag{}
 /***************************** index page specific ***********************************************/
 #loginTable td {
 	line-height:25px;
@@ -312,20 +323,12 @@ a.more:hover {
 	top:1px;
 }
 
-.displayOn {
-    display: block;
-}
 
-.displayOff {
-    display: none;
-}
-
-.infoTag{}
-
-.formTag{}
 /***************************** businesses page specific ***********************************************/
 
-
+#businessPage ul {
+    list-style: none
+}
 
 /***************************** users page specific ***********************************************/
 
