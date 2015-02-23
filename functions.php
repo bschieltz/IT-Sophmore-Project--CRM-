@@ -119,7 +119,7 @@
 						";
 					}
 				}
-				print "<tr><td colspan='3'><form</td></tr>";
+				print "<tr><td colspan='3'>See all contacts.</td></tr>";
 				print "</table>";
 				
 			}
