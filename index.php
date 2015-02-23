@@ -29,7 +29,7 @@
 
 						print "<div align='center'>";
 						print "<h1 style='color: red'>Sorry, we could not find you in our database.</h1>";
-						print "<p style='color: red'>Either way, you can try again or contact
+						print "<p style='color: red'>You can try again or contact
 							this system administrator for access.
 						</p>";
 						print "</div>";
