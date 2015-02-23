@@ -4,12 +4,16 @@
 
 function showInfo(){
     $(".infoTag").addClass("displayOn");
+    $(".infoTag").removeClass("displayOff");
     $(".formTag").addClass("displayOff");
+    $(".formTag").removeClass("displayOn");
 }
 
 function showForm(){
     $(".infoTag").addClass("displayOff");
+    $(".infoTag").removeClass("displayOn");
     $(".formTag").addClass("displayOn");
+    $(".formTag").removeClass("displayOff");
 }
 
 function showList(){

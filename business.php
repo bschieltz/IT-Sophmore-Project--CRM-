@@ -11,12 +11,6 @@ require 'templates/header.html';
 ini_set('display_errors',1);  error_reporting(E_ALL);
 ?>
 
-
-<p class="infoTag displayOn">report text</p>
-<p class="formTag displayOff">form text</p>
-<br /><br /><br />
-
-
 <?php
     include('includes/mysqli_connect.php');
     $businessName = "";
@@ -39,20 +33,20 @@ ini_set('display_errors',1);  error_reporting(E_ALL);
         //}
     }
 ?>
-<div class="infoTag">
-    <h3>Business Name: <?= $businessName ?></h3>
-    <p>Primary Contact: <?= $primaryContact ?></p>
-    <p>Phone Number: <?= $primaryPhoneNumber ?></p>
-    <p>Notes: <?= $notes ?></p>
+<div class="infoTag displayOn">
+    Business Name: <?= $businessName ?><br />
+    Primary Contact: <?= $primaryContact ?><br />
+    Phone Number: <?= $primaryPhoneNumber ?><br />
+    Notes: <?= $notes ?><br />
 
     <input id="editButton" type="submit" value="Edit" />
 </div>
 
 <form class="formTag displayOff">
-    <p>Business Name: <input type="text" name="BusinessName" size="20" value="<?= $businessName ?>" placeholder="Starbucks"/></p>
-    <p>Primary Contact: <input type="text" name="PrimaryContact" size="20" value="<?= $primaryContact ?>" placeholder="Bill Jones"/></p>
-    <p>Phone Number: <input type="text" name="PhoneNumber" size="20" value="<?= $primaryPhoneNumber ?>" placeholder="513-987-6543"/></p>
-    <p>Notes: <input type="text" name="Address" size="20" value="<?= $notes ?>" placeholder="456 Center St."/></p>
+    Business Name: <input type="text" name="BusinessName" size="20" value="<?= $businessName ?>" placeholder="Starbucks"/><br />
+    Primary Contact: <input type="text" name="PrimaryContact" size="20" value="<?= $primaryContact ?>" placeholder="Bill Jones"/><br />
+    Phone Number: <input type="text" name="PhoneNumber" size="20" value="<?= $primaryPhoneNumber ?>" placeholder="513-987-6543"/><br />
+    Notes:<br /><textarea rows="4" cols="50"><?= $notes ?></textarea><br />
 
     <input id="cancelButton" type="submit" value="Cancel" />
 </form>
@@ -63,7 +57,7 @@ ini_set('display_errors',1);  error_reporting(E_ALL);
 
 <?php
 if (empty($_GET['BusinessID'])){
-    print'<script type="text/javascript">swapDisplay()</script>';
+    print'<script type="text/javascript">showForm()</script>';
 }
 ?>
 
