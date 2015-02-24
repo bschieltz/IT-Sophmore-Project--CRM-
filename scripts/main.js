@@ -37,6 +37,14 @@ $(function() {
     });
 });
 
+//event handler to edit button
+$(function() {
+    $('#addButton').on('click', function(event){
+        event.preventDefault();
+        showForm();
+    });
+});
+
 $(function() {
     $('#cancelButton').on('click', function(event){
         event.preventDefault();
@@ -44,7 +52,8 @@ $(function() {
             showInfo();
             console.log(window.location.search.substring(1))
         } else {
-            window.location.href = 'index.php';
+            showList();
+            //window.location.href = 'business.php';
         }
     });
 });

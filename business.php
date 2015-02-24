@@ -31,10 +31,19 @@ ini_set('display_errors',1);  error_reporting(E_ALL);
             $primaryPhoneNumber = $row['PrimaryPhone#'];
             $notes = $row['Notes'];
         //}
+    } elseif (!empty($_GET['CreateBusiness'])) {
+
     }
 ?>
 <div id="businessPage">
-    <div class="infoTag displayOn">
+    <div class="listTag">
+        <ul>
+            <?= displayBusinessList() ?>
+        </ul>
+        <input id="addButton" type="submit" value="Add New Business" />
+    </div>
+
+    <div class="infoTag displayOff">
         <ul>
             <li>Business Name: <?= $businessName ?></li>
             <li>Primary Contact: <?= $primaryContact ?></li>
@@ -54,13 +63,13 @@ ini_set('display_errors',1);  error_reporting(E_ALL);
     </form>
 
     <br /><br /><br />
-    <a class="formTag displayOff" href = "business.php?BusinessID=1">Click here to test business with info</a>
-    <a class="infoTag displayOn" href = "business.php">Click here to test new business page</a>
 
     <?php
-        if (empty($_GET['BusinessID'])){
-            print'<script type="text/javascript">showForm()</script>';
-        }
+    if (!empty($_GET['BusinessID'])) {
+        print'<script type="text/javascript">showInfo()</script>';
+    } elseif (!empty($_GET['CreateBusiness'])) {
+        print'<script type="text/javascript">showForm()</script>';
+    }
     ?>
 </div> <!-- ends business page div -->
 <?php

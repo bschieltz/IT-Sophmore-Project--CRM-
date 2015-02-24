@@ -59,6 +59,24 @@
 	}
 
     /****************************************************************************************/
+    // Display Business List
+
+    function displayBusinessList()
+    {
+        include('includes/mysqli_connect.php');
+        $businessListQuery = "SELECT BusinessID, BusinessName
+                  FROM tbusiness";
+
+        $businessList = mysqli_query($dbc, $businessListQuery) or die("Error: ".mysqli_error($dbc));
+        for ($i=0; $i <= mysqli_num_rows($businessList); $i++) {
+            if($row = mysqli_fetch_array($businessList)) {
+                print '<li><a href="business.php?BusinessID=' . $row['BusinessID'] . '">' . $row['BusinessName'] . '</a></li>';
+            }
+        }
+
+    }
+
+    /****************************************************************************************/
     // Query to Pull Business
 
     function pullBusiness($businessID){
