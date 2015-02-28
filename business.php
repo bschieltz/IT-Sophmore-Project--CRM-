@@ -33,14 +33,21 @@ ini_set('display_errors',1);  error_reporting(E_ALL);
         //}
     } elseif (!empty($_GET['CreateBusiness'])) {
 
+    } elseif (!empty($_GET['Search'])) {
+
     }
+
 ?>
 <div id="businessPage">
-    <div class="listTag">
+    <form class="searchTag" action="business.php">
+        <input type="search" name="Search" placeholder="Search for a Business" />
+        <input id="searchButton" type="submit" value="Search" />
+    </form>
+
+    <div class="listTag displayOff">
         <ul>
-            <?= displayBusinessList() ?>
+            <?php if (!empty($_GET['Search'])) {displayBusinessList();} ?>
         </ul>
-        <input id="addButton" type="submit" value="Add New Business" />
     </div>
 
     <div class="infoTag displayOff">
@@ -62,13 +69,17 @@ ini_set('display_errors',1);  error_reporting(E_ALL);
         <input id="cancelButton" type="submit" value="Cancel" />
     </form>
 
+    <input class="searchTag listTag" id="addButton" type="submit" value="Add New Business" />
+
     <br /><br /><br />
 
     <?php
     if (!empty($_GET['BusinessID'])) {
-        print'<script type="text/javascript">showInfo()</script>';
+        print'<script type="text/javascript">showTag(".infoTag")</script>';
     } elseif (!empty($_GET['CreateBusiness'])) {
-        print'<script type="text/javascript">showForm()</script>';
+        print'<script type="text/javascript">showTag(".formTag")</script>';
+    } elseif (!empty($_GET['Search'])) {
+        print'<script type="text/javascript">showTag(".listTag")</script>';
     }
     ?>
 </div> <!-- ends business page div -->

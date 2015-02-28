@@ -248,10 +248,6 @@ a.more:hover {
 	text-decoration:underline;
 }
 
-.displayOn {
-    display: block;
-}
-
 .displayOff {
     display: none;
 }

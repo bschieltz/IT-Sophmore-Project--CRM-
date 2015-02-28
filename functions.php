@@ -64,8 +64,10 @@
     function displayBusinessList()
     {
         include('includes/mysqli_connect.php');
+        $searchString = $_GET['Search'];
         $businessListQuery = "SELECT BusinessID, BusinessName
-                  FROM tbusiness";
+                  FROM tbusiness
+                  WHERE BusinessName like '%$searchString%'";
 
         $businessList = mysqli_query($dbc, $businessListQuery) or die("Error: ".mysqli_error($dbc));
         for ($i=0; $i <= mysqli_num_rows($businessList); $i++) {
