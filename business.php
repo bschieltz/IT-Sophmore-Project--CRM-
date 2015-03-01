@@ -17,20 +17,31 @@ ini_set('display_errors',1);  error_reporting(E_ALL);
     $primaryContact = "";
     $primaryPhoneNumber = "";
     $notes = "";
+    $business = [];
+    $employees = [];
+    $ucStaff = [];
 
     if (!empty($_GET['BusinessID'])) {
         $businessID = $_GET['BusinessID'];
         $businessQuery = "SELECT BusinessName, PrimaryContact, `PrimaryPhone#`, Notes
-                  FROM tbusiness WHERE BusinessID = $businessID";//pullBusiness($businessID);
-        //print $businessQuery;
+                  FROM tbusiness WHERE BusinessID = $businessID";
         $business = mysqli_query($dbc, $businessQuery) or die("Error: ".mysqli_error($dbc));
-        //if (mysqli_num_rows($business) > 0) {
-            $row = mysqli_fetch_array($business);
-            $businessName = $row['BusinessName'];
-            $primaryContact = $row['PrimaryContact'];
-            $primaryPhoneNumber = $row['PrimaryPhone#'];
-            $notes = $row['Notes'];
-        //}
+        $row = mysqli_fetch_array($business);
+        $businessName = $row['BusinessName'];
+        $primaryContact = $row['PrimaryContact'];
+        $primaryPhoneNumber = $row['PrimaryPhone#'];
+        $notes = $row['Notes'];
+
+        $employeesQuery = "SELECT EmployeeID, FirstName, LastName
+            FROM temployee WHERE BusinessID = $businessID and Active = 1";
+        $employees = mysqli_query($dbc, $employeesQuery);
+        $ucStaffQuery = "SELECT tnote.UserID, COUNT(*) as userCount, tuser.FirstName, tuser.LastName
+            FROM tnote INNER JOIN tuser ON tnote.UserID = tuser.UserID
+            WHERE BusinessID = $businessID
+            GROUP BY UserID
+            ORDER BY userCount Desc
+            LIMIT 5";
+        $ucStaff = mysqli_query($dbc, $ucStaffQuery);
     } elseif (!empty($_GET['CreateBusiness'])) {
 
     } elseif (!empty($_GET['Search'])) {
@@ -58,6 +69,32 @@ ini_set('display_errors',1);  error_reporting(E_ALL);
             <li>Notes: <?= $notes ?></li>
         </ul>
         <input id="editButton" type="submit" value="Edit" />
+
+        <dl>
+            <dt>Employees:</dt>
+            <?php
+                if($employees){
+                    for($i=0; $i <= mysqli_num_rows($employees); $i++) {
+                        if($row = mysqli_fetch_array($employees)) {
+                            print '<dd><a href="employee.php?employeeID='. $row['EmployeeID'] . '">' . $row['FirstName'] . " " . $row['LastName'] . '</a></dd>';
+                        }
+                    }
+                }
+            ?>
+        </dl>
+
+        <dl>
+            <dt>Most often in contact with UC Staff:</dt>
+            <?php
+            if($ucStaff){
+                for($i=0; $i <= mysqli_num_rows($ucStaff); $i++) {
+                    if($row = mysqli_fetch_array($ucStaff)) {
+                        print '<dd><a href="user.php?employeeID='. $row['UserID'] . '">' . $row['FirstName'] . " " . $row['LastName'] . '</a></dd>';
+                    }
+                }
+            }
+            ?>
+        </dl>
     </div>
 
     <form class="formTag displayOff">
