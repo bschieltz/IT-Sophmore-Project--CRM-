@@ -151,8 +151,11 @@ h1 a {
 }
 
 #sidebar {
+    z-index: 10000;
+    right: 171px;
+    position: fixed !important;
+    background-color: #ffffff;
 	width:250px;
-	float:right;
 	padding:10px 10px 30px 10px;
 	border-left:1px solid #eee;
 	border-right:1px solid #eee;
