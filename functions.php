@@ -79,6 +79,74 @@
     }
 
     /****************************************************************************************/
+    // Query to Push Business
+
+    function pushBusiness($businessID,$businessName,$primaryContact,$primaryPhoneNumber,$notes,$street1,$street2,$zip_code) {
+        include('includes/mysqli_connect.php');
+
+        $valid = true;
+        /* Add Validation Code here*/
+        /* Print Errors for correction.  Changes will still display on the page but are not committed to the database */
+
+        if ($valid) {
+            if ($businessID > 0) { // edits business
+                $updateQuery = "UPDATE tbusiness
+                                SET BusinessName = '$businessName'
+                                   ,PrimaryContact = '$primaryContact'
+                                   ,`PrimaryPhone#` = '$primaryPhoneNumber'
+                                   ,Notes = '$notes'
+                                WHERE BusinessID = $businessID";
+                if (mysqli_query($dbc, $updateQuery)) {
+                    $updateQuery = "SELECT ZipsID
+                                    FROM tzips
+                                    WHERE zip_code = $zip_code";
+                    if ($zip = mysqli_query($dbc, $updateQuery)) {
+                        $row = mysqli_fetch_array($zip);
+                        $zipID = $row['ZipsID'];
+                        $updateQuery = "UPDATE taddress
+                                        SET Street1 = '$street1'
+                                           ,Street2 = '$street2'
+                                           ,ZipsID = '$zipID'
+                                        WHERE BusinessID = $businessID";
+                        if (mysqli_query($dbc, $updateQuery)) {
+                            print'<p>Record Updated</p>';
+                            return array(true, $businessID);
+                        }
+                    }
+                }
+            } else { // adds business
+                $updateQuery = "INSERT INTO tbusiness
+                                (BusinessName,PrimaryContact,`PrimaryPhone#`,Notes)
+                                VALUES (\"$businessName\",\"$primaryContact\",\"$primaryPhoneNumber\",\"$notes\")";
+                if (mysqli_query($dbc, $updateQuery)) {
+                    $updateQuery = "SELECT BusinessID
+                                    FROM tbusiness
+                                    WHERE BusinessName = \"$businessName\"";
+                    if ($business = mysqli_query($dbc, $updateQuery)){
+                        $row = mysqli_fetch_array($business);
+                        $businessID = $row['BusinessID'];
+                        $updateQuery = "SELECT ZipsID
+                                        FROM tzips
+                                        WHERE zip_code = $zip_code";
+                        if ($zip = mysqli_query($dbc, $updateQuery)) {
+                            $row = mysqli_fetch_array($zip);
+                            $zipID = $row['ZipsID'];
+                            $updateQuery = "INSERT INTO taddress
+                                            (BusinessID,Street1,Street2,ZipsID)
+                                            VALUES ($businessID,\"$street1\",\"$street2\",$zipID)";
+                            if (mysqli_query($dbc, $updateQuery)) {
+                                print'<p>Record Added</p>';
+                                return array(true, $businessID);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        print'<p>Record NOT Updated</p>';
+        return array(False, $businessID);
+    }
+    /****************************************************************************************/
     // Query to Pull Business
 
     function pullBusiness($businessID){

@@ -13,6 +13,7 @@ ini_set('display_errors',1);  error_reporting(E_ALL);
 
 <?php
     include('includes/mysqli_connect.php');
+    $businessID = 0;
     $businessName = "";
     $primaryContact = "";
     $primaryPhoneNumber = "";
@@ -25,10 +26,28 @@ ini_set('display_errors',1);  error_reporting(E_ALL);
     $zip_code = "";
     $city = "";
     $statePrefix = "";
+    $submitSuccessful = true;
 
-
-    if (!empty($_GET['BusinessID'])) {
+    if (!empty($_GET['Submit'])) {
         $businessID = $_GET['BusinessID'];
+        $businessName = $_GET['BusinessName'];
+        $primaryContact = $_GET['PrimaryContact'];
+        $primaryPhoneNumber = $_GET['PrimaryPhoneNumber'];
+        $notes = $_GET['Notes'];
+        $street1 = $_GET['Street1'];
+        $street2 = $_GET['Street2'];
+        $zip_code = $_GET['zip_code'];
+        $city = $_GET['city'];
+        $statePrefix = $_GET['StatePrefix'];
+        $submitResult = pushBusiness($businessID,$businessName,$primaryContact,$primaryPhoneNumber,$notes,$street1,$street2,$zip_code);
+        $submitSuccessful = $submitResult[0];
+        if ($submitSuccessful){$businessID = $submitResult[1];}
+    }
+
+    if ((!empty($_GET['BusinessID']) or $businessID > 0) and $submitSuccessful) {
+        if ($businessID == 0) {
+            $businessID = $_GET['BusinessID'];
+        }
         $businessQuery = "SELECT BusinessName, PrimaryContact, `PrimaryPhone#`, Notes
                   FROM tbusiness WHERE BusinessID = $businessID";
         if ($business = mysqli_query($dbc, $businessQuery)) {
@@ -65,7 +84,7 @@ ini_set('display_errors',1);  error_reporting(E_ALL);
             LIMIT 5";
         $ucStaff = mysqli_query($dbc, $ucStaffQuery);
 
-    } elseif (!empty($_GET['CreateBusiness'])) {
+    } elseif (!empty($_GET['CreateBusiness']) or !$submitSuccessful) {
 
     } elseif (!empty($_GET['Search'])) {
 
@@ -73,6 +92,8 @@ ini_set('display_errors',1);  error_reporting(E_ALL);
 
 ?>
 <div id="businessPage">
+    <input class="searchTag listTag infoTag" id="addButton" type="submit" value="Add New Business" />
+
     <form class="searchTag" action="business.php">
         <input type="search" name="Search" placeholder="Search for a Business" />
         <input id="searchButton" type="submit" value="Search" />
@@ -90,7 +111,7 @@ ini_set('display_errors',1);  error_reporting(E_ALL);
             <li>Primary Contact: <?= $primaryContact ?></li>
             <li>Phone Number: <?= $primaryPhoneNumber ?></li>
             <li>Address: <?= $street1 . " " . $street2 ?></li>
-            <li><?= $city . ", " . $statePrefix . " " . $zip_code ?></li>
+            <li>City/State/Zip: <?= $city . ", " . $statePrefix . " " . $zip_code ?></li>
             <li>Notes: <?= $notes ?></li>
         </ul>
         <input id="editButton" type="submit" value="Edit" />
@@ -123,22 +144,28 @@ ini_set('display_errors',1);  error_reporting(E_ALL);
     </div>
 
     <form class="formTag displayOff">
+        <input type="hidden" name="Submit" value="True"/>
+        <input type="hidden" name="BusinessID" value="<?= $businessID ?>"/>
         Business Name: <input type="text" name="BusinessName" size="20" value="<?= $businessName ?>" placeholder="Starbucks"/><br />
         Primary Contact: <input type="text" name="PrimaryContact" size="20" value="<?= $primaryContact ?>" placeholder="Bill Jones"/><br />
-        Phone Number: <input type="text" name="PhoneNumber" size="20" value="<?= $primaryPhoneNumber ?>" placeholder="513-987-6543"/><br />
-        Notes:<br /><textarea rows="4" cols="50"><?= $notes ?></textarea><br />
+        Phone Number: <input type="text" name="PrimaryPhoneNumber" size="20" value="<?= $primaryPhoneNumber ?>" placeholder="513-987-6543"/><br />
+        Address: <input type="text" name="Street1" size="20" value="<?= $street1 ?>" placeholder="123 Main St"/><br />
+        <input type="text" name="Street2" size="20" value="<?= $street2 ?>" placeholder="Suite 345"/><br />
+        City/State/Zip: <input type="text" name="city" size="15" value="<?= $city ?>" placeholder="Cincinnati"/>
+        <input type="text" name="StatePrefix" size="1" value="<?= $statePrefix ?>" placeholder="OH"/>
+        <input type="text" name="zip_code" size="2" value="<?= $zip_code ?>" placeholder="45255"/><br />
+        Notes:<br /><textarea name="Notes" rows="4" cols="50"><?= $notes ?></textarea><br />
 
         <input id="cancelButton" type="submit" value="Cancel" />
+        <input id="cancelButton" type="submit" value="Submit" />
     </form>
-
-    <input class="searchTag listTag" id="addButton" type="submit" value="Add New Business" />
 
     <br /><br /><br />
 
-    <?php
-    if (!empty($_GET['BusinessID'])) {
+    <?php // decide which layout to show
+    if ((!empty($_GET['BusinessID']) or $businessID > 0) and $submitSuccessful) {
         print'<script type="text/javascript">showTag(".infoTag")</script>';
-    } elseif (!empty($_GET['CreateBusiness'])) {
+    } elseif (!empty($_GET['CreateBusiness']) or !$submitSuccessful) {
         print'<script type="text/javascript">showTag(".formTag")</script>';
     } elseif (!empty($_GET['Search'])) {
         print'<script type="text/javascript">showTag(".listTag")</script>';
