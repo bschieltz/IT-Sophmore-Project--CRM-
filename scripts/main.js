@@ -34,7 +34,8 @@ $(function() {
 $(function() {
     $('#cancelButton').on('click', function(event){
         event.preventDefault();
-        if ((window.location.search.substring(1)).split("=")[0] == "BusinessID") {
+        if ((window.location.search.substring(1)).split("=")[0] == "BusinessID"
+          || (window.location.search.substring(1)).split("=")[0] == "EmployeeID") {
             showTag(".infoTag");
             console.log(window.location.search.substring(1))
         } else if ((window.location.search.substring(1)).split("=")[0] == "Search") {

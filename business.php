@@ -1,12 +1,10 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: Brian
+ * Created By: Brian
  * Date: 1/31/2015
- * Time: 1:55 PM
- * Landing page for all users.  If not logged in, show login info.  If logged in, it should be a dashboard of sorts
+ * Time: 10:58 PM
+ * Shows Individual Employees
  */
-
 require 'templates/header.html';
 ini_set('display_errors',1);  error_reporting(E_ALL);
 ?>
@@ -26,7 +24,7 @@ ini_set('display_errors',1);  error_reporting(E_ALL);
     $zip_code = "";
     $city = "";
     $statePrefix = "";
-    $submitSuccessful = true;
+    $submitSuccessful = true;  // defaults to true.  only turns false if database update fails for validation reasons.
 
     if (!empty($_GET['Submit'])) {
         $businessID = $_GET['BusinessID'];
@@ -93,7 +91,14 @@ ini_set('display_errors',1);  error_reporting(E_ALL);
 ?>
 <div id="businessPage">
     <input class="searchTag listTag infoTag" id="addButton" type="submit" value="Add New Business" />
-
+    <?php if ($businessID > 0) {
+        print'<form class="infoTag" action="employee.php">
+                <input type="hidden" name="CreateEmployee" value="True"/>
+                <input type="hidden" name="BusinessID" value=" '. $businessID . '"/>
+                <input class="searchTag listTag infoTag" id="addEmployeeButton" type="submit" value="Add New Employee" />
+              </form>';
+        }
+    ?>
     <form class="searchTag" action="business.php">
         <input type="search" name="Search" placeholder="Search for a Business" />
         <input id="searchButton" type="submit" value="Search" />
@@ -157,7 +162,7 @@ ini_set('display_errors',1);  error_reporting(E_ALL);
         Notes:<br /><textarea name="Notes" rows="4" cols="50"><?= $notes ?></textarea><br />
 
         <input id="cancelButton" type="submit" value="Cancel" />
-        <input id="cancelButton" type="submit" value="Submit" />
+        <input id="submitButton" type="submit" value="Submit" />
     </form>
 
     <br /><br /><br />

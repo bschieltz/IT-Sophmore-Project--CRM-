@@ -59,6 +59,23 @@
 	}
 
     /****************************************************************************************/
+    // pullTitleList
+
+    function pullTitles() {
+        include('includes/mysqli_connect.php');
+        $titleList = [];
+        $titleQuery = "SELECT Title, TitleID FROM ttitle";
+        if ($titleResult = mysqli_query($dbc, $titleQuery)) {
+            for ($i=0; $i < mysqli_num_rows($titleResult); $i++) {
+                if($row = mysqli_fetch_array($titleResult)) {
+                    array_push($titleList, array($row['Title'],$row['TitleID']));
+                }
+            }
+        }
+        return $titleList;
+    }
+
+    /****************************************************************************************/
     // Display Business List
 
     function displayBusinessList()
@@ -86,7 +103,7 @@
 
         $valid = true;
         /* Add Validation Code here*/
-        /* Print Errors for correction.  Changes will still display on the page but are not committed to the database */
+        /* Print Errors for correction.  Changes will still display on the page but are not committed to the database if this function returns false*/
 
         if ($valid) {
             if ($businessID > 0) { // edits business
@@ -121,7 +138,7 @@
                 if (mysqli_query($dbc, $updateQuery)) {
                     $updateQuery = "SELECT BusinessID
                                     FROM tbusiness
-                                    WHERE BusinessName = \"$businessName\"";
+                                    ORDER BY BusinessID DESC LIMIT 1";
                     if ($business = mysqli_query($dbc, $updateQuery)){
                         $row = mysqli_fetch_array($business);
                         $businessID = $row['BusinessID'];
@@ -146,6 +163,7 @@
         print'<p>Record NOT Updated</p>';
         return array(False, $businessID);
     }
+
     /****************************************************************************************/
     // Query to Pull Business
 
@@ -157,6 +175,72 @@
         //return mysql_query($businessQuery);
 
     }
+    /****************************************************************************************/
+    // Display Employee List
+
+    function displayEmployeeList()
+    {
+        include('includes/mysqli_connect.php');
+        $searchString = $_GET['Search'];
+        $employeeListQuery = "SELECT EmployeeID, FirstName, LastName
+                              FROM temployee
+                              WHERE Firstname like '%$searchString%' or LastName like '%$searchString%'";
+
+        $employeeList = mysqli_query($dbc, $employeeListQuery) or die("Error: ".mysqli_error($dbc));
+        for ($i=0; $i <= mysqli_num_rows($employeeList); $i++) {
+            if($row = mysqli_fetch_array($employeeList)) {
+                print '<li><a href="employee.php?EmployeeID=' . $row['EmployeeID'] . '">' . $row['FirstName'] . ' ' . $row['LastName'] . '</a></li>';
+            }
+        }
+    }
+
+    /****************************************************************************************/
+    // Query to Push Employee
+
+    function pushEmployee($businessID,$employeeID,$jobTitle,$titleID,$firstName,$lastName,$phoneNumber,$extension,$email,$personalNote) {
+        include('includes/mysqli_connect.php');
+
+        $valid = true;
+        /* Add Validation Code here*/
+        /* Print Errors for correction.  Changes will still display on the page but are not committed to the database if this function returns false*/
+
+        if ($valid) {
+            if ($employeeID > 0) { // edits business
+                $updateQuery = "UPDATE temployee
+                                SET JobTitle = '$jobTitle'
+                                   ,TitleID = $titleID
+                                   ,FirstName = '$firstName'
+                                   ,LastName = '$lastName'
+                                   ,PhoneNumber = '$phoneNumber'
+                                   ,Extension = '$extension'
+                                   ,Email = '$email'
+                                   ,PersonalNote = '$personalNote'
+                                WHERE EmployeeID = $employeeID";
+                if (mysqli_query($dbc, $updateQuery)) {
+                    print'<p>Record Updated</p>';
+                    return array(true, $employeeID);
+                }
+            } else { // adds business
+                $updateQuery = "INSERT INTO temployee
+                                (BusinessID,Active,JobTitle,TitleID,FirstName,LastName,PhoneNumber,Extension,Email,PersonalNote)
+                                VALUES ($businessID,1,\"$jobTitle\",$titleID,\"$firstName\",\"$lastName\",\"$phoneNumber\",\"$extension\",\"$email\",\"$personalNote\")";
+                    if (mysqli_query($dbc, $updateQuery)) {
+                        $updateQuery = "SELECT EmployeeID
+                                    FROM temployee
+                                    ORDER BY EmployeeID DESC LIMIT 1";
+                        if ($employee = mysqli_query($dbc, $updateQuery)) {
+                            $row = mysqli_fetch_array($employee);
+                            $employeeID = $row['EmployeeID'];
+                            print'<p>Record Added</p>';
+                            return array(true, $employeeID);
+                        }
+                }
+            }
+        }
+        print'<p>Record NOT Updated</p>';
+        return array(False, $employeeID);
+    }
+
 	/****************************************************************************************/
 	// Build Dashboard
 	function dashboard($userID, $userFullName) {
