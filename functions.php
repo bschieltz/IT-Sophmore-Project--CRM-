@@ -46,12 +46,17 @@
 		$userID = $userID;
 		
 		// Query to pull all contacts
-		$userNotesQuery = "SELECT * 
+		$userNotesQuery = "SELECT tuser.UserID, InteractionType, Note, BusinessName, temployee.FirstName, temployee.LastName, temployee.PhoneNumber, temployee.Extension,
+            temployee.Email, personalNote, DateTime
 			FROM tuser
-				JOIN tnote 
+				Right JOIN tnote
 					ON tuser.userID = tnote.userID
-				JOIN tinteractiontype 
-					on tnote.interactiontypeID = tinteractiontype.interactiontypeID
+				Right JOIN tinteractiontype
+					ON tnote.interactiontypeID = tinteractiontype.interactiontypeID
+                Right JOIN tbusiness
+                    ON tnote.businessID = tbusiness.businessID
+                Right JOIN temployee
+                    ON tnote.employeeID = temployee.employeeID
 			WHERE tuser.userID = $userID
 			Order By tnote.DateTime desc";	
 
