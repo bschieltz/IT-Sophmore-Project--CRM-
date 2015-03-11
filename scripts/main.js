@@ -55,4 +55,4 @@ $(function() {
             $('td[name^=DashNote]').css('display',  'none');
         }
     )
-})
+});
