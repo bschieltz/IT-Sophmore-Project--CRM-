@@ -51,7 +51,8 @@ $(function() {
 
 $(function() {
     $('#expandButton').on('click', function(event){
-            $('td[name^=Dash]').addClass('displayOff')
+            event.preventDefault();
+            $('td[name^=DashNote]').css('display',  'none');
         }
     )
 })
