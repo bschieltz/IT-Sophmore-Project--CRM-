@@ -46,7 +46,7 @@
 		$userID = $userID;
 		
 		// Query to pull all contacts
-		$userNotesQuery = "SELECT tuser.UserID, InteractionType, Note, BusinessName, temployee.FirstName, temployee.LastName, temployee.PhoneNumber, temployee.Extension,
+		$userNotesQuery = "SELECT tuser.UserID, InteractionType, Note, tbusiness.BusinessID as 'BusinessID', BusinessName, temployee.employeeID as 'employeeID', temployee.FirstName as 'FirstName', temployee.LastName as 'LastName', temployee.PhoneNumber, temployee.Extension,
             temployee.Email, personalNote, DateTime
 			FROM tuser
 				Right JOIN tnote
@@ -265,7 +265,11 @@
 		
 		/*********** Action Items still need to be developed *********************/
 		print "<ul><li>Action Items still need to be developed!</li></ul><br />";
-		
+
+
+
+
+
 		print "<h3>Recent Contacts:</h3>";
 		// Pull 
 		$userNotesQuery = pullUserNotes($userID);
@@ -284,17 +288,26 @@
 						$datetime = strtotime($row['DateTime']);
 						$datetime = date("m-d-Y h:i a", $datetime);
 						
-						print "<tr>
+						print "
+                            <tr>
 							<td style='color: #E00122'><b>Note $i</b></td>
 							<td><b>Date:</b> " . $datetime . "</td>
-							<td><b>Interaction:</b> " . $row['InteractionType'] . "</td>
+							<td><b>Business:</b> <a href='business.php?BusinessID=". $row['BusinessID'] . "'>" . $row['BusinessName'] . "</a></td>
 							</tr>
+							<tr id='expandRow'>
+							    <td colspan='3' style='text-align: center;'>
+							        <form id='expandForm'><input id='expandButton' type='submit' value='Expand' /></form>
+                                </td>
+							</tr>
+							<div name='DashNote" . $i . "'>
 							<tr>
-							    <td colspan='3'><b>Business:</b> " . $row['BusinessName'] . "</td>
+							    <td colspan='2'><b>Employee:</b> <a href='employee.php?employeeID=" . $row['employeeID'] . "'>" . $row['FirstName'] . " " . $row['LastName'] . "</a></td>
+							    <td><b>Interaction:</b> " . $row['InteractionType'] . "</td>
 							</tr>
 							<tr>
 							<td colspan='3'><b>Notes:</b><br /> " . $row['Note'] . "</td>
 							</tr>
+							</div>
 							<tr><td colspan='3'>&nbsp</td></tr>
 						";
 					}

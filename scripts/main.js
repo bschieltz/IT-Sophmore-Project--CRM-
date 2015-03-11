@@ -46,3 +46,12 @@ $(function() {
         }
     });
 });
+
+/** ******************* For Dashboard *************************/
+
+$(function() {
+    $('#expandButton').on('click', function(event){
+            $('td[name^=Dash]').addClass('displayOff')
+        }
+    )
+})
