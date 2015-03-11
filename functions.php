@@ -290,7 +290,7 @@
 							<td><b>Interaction:</b> " . $row['InteractionType'] . "</td>
 							</tr>
 							<tr>
-							    <td colspan='3'><b>Business:</b> " . $row['BusinessName'] . "</td>"
+							    <td colspan='3'><b>Business:</b> " . $row['BusinessName'] . "</td>
 							</tr>
 							<tr>
 							<td colspan='3'><b>Notes:</b><br /> " . $row['Note'] . "</td>
