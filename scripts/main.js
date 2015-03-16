@@ -48,9 +48,9 @@ $(function() {
 });
 
 /** ******************* For Dashboard *************************/
-$(function() {
-    $('#expandRow1').click(function() {
-        $('.DashNote1').toggle();
+$(function toggler(divId, noteId) {
+    $('#' + divId).click(function() {
+        $('.' + noteId).toggle();
         });
     });
 

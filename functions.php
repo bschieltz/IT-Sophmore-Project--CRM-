@@ -292,12 +292,12 @@
                             <ul>
                                 <li>
                                     <div style='color: #E00122'>
-                                        <a href='#' id='expandRow$i'>Note $i</a>
+                                        <a href='#' id='expandRow$i' onclick='toggler(expandRow$1, DashNote$1)'>Note $i</a>
                                     </div>
                                         <b>Business: </b><a href='business.php?BusinessID=". $row['BusinessID'] . "'>" . $row['BusinessName'] . "</a>
                                         <b>Date:</b> " . $datetime . "
                                 </li>
-                                <div class=DashNote$i>
+                                <div class=DashNote$i id='displayOff'>
                                     <ul>
                                         <li>Test Nested $i</li>
                                     </ul>
