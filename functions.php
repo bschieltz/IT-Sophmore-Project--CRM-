@@ -282,7 +282,14 @@
 
 				$numberOfNotes = mysqli_num_rows($userNotes);
 
-
+                print "
+                    <ul>
+                        <li>Test1</li>
+                        <ul>
+                            <li>Test Nested</li>
+                        </ul>
+                    </ul>
+                ";
 
                 /*
 				print "<table id='notesTable'>";
