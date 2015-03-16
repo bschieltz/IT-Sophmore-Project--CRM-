@@ -52,7 +52,7 @@ $(function() {
 $(function() {
     $('.expandButton1').on('click', function(event){
             event.preventDefault();
-            $("table[id=notesTable]").css("border",  "10px solid blue");
+            $(".DashNote1").css("border",  "10px solid blue");
             event.preventDefault();
             $(".DashNote1").css("display",  "none");
             $(".DashNote2").css("display",  "");
