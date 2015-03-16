@@ -51,7 +51,8 @@ $(function() {
 
 $(function() {
 
-    $(div[class^='DashNote']).css("display", "none")
+
+    $(div[class^='DashNote']).css("display", "none");
 
     $('.expandButton1').on('click', function(event){
             event.preventDefault();
