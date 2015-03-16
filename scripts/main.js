@@ -49,10 +49,12 @@ $(function() {
 
 /** ******************* For Dashboard *************************/
 $(document).ready(function() {
-    $('a#expandRow1').toggle(function(){
-        $('.DashNote1').hide();
-    }, function(){
+    $('#expandRow1').toggle(function(){
+        $('#expandRow1').text('Note 1 Show');
         $('.DashNote1').show();
+    }, function(){
+        $('#expandRow1').text('Note 1 Hide');
+        $('.DashNote1').hide();
     });
 });
 
