@@ -50,15 +50,18 @@ $(function() {
 /** ******************* For Dashboard *************************/
 
 $(function() {
+
+    $(div[class^='DashNote']).css("display", "none")
+
     $('.expandButton1').on('click', function(event){
             event.preventDefault();
-            $(".DashNote1").css("border",  "10px solid blue");
+            $("table[id=notesTable]").css("border",  "10px solid blue");
             event.preventDefault();
-            $(".DashNote1").css("display",  "none");
-            $(".DashNote2").css("display",  "");
-            $(".DashNote3").css("display",  "");
-            $(".DashNote4").css("display",  "");
-            $(".DashNote5").css("display",  "");
+            $(".DashNote1").css("display",  "");
+            $(".DashNote2").css("display",  "none");
+            $(".DashNote3").css("display",  "none");
+            $(".DashNote4").css("display",  "none");
+            $(".DashNote5").css("display",  "none");
         }
     )
 });
@@ -68,8 +71,8 @@ $(function() {
             //event.off();
             //$("table[id=notesTable]").css("border",  "10px solid blue");
             event.preventDefault();
-            $(".DashNote1").css("display",  "");
-            $(".DashNote2").css("display",  "none");
+            $(".DashNote1").css("display",  "none");
+            $(".DashNote2").css("display",  "");
             $(".DashNote3").css("display",  "none");
             $(".DashNote4").css("display",  "none");
             $(".DashNote5").css("display",  "none");
