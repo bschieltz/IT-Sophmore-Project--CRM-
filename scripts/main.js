@@ -51,9 +51,9 @@ $(function() {
 $(function() {
     $('#expandRow1').click(function() {
         $('.DashNote1').toggle(function(){
-            $('.DashNote1').css("display", "");
+            $('.DashNote1').show();
         }, function(){
-            $('.DashNote1').css("display", "none");
+            $('.DashNote1').hide();
         });
     });
 });
