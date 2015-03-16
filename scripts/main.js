@@ -49,28 +49,23 @@ $(function() {
 
 /** ******************* For Dashboard *************************/
 
+$('#expandRow1').toggle(function() {
+    $(".DashNote1").css("display",  "");
+
+}, function() {
+    $(".DashNote1").css("display",  "none");
+});
+
+$('#expandRow1').click(function() {
+   $('.DashNote1').toggle();
+});
+
+/*
 $(function() {
 
 
     $("div[class^='DashNote']").css("display", "none");
 
-    $('.expandButton1').toggle(function() {
-        event.preventDefault();
-        $(".DashNote1").css("display",  "");
-        $(".DashNote2").css("display",  "none");
-        $(".DashNote3").css("display",  "none");
-        $(".DashNote4").css("display",  "none");
-        $(".DashNote5").css("display",  "none");
-    }, function(){
-        event.preventDefault();
-        $(".DashNote1").css("display",  "none");
-        $(".DashNote2").css("display",  "none");
-        $(".DashNote3").css("display",  "none");
-        $(".DashNote4").css("display",  "none");
-        $(".DashNote5").css("display",  "none");
-
-    });
-    /*
     $('.expandButton1').on('click', function(event){
             event.preventDefault();
             $(".DashNote1").css("display",  "");
@@ -80,7 +75,7 @@ $(function() {
             $(".DashNote5").css("display",  "none");
         }
     )
-});*/
+});
 
 $(function() {
     $('.expandButton2').on('click', function(event){
@@ -95,3 +90,4 @@ $(function() {
         }
     )
 });
+*/
