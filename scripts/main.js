@@ -56,8 +56,6 @@ $(function() {
 
     $('.expandButton1').on('click', function(event){
             event.preventDefault();
-            $("table[id=notesTable]").css("border",  "10px solid blue");
-            event.preventDefault();
             $(".DashNote1").css("display",  "");
             $(".DashNote2").css("display",  "none");
             $(".DashNote3").css("display",  "none");
