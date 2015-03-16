@@ -302,7 +302,7 @@
                                         <li><b>Employee:</b> <a href='employee.php?EmployeeID=" . $row['employeeID'] . "'>" . $row['FirstName'] . " " . $row['LastName'] . "</a></li>
                                             <ul>
                                                 <li><b>Phone #:</b> " . $row['Phone'] . " ext: " . $row['Ext'] . "</li>
-                                                <li><b>Email:</b> <a href='mailto:" . $row['Email'] . "'>" . $row['Email'] . "</li>
+                                                <li><b>Email:</b> <a href='mailto:" . $row['Email'] . "'>" . $row['Email'] . "</a></li>
                                             </ul>
                                         <li><b>Interaction Type:</b> " . $row['InteractionType'] . "</li>
                                         <li><b>Notes:</b><br /><div class='notes'> " . $row['Note'] . "</div></li>
