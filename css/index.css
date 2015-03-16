@@ -283,6 +283,8 @@ a.more:hover {
     border-bottom: solid;
 }
 
+.recentContacts li {}
+
 .myButton {
 	margin-left: auto;
 	margin-right: auto;

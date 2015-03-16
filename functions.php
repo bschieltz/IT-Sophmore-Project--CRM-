@@ -46,8 +46,10 @@
 		$userID = $userID;
 		
 		// Query to pull all contacts
-		$userNotesQuery = "SELECT tuser.UserID, InteractionType, Note, tbusiness.BusinessID as 'BusinessID', BusinessName, temployee.employeeID as 'employeeID', temployee.FirstName as 'FirstName', temployee.LastName as 'LastName', temployee.PhoneNumber, temployee.Extension,
-            temployee.Email, personalNote, DateTime
+		$userNotesQuery = "SELECT tuser.UserID, InteractionType, Note, tbusiness.BusinessID as 'BusinessID',
+            BusinessName, temployee.employeeID as 'employeeID', temployee.FirstName as 'FirstName',
+            temployee.LastName as 'LastName', temployee.PhoneNumber as 'Phone', temployee.Extension as 'Ext',
+            temployee.Email as 'Email', personalNote, DateTime
 			FROM tuser
 				Right JOIN tnote
 					ON tuser.userID = tnote.userID
@@ -298,6 +300,11 @@
                                 <div class=DashNote$i style='display:none;'>
                                     <ul>
                                         <li><b>Employee:</b> <a href='employee.php?employeeID=" . $row['employeeID'] . "'>" . $row['FirstName'] . " " . $row['LastName'] . "</a></li>
+                                            <ul>
+                                                <li><b>Phone #:</b> " . $row['Phone'] . "</li>
+                                                <li><b>Extension:</b> " . $row['Ext'] . "</li>
+                                                <li><b>Email:</b> <a href='mailto:" . $row['Email'] . "'>" . $row['Email'] . "</li>
+                                            </ul>
                                         <li><b>Interaction:</b> " . $row['InteractionType'] . "</li>
                                         <li><b>Notes:</b><br /> " . $row['Note'] . "</li>
                                     </ul>
