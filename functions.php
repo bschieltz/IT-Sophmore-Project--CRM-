@@ -277,24 +277,23 @@
 		$userNotesQuery = pullUserNotes($userID);
 		
 		if($userNotes = mysqli_query($dbc, $userNotesQuery)) {
-			if(mysqli_num_rows($userNotes) == 0) {
-				print '<p style="color:red">You do not have any notes stored in the system.</p>';
-			}
-			else {
+            if (mysqli_num_rows($userNotes) == 0) {
+                print '<p style="color:red">You do not have any notes stored in the system.</p>';
+            } else {
 
-				$numberOfNotes = mysqli_num_rows($userNotes);
+                $numberOfNotes = mysqli_num_rows($userNotes);
 
-				//print "<table id='notesTable'>";
-				for($i=1; $i<=$numberOfNotes && $i <= 5; $i++) {
-					if($row = mysqli_fetch_array($userNotes)) {
-						$datetime = strtotime($row['DateTime']);
-						$datetime = date("m/d/Y h:i a", $datetime);
+                //print "<table id='notesTable'>";
+                for ($i = 1; $i <= $numberOfNotes && $i <= 5; $i++) {
+                    if ($row = mysqli_fetch_array($userNotes)) {
+                        $datetime = strtotime($row['DateTime']);
+                        $datetime = date("m/d/Y h:i a", $datetime);
 
                         print "
                             <ul class='recentContacts'>
                                 <li>
                                     <a href='#' id='expandRow$i' style='color: #E00122'>Note $i</a>
-                                    <b>Business: </b><a href='business.php?BusinessID=". $row['BusinessID'] . "'>" . $row['BusinessName'] . "</a>&nbsp&nbsp&nbsp&nbsp&nbsp
+                                    <b>Business: </b><a href='business.php?BusinessID=" . $row['BusinessID'] . "'>" . $row['BusinessName'] . "</a>&nbsp&nbsp&nbsp&nbsp&nbsp
                                     <b>Date:</b> " . $datetime . "
                                 </li>
                                 <div class=DashNote$i style='display:none;'>
@@ -310,35 +309,41 @@
                                 </div>
                             </ul>
                         ";
+                    } else {
+                    }
+                }
+                print "<a href='#' id='allContacts' style='color: #E00122'>See All Contacts</a>";
+                print "<div class='allNotes' style='display:none;'>";
+                for ($i = 6; $i <= $numberOfNotes; $i++) {
+                    if ($row = mysqli_fetch_array($userNotes)) {
+                        $datetime = strtotime($row['DateTime']);
+                        $datetime = date("m/d/Y h:i a", $datetime);
 
-                        /*
-						print "
-                            <tr>
-							<td style='color: #E00122'><b>Note $i</b></td>
-							<td><b>Date:</b> " . $datetime . "</td>
-							<td><b>Business:</b> <a href='business.php?BusinessID=". $row['BusinessID'] . "'>" . $row['BusinessName'] . "</a></td>
-							</tr>
-							<tr id='expandRow'>
-							    <td colspan='3' style='text-align: center;'>
-							        <form class='expandForm'><input class='expandButton" . $i . "' type='submit' value='Expand' /></form>
-                                </td>
-							</tr>
-                            <tr>
-                                <td colspan='2' class='DashNote" . $i . "'><b>Employee:</b> <a href='employee.php?employeeID=" . $row['employeeID'] . "'>" . $row['FirstName'] . " " . $row['LastName'] . "</a></td>
-                                <td class='DashNote" . $i . "'><b>Interaction:</b> " . $row['InteractionType'] . "</td>
-                            </tr>
-                            <tr class='DashNote" . $i . "'>
-                            <td colspan='3' class='DashNote" . $i . "'><b>Notes:</b><br /> " . $row['Note'] . "</td>
-                            </tr>
-							<tr><td colspan='3'>&nbsp</td></tr>
-						"; */ //<div class='DashNote" . $i . "'></div>
-					}
-				}
-				print "<tr><td colspan='3' style='text-align: center;'>See all contacts.</td></tr>";
-				print "</table>";
-
-			}
-		}
+                        print "
+                            <ul class='recentContacts'>
+                                <li>
+                                    <a href='#' id='expandRow$i' style='color: #E00122'>Note $i</a>
+                                    <b>Business: </b><a href='business.php?BusinessID=" . $row['BusinessID'] . "'>" . $row['BusinessName'] . "</a>&nbsp&nbsp&nbsp&nbsp&nbsp
+                                    <b>Date:</b> " . $datetime . "
+                                </li>
+                                <div class=DashNote$i style='display:none;'>
+                                    <ul>
+                                        <li><b>Employee:</b> <a href='employee.php?EmployeeID=" . $row['employeeID'] . "'>" . $row['FirstName'] . " " . $row['LastName'] . "</a></li>
+                                            <ul>
+                                                <li><b>Phone #:</b> " . $row['Phone'] . " ext: " . $row['Ext'] . "</li>
+                                                <li><b>Email:</b> <a href='mailto:" . $row['Email'] . "'>" . $row['Email'] . "</a></li>
+                                            </ul>
+                                        <li><b>Interaction Type:</b> " . $row['InteractionType'] . "</li>
+                                        <li><b>Notes:</b><br /><div class='notes'> " . $row['Note'] . "</div></li>
+                                    </ul>
+                                </div>
+                            </ul>
+                        ";
+                    }
+                }
+                print "</div>";
+            }
+        }
 		else {
 			print "<h3>ERROR!</h3>";
 		}

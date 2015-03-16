@@ -66,3 +66,8 @@ $(function() {
     });
 });
 
+$(function() {
+    $('#allContacts').click(function() {
+        $('.allNotes').toggle();
+    });
+});
