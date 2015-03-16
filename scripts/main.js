@@ -49,15 +49,13 @@ $(function() {
 
 /** ******************* For Dashboard *************************/
 
-$('#expandRow1').toggle(function() {
-    $(".DashNote1").css("display",  "");
+$(function() {
+    $('#expandRow1').toggle(function() {
+        $(".DashNote1").show();
 
-}, function() {
-    $(".DashNote1").css("display",  "none");
-});
-
-$('#expandRow1').click(function() {
-   $('.DashNote1').toggle();
+    }, function() {
+        $(".DashNote1").hide();
+    });
 });
 
 /*
