@@ -49,7 +49,7 @@ $(function() {
 
 /** ******************* For Dashboard *************************/
 $(document).ready(function() {
-    $("div[class^='DashNote']").hide();
+    //$("div[class^='DashNote']").hide();
     $('a#expandRow1').toggle(function(){
         $('.DashNote1').show();
     }, function(){
