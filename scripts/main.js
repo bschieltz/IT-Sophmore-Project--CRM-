@@ -49,7 +49,7 @@ $(function() {
 
 /** ******************* For Dashboard *************************/
 $(document).ready(function() {
-    $('#expandButton1').click(function() {
+    $('a#expandButton1').click(function() {
         $('.DashNote1').hide();
     })
 });
