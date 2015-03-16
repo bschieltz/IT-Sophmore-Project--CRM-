@@ -290,7 +290,10 @@
 
                         print "
                             <ul>
-                                <li><div style='color: #E00122'><b>Note $i</b></div> - <b>Business: </b><a href='business.php?BusinessID=". $row['BusinessID'] . "'>" . $row['BusinessName'] . "</a> </li>
+                                <li>
+                                    <div style='color: #E00122'><b>Note $i</b></div> - <b>Business: </b><a href='business.php?BusinessID=". $row['BusinessID'] . "'>" . $row['BusinessName'] . "</a>
+                                        <b>Date:</b> " . $datetime . "
+                                </li>
                                 <ul>
                                     <li>Test Nested 1</li>
                                 </ul>
