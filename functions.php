@@ -291,11 +291,9 @@
                         print "
                             <ul>
                                 <li>
-                                    <div style='color: #E00122'>
-                                        <a href='#' id='expandRow$i'>Note $i</a>
-                                    </div>
-                                        <b>Business: </b><a href='business.php?BusinessID=". $row['BusinessID'] . "'>" . $row['BusinessName'] . "</a>
-                                        <b>Date:</b> " . $datetime . "
+                                    <a href='#' id='expandRow$i' style='color: #E00122'>Note $i</a>
+                                    <b>Business: </b><a href='business.php?BusinessID=". $row['BusinessID'] . "'>" . $row['BusinessName'] . "</a>
+                                    <b>Date:</b> " . $datetime . "
                                 </li>
                                 <div class=DashNote$i style='display:none;'>
                                     <ul>

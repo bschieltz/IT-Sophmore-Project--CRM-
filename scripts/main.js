@@ -48,11 +48,23 @@ $(function() {
 });
 
 /** ******************* For Dashboard *************************/
-$(function toggler(divId, noteId) {
+$(function() {
     $('#expandRow1').click(function() {
         $('.DashNote1').toggle();
-        });
     });
+    $('#expandRow2').click(function() {
+        $('.DashNote2').toggle();
+    });
+    $('#expandRow3').click(function() {
+        $('.DashNote3').toggle();
+    });
+    $('#expandRow4').click(function() {
+        $('.DashNote4').toggle();
+    });
+    $('#expandRow5').click(function() {
+        $('.DashNote5').toggle();
+    });
+});
 
 /*
 $(function() {
