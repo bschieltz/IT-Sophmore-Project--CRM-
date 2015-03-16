@@ -297,7 +297,9 @@
                                 </li>
                                 <div class=DashNote$i style='display:none;'>
                                     <ul>
-                                        <li>Test Nested $i</li>
+                                        <li><b>Employee:</b> <a href='employee.php?employeeID=" . $row['employeeID'] . "'>" . $row['FirstName'] . " " . $row['LastName'] . "</a></li>
+                                        <li><b>Interaction:</b> " . $row['InteractionType'] . "</li>
+                                        <li><b>Notes:</b><br /> " . $row['Note'] . "</li>
                                     </ul>
                                 </div>
                             </ul>
