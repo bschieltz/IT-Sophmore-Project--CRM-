@@ -283,6 +283,8 @@
 				$numberOfNotes = mysqli_num_rows($userNotes);
 
 
+
+                /*
 				print "<table id='notesTable'>";
 				for($i=1; $i<=$numberOfNotes && $i <= 5; $i++) {
 					if($row = mysqli_fetch_array($userNotes)) {
@@ -313,7 +315,7 @@
 				}
 				print "<tr><td colspan='3' style='text-align: center;'>See all contacts.</td></tr>";
 				print "</table>";
-				
+				*/
 			}
 		}
 		else {
