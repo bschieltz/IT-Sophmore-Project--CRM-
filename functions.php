@@ -292,14 +292,14 @@
                             <ul>
                                 <li>
                                     <div style='color: #E00122'>
-                                        <a href='#' id='expandRow$i'><b>Note $i</b></a>
+                                        <a href='#' id='expandRow$i'>Note 1</a>
                                     </div>
                                         <b>Business: </b><a href='business.php?BusinessID=". $row['BusinessID'] . "'>" . $row['BusinessName'] . "</a>
                                         <b>Date:</b> " . $datetime . "
                                 </li>
                                 <div class=DashNote$i>
                                     <ul>
-                                        <li>Test Nested 1</li>
+                                        <li>Test Nested $i</li>
                                     </ul>
                                 </div>
                             </ul>
