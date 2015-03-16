@@ -317,8 +317,8 @@
                             <td colspan='3' class='DashNote" . $i . "'><b>Notes:</b><br /> " . $row['Note'] . "</td>
                             </tr>
 							<tr><td colspan='3'>&nbsp</td></tr>
-						"; //<div class='DashNote" . $i . "'></div>
-					}*/
+						"; */ //<div class='DashNote" . $i . "'></div>
+					}
 				}
 				print "<tr><td colspan='3' style='text-align: center;'>See all contacts.</td></tr>";
 				print "</table>";
