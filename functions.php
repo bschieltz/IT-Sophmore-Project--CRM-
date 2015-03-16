@@ -312,7 +312,7 @@
                     } else {
                     }
                 }
-                print "<a href='#' id='allContacts' style='color: #E00122; text-align: center;'>See All Contacts</a>";
+                print "<a href='#' id='allContacts' style='color: #E00122; text-align: center;'>Toggle All Contacts</a>";
                 print "<div class='allNotes' style='display:none;'>";
                 for ($i = 6; $i <= $numberOfNotes; $i++) {
                     if ($row = mysqli_fetch_array($userNotes)) {

@@ -68,7 +68,6 @@ $(function() {
 
 $(function() {
     $('#allContacts').click(function() {
-        $('#allContacts').toggle(function(){$('#allContacts').text("Hide All Contacts");}, function(){$('#allContacts').text("Show All Contacts");});
         $('.allNotes').toggle();
     });
 });
