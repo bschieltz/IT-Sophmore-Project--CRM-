@@ -292,7 +292,7 @@
                             <ul>
                                 <li>
                                     <div style='color: #E00122'>
-                                        <a href='index.php' id='expandRow$i'>Note $i</a>
+                                        <a href='#' id='expandRow$i'>Note $i</a>
                                     </div>
                                         <b>Business: </b><a href='business.php?BusinessID=". $row['BusinessID'] . "'>" . $row['BusinessName'] . "</a>
                                         <b>Date:</b> " . $datetime . "
