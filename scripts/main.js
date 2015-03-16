@@ -51,9 +51,9 @@ $(function() {
 $(document).ready(function() {
     $("div[class^='DashNote']").hide();
     $('a#expandRow1').toggle(function(){
-        $('.DashNote1').show();
-    }, function(){
         $('.DashNote1').hide();
+    }, function(){
+        $('.DashNote1').show();
     });
 });
 
