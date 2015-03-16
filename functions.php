@@ -297,9 +297,11 @@
                                         - <b>Business: </b><a href='business.php?BusinessID=". $row['BusinessID'] . "'>" . $row['BusinessName'] . "</a>
                                         <b>Date:</b> " . $datetime . "
                                 </li>
-                                <ul>
-                                    <li>Test Nested 1</li>
-                                </ul>
+                                <div class=DashNote$i>
+                                    <ul>
+                                        <li>Test Nested 1</li>
+                                    </ul>
+                                </div>
                             </ul>
                         ";
 
