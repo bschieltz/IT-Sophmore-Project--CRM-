@@ -51,10 +51,10 @@ $(function() {
 $(document).ready(function() {
     //$("div[class^='DashNote']").hide();
     $('a#expandRow1').toggle(function(){
-        $('.DashNote1').show();
+        $('.DashNote1').hide();
     }, function(){
         $('#expandRow').text('Hide');
-        $('.DashNote1').hide();
+        $('.DashNote1').show();
     });
 });
 
