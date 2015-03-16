@@ -49,9 +49,12 @@ $(function() {
 
 /** ******************* For Dashboard *************************/
 $(document).ready(function() {
-    $('a#expandRow1').click(function() {
+    $("div[class^='DashNote']").hide();
+    $('a#expandRow1').toggle(function(){
+        $('.DashNote1').show();
+    }, function(){
         $('.DashNote1').hide();
-    })
+    });
 });
 
 /*
