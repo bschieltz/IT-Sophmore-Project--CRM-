@@ -291,7 +291,10 @@
                         print "
                             <ul>
                                 <li>
-                                    <div style='color: #E00122'><b>Note $i</b></div> - <b>Business: </b><a href='business.php?BusinessID=". $row['BusinessID'] . "'>" . $row['BusinessName'] . "</a>
+                                    <div style='color: #E00122'>
+                                        <form class='expandForm'><b><input class='expandButton$i' type='submit' value='Note $i' /></b></form>
+                                    </div>
+                                        - <b>Business: </b><a href='business.php?BusinessID=". $row['BusinessID'] . "'>" . $row['BusinessName'] . "</a>
                                         <b>Date:</b> " . $datetime . "
                                 </li>
                                 <ul>
