@@ -48,7 +48,7 @@ $(function() {
 });
 
 /** ******************* For Dashboard *************************/
-$(document).ready(function() {
+$(function() {
     $('#expandRow1').click(function() {
         $('.DashNote1').toggle(function(){
             $('.DashNote1').css("display", "");
