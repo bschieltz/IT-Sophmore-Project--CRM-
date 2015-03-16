@@ -66,34 +66,3 @@ $(function() {
     });
 });
 
-/*
-$(function() {
-
-
-    $("div[class^='DashNote']").css("display", "none");
-
-    $('.expandButton1').on('click', function(event){
-            event.preventDefault();
-            $(".DashNote1").css("display",  "");
-            $(".DashNote2").css("display",  "none");
-            $(".DashNote3").css("display",  "none");
-            $(".DashNote4").css("display",  "none");
-            $(".DashNote5").css("display",  "none");
-        }
-    )
-});
-
-$(function() {
-    $('.expandButton2').on('click', function(event){
-            //event.off();
-            //$("table[id=notesTable]").css("border",  "10px solid blue");
-            event.preventDefault();
-            $(".DashNote1").css("display",  "none");
-            $(".DashNote2").css("display",  "");
-            $(".DashNote3").css("display",  "none");
-            $(".DashNote4").css("display",  "none");
-            $(".DashNote5").css("display",  "none");
-        }
-    )
-});
-*/
