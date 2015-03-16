@@ -301,11 +301,10 @@
                                     <ul>
                                         <li><b>Employee:</b> <a href='employee.php?employeeID=" . $row['employeeID'] . "'>" . $row['FirstName'] . " " . $row['LastName'] . "</a></li>
                                             <ul>
-                                                <li><b>Phone #:</b> " . $row['Phone'] . "</li>
-                                                <li><b>Extension:</b> " . $row['Ext'] . "</li>
+                                                <li><b>Phone #:</b> " . $row['Phone'] . " ext: " . $row['Ext'] . "</li>
                                                 <li><b>Email:</b> <a href='mailto:" . $row['Email'] . "'>" . $row['Email'] . "</li>
                                             </ul>
-                                        <li><b>Interaction:</b> " . $row['InteractionType'] . "</li>
+                                        <li><b>Interaction Type:</b> " . $row['InteractionType'] . "</li>
                                         <li><b>Notes:</b><br /> " . $row['Note'] . "</li>
                                     </ul>
                                 </div>
