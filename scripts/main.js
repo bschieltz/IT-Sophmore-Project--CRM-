@@ -51,9 +51,11 @@ $(function() {
 
 $(function() {
     $('#expandRow1').toggle(function() {
+        $('#expandRow1').text('Note1 - Show');
         $(".DashNote1").show();
 
     }, function() {
+        $('#expandRow1').text('Note1 - Hide');
         $(".DashNote1").hide();
     });
 });
