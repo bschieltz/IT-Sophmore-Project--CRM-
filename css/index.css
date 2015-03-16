@@ -285,6 +285,11 @@ a.more:hover {
 
 .recentContacts li {}
 
+.notes {
+    border: 2px solid #000000;
+    background-color: #f0f0f0;
+}
+
 .myButton {
 	margin-left: auto;
 	margin-right: auto;

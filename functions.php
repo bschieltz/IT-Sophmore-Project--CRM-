@@ -305,7 +305,7 @@
                                                 <li><b>Email:</b> <a href='mailto:" . $row['Email'] . "'>" . $row['Email'] . "</li>
                                             </ul>
                                         <li><b>Interaction Type:</b> " . $row['InteractionType'] . "</li>
-                                        <li><b>Notes:</b><br /> " . $row['Note'] . "</li>
+                                        <li><b>Notes:</b><br /><div class='notes'> " . $row['Note'] . "</div></li>
                                     </ul>
                                 </div>
                             </ul>
