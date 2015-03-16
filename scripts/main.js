@@ -49,8 +49,8 @@ $(function() {
 
 /** ******************* For Dashboard *************************/
 $(function toggler(divId, noteId) {
-    $('#' + divId).click(function() {
-        $('.' + noteId).toggle();
+    $('#expandRow1').click(function() {
+        $('.DashNote1').toggle();
         });
     });
 

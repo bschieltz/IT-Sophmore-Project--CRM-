@@ -292,7 +292,7 @@
                             <ul>
                                 <li>
                                     <div style='color: #E00122'>
-                                        <a href='#' id='expandRow$i' onclick='toggler(\'expandRow$i\', \'DashNote$1\')'>Note $i</a>
+                                        <a href='#' id='expandRow$i'>Note $i</a>
                                     </div>
                                         <b>Business: </b><a href='business.php?BusinessID=". $row['BusinessID'] . "'>" . $row['BusinessName'] . "</a>
                                         <b>Date:</b> " . $datetime . "
