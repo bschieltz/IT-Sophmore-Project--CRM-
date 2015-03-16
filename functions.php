@@ -282,21 +282,22 @@
 
 				$numberOfNotes = mysqli_num_rows($userNotes);
 
-				print "<table id='notesTable'>";
+				//print "<table id='notesTable'>";
 				for($i=1; $i<=$numberOfNotes && $i <= 5; $i++) {
 					if($row = mysqli_fetch_array($userNotes)) {
 						$datetime = strtotime($row['DateTime']);
 						$datetime = date("m-d-Y h:i a", $datetime);
 
-                    print "
-                        <ul>
-                            <li><div style='color: #E00122'><b>Note $i</b></div> - Business: </li>
+                        print "
                             <ul>
-                                <li>Test Nested 1</li>
+                                <li><div style='color: #E00122'><b>Note $i</b></div> - <b>Business: </b><a href='business.php?BusinessID=". $row['BusinessID'] . "'>" . $row['BusinessName'] . "</a> </li>
+                                <ul>
+                                    <li>Test Nested 1</li>
+                                </ul>
                             </ul>
-                        </ul>
-                ";
+                        ";
 
+                        /*
 						print "
                             <tr>
 							<td style='color: #E00122'><b>Note $i</b></td>
@@ -321,7 +322,7 @@
 				}
 				print "<tr><td colspan='3' style='text-align: center;'>See all contacts.</td></tr>";
 				print "</table>";
-
+                */
 			}
 		}
 		else {
