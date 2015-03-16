@@ -288,7 +288,7 @@
 				for($i=1; $i<=$numberOfNotes && $i <= 5; $i++) {
 					if($row = mysqli_fetch_array($userNotes)) {
 						$datetime = strtotime($row['DateTime']);
-						$datetime = date("m-d-Y h:i a", $datetime);
+						$datetime = date("m/d/Y h:i a", $datetime);
 
                         print "
                             <ul class='recentContacts'>
