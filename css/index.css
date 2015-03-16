@@ -66,6 +66,7 @@ h1 a {
 	margin:0 auto;
 	background-color: #ffffff;
 	max-width: 960px;
+    box-shadow: 10px 10px 5px #111;
 }
 
 #nav {
@@ -111,11 +112,11 @@ h1 a {
 }
 
 #content {
-	margin:0 275px 0 0 !important;
-	margin:0 277px 0 0;
+    margin:0 275px 0 0 !important;
 	border-right:1px solid #eee;
 	border-left:1px solid #eee;
 	padding:10px 25px 30px 25px;
+    min-height: 275px;
 }
 
 #content p {
@@ -151,15 +152,25 @@ h1 a {
 }
 
 #sidebar {
-    z-index: 10000;
-    right: 171px;
+    float: right;
+    position: fixed;
+    width: 250px;
+    margin-left: 705px;
+    background-color: #fff;
+    border-right: 1px solid #AAA;
+    border-bottom: 1px solid #AAA;
+    box-shadow: 2px 1px 2px #AAA;
+    z-index: 1020;
+
+    /*z-index: 9999;
     position: fixed !important;
     background-color: #ffffff;
-	width:250px;
+	width:100%;
+    margin: auto;
 	padding:10px 10px 30px 10px;
 	border-left:1px solid #eee;
 	border-right:1px solid #eee;
-	border-bottom:1px solid #eee;
+	border-bottom:1px solid #eee;*/
 }
 
 #sidebar h2 {
@@ -222,6 +233,7 @@ blockquote {
 #content ul, ol {
 	margin:10px 10px 10px 50px;
 	border-top:1px solid #eee;
+
 }
 #content li {
 	padding:10px;

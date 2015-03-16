@@ -281,7 +281,8 @@
 			else {
 
 				$numberOfNotes = mysqli_num_rows($userNotes);
-				
+
+
 				print "<table id='notesTable'>";
 				for($i=1; $i<=$numberOfNotes && $i <= 5; $i++) {
 					if($row = mysqli_fetch_array($userNotes)) {
@@ -296,20 +297,18 @@
 							</tr>
 							<tr id='expandRow'>
 							    <td colspan='3' style='text-align: center;'>
-							        <form id='expandForm'><input id='expandButton' type='submit' value='Expand' /></form>
+							        <form class='expandForm'><input class='expandButton" . $i . "' type='submit' value='Expand' /></form>
                                 </td>
 							</tr>
-							<div name='DashNote" . $i . "'>
-							<tr>
-							    <td colspan='2'><b>Employee:</b> <a href='employee.php?employeeID=" . $row['employeeID'] . "'>" . $row['FirstName'] . " " . $row['LastName'] . "</a></td>
-							    <td><b>Interaction:</b> " . $row['InteractionType'] . "</td>
-							</tr>
-							<tr>
-							<td colspan='3'><b>Notes:</b><br /> " . $row['Note'] . "</td>
-							</tr>
-							</div>
+                            <tr>
+                                <td colspan='2' class='DashNote" . $i . "'><b>Employee:</b> <a href='employee.php?employeeID=" . $row['employeeID'] . "'>" . $row['FirstName'] . " " . $row['LastName'] . "</a></td>
+                                <td class='DashNote" . $i . "'><b>Interaction:</b> " . $row['InteractionType'] . "</td>
+                            </tr>
+                            <tr class='DashNote" . $i . "'>
+                            <td colspan='3' class='DashNote" . $i . "'><b>Notes:</b><br /> " . $row['Note'] . "</td>
+                            </tr>
 							<tr><td colspan='3'>&nbsp</td></tr>
-						";
+						"; //<div class='DashNote" . $i . "'></div>
 					}
 				}
 				print "<tr><td colspan='3' style='text-align: center;'>See all contacts.</td></tr>";

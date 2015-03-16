@@ -127,7 +127,7 @@ ini_set('display_errors',1);  error_reporting(E_ALL);
                 if($employees){
                     for($i=0; $i <= mysqli_num_rows($employees); $i++) {
                         if($row = mysqli_fetch_array($employees)) {
-                            print '<dd><a href="employee.php?employeeID='. $row['EmployeeID'] . '">' . $row['FirstName'] . " " . $row['LastName'] . '</a></dd>';
+                            print '<dd><a href="employee.php?EmployeeID='. $row['EmployeeID'] . '">' . $row['FirstName'] . " " . $row['LastName'] . '</a></dd>';
                         }
                     }
                 }
