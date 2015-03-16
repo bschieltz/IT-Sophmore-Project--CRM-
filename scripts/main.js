@@ -50,13 +50,9 @@ $(function() {
 /** ******************* For Dashboard *************************/
 $(function() {
     $('#expandRow1').click(function() {
-        $('.DashNote1').toggle(function(){
-            $('.DashNote1').hide();
-        }, function(){
-            $('.DashNote1').show();
+        $('.DashNote1').toggle();
         });
     });
-});
 
 /*
 $(function() {
