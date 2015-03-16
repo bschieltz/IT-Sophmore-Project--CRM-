@@ -49,7 +49,7 @@ $(function() {
 
 /** ******************* For Dashboard *************************/
 $(function() {
-    $('#expandRow'+<?php $i>).click(function() {
+    $('#expandRow').click(function() {
         $('.DashNote1').toggle();
     });
     $('#expandRow2').click(function() {
