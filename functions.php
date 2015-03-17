@@ -41,7 +41,7 @@
 	}
 
 	/****************************************************************************************/
-		
+	// Pulling Notes By User for use on the Dashboard
 	function pullUserNotes($userID) {
 		$userID = $userID;
 		
@@ -64,6 +64,37 @@
 
 		return $userNotesQuery;
 	}
+
+    /****************************************************************************************/
+    // Pulling Action Items By User for use on the Dashboard
+    function pullUserActionItems($userID) {
+        $userID = $userID;
+
+        // Query to pull all uncompleted action items
+        $userActionItemsQuery = "
+            SELECT tuser.UserID, InteractionType, Note, tbusiness.BusinessID as 'BusinessID',
+                BusinessName, temployee.employeeID as 'employeeID', temployee.FirstName as 'FirstName',
+                temployee.LastName as 'LastName', temployee.PhoneNumber as 'Phone', temployee.Extension as 'Ext',
+                temployee.Email as 'Email', personalNote as 'EmployeeNote', tnote.DateTime as 'NoteCreated', tactionitem.DateTime as 'ActionItemCreated',
+                ActionItemID, OriginalActionItemID, ReferanceID, AssignedToUserID, tactionitem.NoteID, actionComplete
+            FROM tuser
+                JOIN tactionitem
+                    ON tuser.userID = tactionitem.AssignedToUserID
+                JOIN tnote
+                    ON tactionitem.noteID = tnote.noteID
+                JOIN tbusiness
+                    ON tnote.businessID = tbusiness.businessID
+                JOIN temployee
+                    ON tbusiness.businessID = temployee.businessID
+                JOIN tinteractiontype
+					ON tnote.interactiontypeID = tinteractiontype.interactiontypeID
+            Where AssignedToUserID = $userID
+                AND actionComplete is NULL
+            Order By 'ActionItemCreated' desc;
+            ";
+
+        return $userActionItemsQuery;
+    }
 
     /****************************************************************************************/
     // pullTitleList
