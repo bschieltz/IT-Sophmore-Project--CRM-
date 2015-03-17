@@ -312,7 +312,7 @@
             }
         }
 
-        print "<br /><hr /><br />";
+        print "<br /><hr /><hr /><br />";
 
 		print "<h3>Recent Contacts:</h3>";
 		// Pull 
