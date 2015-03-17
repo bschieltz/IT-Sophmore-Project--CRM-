@@ -293,7 +293,7 @@
         print "<br /><form action='notes.php' method='get'><input type='submit' value='Add new interaction'  class='myButton'/></form>";
         print "<form action='http://homepages.uc.edu/group1/business.php?CreateBusiness=True' method='get'><input type='submit' value='Add new business'  class='myButton'/></form><br />";
 
-		print "<br />";
+		print "<br /><br />";
 		
 		print "<h3>Current Action Items:</h3>";
 		
