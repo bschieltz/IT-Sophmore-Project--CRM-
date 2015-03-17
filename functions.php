@@ -292,7 +292,7 @@
 
         print "<br /><form action='notes.php' method='get'><input type='submit' value='Add New Interaction'  class='myButton'/></form>";
         print "<br /><form action='notes.php' method='get'><input type='submit' value='Add New Action Item'  class='myButton'/></form>";
-        print "<form action='http://homepages.uc.edu/group1/business.php?CreateBusiness=True' method='get'><input type='submit' value='Add New Business'  class='myButton'/></form><br />";
+        print "<form action='http://homepages.uc.edu/group1/business.php?CreateBusiness=True' method='get'><input type='submit' value='Add New Business'  class='myButton mybutton2'/></form><br />";
 
 		print "<br /><br />";
 		
