@@ -299,8 +299,17 @@
 		/*********** Action Items still need to be developed *********************/
 		print "<ul><li>Action Items still need to be developed!</li></ul><br />";
 
+        $userActionItemsQuery = pullUserActionItems($userID);
 
+        if($userActionItems = mysqli_query($dbc, $userActionItemsQuery)) {
+            if(mysqli_num_rows($userActionItems) == 0) {
+                print '<p style="color:red">You do not have any Action Items at this time.</p>';
+            } else {
+                $numberOfActionItems = mysqli_num_rows($userActionItems);
 
+                print "$numberOfActionItems";
+            }
+        }
 
 
 		print "<h3>Recent Contacts:</h3>";
