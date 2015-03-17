@@ -307,7 +307,7 @@
             } else {
                 $numberOfActionItems = mysqli_num_rows($userActionItems);
 
-                print "$numberOfActionItems";
+                print "<ul><li><h4>Total Action Items: $numberOfActionItems</h4></li></ul>";
             }
         }
 
