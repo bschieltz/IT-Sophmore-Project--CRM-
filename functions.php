@@ -296,8 +296,8 @@
 		
 		print "<h3>Current Action Items:</h3>";
 		
-		/*********** Action Items still need to be developed *********************/
-		print "<ul><li>Action Items still need to be developed!</li></ul><br />";
+		/***************************** Action Items  ************************************/
+		//print "<ul><li>Action Items still need to be developed!</li></ul><br />";
 
         $userActionItemsQuery = pullUserActionItems($userID);
 
