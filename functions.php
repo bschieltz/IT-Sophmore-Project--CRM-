@@ -290,8 +290,8 @@
 		
 		print "<h2 style='color: #E00122;'>Welcome, $userFullName!</h2>";
 
-        print "<br /><form action='notes.php' method='get'><input type='submit' value='Add new interaction'  class='myButton'/></form><br />";
-        print "<br /><form action='http://homepages.uc.edu/group1/business.php?CreateBusiness=True' method='get'><input type='submit' value='Add new business'  class='myButton'/></form><br />";
+        print "<br /><form action='notes.php' method='get'><input type='submit' value='Add new interaction'  class='myButton'/></form>";
+        print "<form action='http://homepages.uc.edu/group1/business.php?CreateBusiness=True' method='get'><input type='submit' value='Add new business'  class='myButton'/></form><br />";
 
 		print "<br />";
 		
