@@ -349,30 +349,6 @@
 
                         $assocActionItemsQuery = pullAssocActionItems($OriginalActionItemID, $NoteID);
 
-                        if($assocActionItems = mysqli_query($dbc, $assocActionItemsQuery)) {
-                            if(mysqli_num_rows($assocActionItems) == 0) {
-                                print '<p style="color:red">No Other Action Items are associated with this.</p>';
-                            } else {
-                                $numAssocItems =  mysqli_num_rows($assocActionItems);
-
-                                for($j=1; j<=$numAssocItems; j++) {
-                                    if($assocRow = mysqli_fetch_array($assocActionItems)) {
-                                        // Print Associated Action Items Stuff
-
-                                        // Convert DateTime to something usable
-                                        $AIDateTime = strtotime($assocRow['AIDate']);
-                                        $AIDateTime = date("m/d/Y h:i a", $AIDateTime);
-
-                                        print "<p>" . $assocRow['AIDateTime'] . "</p>";
-
-                                    }
-                                }
-                            }
-                        }
-
-
-
-
 
 
 
