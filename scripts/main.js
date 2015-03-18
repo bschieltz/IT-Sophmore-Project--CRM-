@@ -58,7 +58,7 @@ $(function() {
 
 /** ******************* For Dashboard *************************/
 
-$(function test(){
+$(function(){
     $('.AIClass, .expandRow').click(function() {
         var clickedID=$(this).attr('id');
         var expandID = '#to' + clickedID;
