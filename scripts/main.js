@@ -70,13 +70,6 @@ $(function(){
     });
 });
 
-/*
-$(function() {
-    var expandRowClass = $('.expandRow').attr('id');
-
-    var toExpand1 = $("li ~ .DashNote").attr('id');
-});
-*/
 $(function() {
     $('#allContacts').click(function() {
         $('.allNotes').toggle();

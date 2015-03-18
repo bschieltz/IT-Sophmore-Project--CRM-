@@ -75,8 +75,9 @@
             SELECT tuser.UserID, InteractionType, Note, tbusiness.BusinessID as 'BusinessID',
                 BusinessName, temployee.employeeID as 'employeeID', temployee.FirstName as 'FirstName',
                 temployee.LastName as 'LastName', temployee.PhoneNumber as 'Phone', temployee.Extension as 'Ext',
-                temployee.Email as 'Email', personalNote as 'EmployeeNote', tnote.DateTime as 'NoteCreated', tactionitem.DateTime as 'ActionItemCreated',
-                ActionItemID, OriginalActionItemID, ReferanceID, AssignedToUserID, tactionitem.NoteID, actionComplete
+                temployee.Email as 'Email', personalNote as 'EmployeeNote', tnote.DateTime as 'NoteCreated',
+                tactionitem.DateTime as 'ActionItemCreated', ActionItemID, OriginalActionItemID, ReferanceID,
+                AssignedToUserID, tactionitem.NoteID as 'NoteID', actionComplete
             FROM tuser
                 JOIN tactionitem
                     ON tuser.userID = tactionitem.AssignedToUserID
@@ -95,6 +96,27 @@
 
         return $userActionItemsQuery;
     }
+    /****************************************************************************************/
+    // Pull all items associated to a given Action Item
+    function assocActionItemsQuery($OriginalActionItemID, $NoteID) {
+        $ActionItemID = $ActionItemID;
+        $NoteID = $NoteID;
+
+        // Query to pull all the associated Action Items
+        $assocActionItemsQuery = "
+            SELECT tactionitem.NoteID, tactionitem.AssignedToUserID, tactionitem.originalactionitemID, tactionitem.DateTime as 'AIDate',
+              tnote.UserID as 'PreviousUser', tnote.Note as 'Note'
+            FROM tactionitem
+              JOIN tnote
+                ON tactionitem.NoteID = tnote.NoteID
+            WHERE tactionitem.OriginalActionItemID = $OriginalActionItemID
+                AND tactionitem.NoteID != $NoteID
+            ORDER BY AIDate desc
+        ";
+    }
+
+
+
 
     /****************************************************************************************/
     // pullTitleList
@@ -318,6 +340,14 @@
 
                 for($i=1; $i<=$numberOfActionItems; $i++) {
                     if ($row = mysqli_fetch_array($userActionItems)) {
+
+                        // Variables will be used to pull all associated Action Item Data
+                        $OriginalActionItemID = $row['OriginalActionItemID'];
+                        $NoteID = $row['NoteID'];
+
+                        $assocActionItemsQuery = assocActionItemsQuery($OriginalActionItemID, $NoteID);
+
+                        // Convert DateTime to something usable
                         $actionDateTime = strtotime($row['ActionItemCreated']);
                         $actionDateTime = date("m/d/Y h:i a", $actionDateTime);
 
@@ -336,9 +366,35 @@
                                                 <li><b>Email:</b> <a href='mailto:" . $row['Email'] . "'>" . $row['Email'] . "</a></li>
                                             </ul>
                                         <li><b>Interaction Type:</b> " . $row['InteractionType'] . "</li>
-                                        <li><b>Notes:</b><br /><div class='notes'> " . $row['Note'] . "</div></li>
+                                        <li><b>Notes:</b><br /><div class='notes'> " . $row['Note'] . "</div></li>";
 
-                                    </ul>
+
+                        if($assocActionItems = mysqli_query($dbc, $assocActionItemsQuery)) {
+                            if(mysqli_num_rows($assocActionItems) == 0) {
+                                print '<p style="color:red">No Other Action Items are associated with this.</p>';
+                            } else {
+                                $numAssocItems =  mysqli_num_rows($assocActionItems);
+
+                                for($j=1; j<=$numAssocItems; j++) {
+                                    if($assocRow = mysqli_fetch_array($assocActionItems)) {
+                                        // Print Associated Action Items Stuff
+
+                                        // Convert DateTime to something usable
+                                        $AIDateTime = strtotime($row['AIDate']);
+                                        $AIDateTime = date("m/d/Y h:i a", $AIDateTime);
+                                        print "
+                                            <h4>Action Item History</h4>
+                                            <ul>
+                                                <li>Test $j</li>
+                                            </ul>
+                                        ";
+
+                                    }
+                                }
+                            }
+                        }
+
+                        print "      </ul>
                                 </div>
                             </ul>
                         "; //style='display:none;'
@@ -430,7 +486,7 @@
 		}
 	}
 	
-	/****************************************************************************************/
+    /****************************************************************************************/
 
 	function logout() {
 		// Destroy cookie
