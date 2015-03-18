@@ -60,8 +60,8 @@ $(function() {
 
 $(function(){
     $('.AIClass').click(function() {
-        var clickedID=$this.attr('id');
-        $(clickedID).dialog();
+        var clickedID=$(this).attr('id');
+        alert(clickedID);
     });
 });
 
