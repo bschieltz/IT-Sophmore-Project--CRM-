@@ -324,11 +324,11 @@
                         print "
                             <ul class='actionItemsList'>
                                 <li>
-                                    <a href='#' id='expandAI$i' style='color: #E00122'>Action Item $i</a>
+                                    <a href='#' id='expandAI$i' class='AIClass' style='color: #E00122'>Action Item $i</a>
                                     <b>Business: </b><a href='business.php?BusinessID=" . $row['BusinessID'] . "'>" . $row['BusinessName'] . "</a><br />
                                     <div style='text-align: center;'><b>Date:</b> " . $actionDateTime . "</div>
                                 </li>
-                                <div class=DashAI$i >
+                                <div id='toExpand$i'class='DashAI'>
                                     <ul>
                                         <li><b>Employee:</b> <a href='employee.php?EmployeeID=" . $row['employeeID'] . "'>" . $row['FirstName'] . " " . $row['LastName'] . "</a></li>
                                             <ul>

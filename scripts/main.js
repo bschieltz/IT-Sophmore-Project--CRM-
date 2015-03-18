@@ -57,6 +57,14 @@ $(function() {
 });
 
 /** ******************* For Dashboard *************************/
+
+$function(){
+    $('.AIClass').click(function() {
+        var clickedID=$this.attr('id');
+        alert(clickedID);
+    });
+}
+
 $(function() {
     $('#expandRow1').click(function() {
         $('.DashNote1').toggle();
