@@ -320,7 +320,7 @@
                                 <li>
                                     <a href='#' id='expandAI$i' style='color: #E00122'>Action Item $i</a>
                                     <b>Business: </b><a href='business.php?BusinessID=" . $row['BusinessID'] . "'>" . $row['BusinessName'] . "</a><br />
-                                    <b>Date:</b> " . $actionDateTime . "
+                                    <div style='float: right;'></div><b>Date:</b> " . $actionDateTime . "</div>
                                 </li>
                                 <div class=DashAI$i >
                                     <ul>
