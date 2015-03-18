@@ -61,7 +61,8 @@ $(function() {
 $(function(){
     $('.AIClass').click(function() {
         var clickedID=$(this).attr('id');
-        alert(clickedID);
+        var toExpand=$("a + div[class=DashAI]");
+        alert(toExpand);
     });
 });
 
