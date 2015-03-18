@@ -374,10 +374,11 @@
                         $assocActionItemsQuery = pullAssocActionItems($OriginalActionItemID, $NoteID);
 
                         if($assocActionItems = mysqli_query($dbc, $assocActionItemsQuery)) {
+                            $numHistoryItems = mysqli_num_rows($assocActionItems);
                             if(mysqli_num_rows($assocActionItems) == 0) {
                                 print 'You do not have any Action Items at this time.</li>';
                             } else {
-                                print 'This item has ActionItem History.</li>';
+                                print "This item has Action Item $numHistoryItems history items.</li>";
                             }
                         }
 
