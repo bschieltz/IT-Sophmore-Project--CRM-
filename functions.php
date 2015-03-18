@@ -68,11 +68,11 @@
     /****************************************************************************************/
     // Pulling Action Items By User for use on the Dashboard
     function pullUserActionItems($userID) {
-        $userID = $userID;
+        $assignedToID = $userID;
 
         // Query to pull all uncompleted action items
         $userActionItemsQuery = "
-            SELECT tuser.UserID, InteractionType, Note, tbusiness.BusinessID as 'BusinessID',
+            SELECT tuser.UserID as 'itemCreator', InteractionType, Note, tbusiness.BusinessID as 'BusinessID',
                 BusinessName, temployee.employeeID as 'employeeID', temployee.FirstName as 'FirstName',
                 temployee.LastName as 'LastName', temployee.PhoneNumber as 'Phone', temployee.Extension as 'Ext',
                 temployee.Email as 'Email', personalNote as 'EmployeeNote', tnote.DateTime as 'NoteCreated', tactionitem.DateTime as 'ActionItemCreated',
@@ -88,7 +88,7 @@
                     ON tbusiness.businessID = temployee.businessID
                 JOIN tinteractiontype
 					ON tnote.interactiontypeID = tinteractiontype.interactiontypeID
-            Where AssignedToUserID = $userID
+            Where AssignedToUserID = $assignedToID
                 AND actionComplete is NULL
             Order By 'ActionItemCreated' desc;
             ";
@@ -310,11 +310,28 @@
 
                 print "<ul class='actionItemsList'><li><h4>Total Action Items: $numberOfActionItems</h4></li></ul>";
 
+                for($i=1; $i<=$numberOfActionItems; $i++) {
+                    if ($row = mysqli_fetch_array($userNotes)) {
+                        $actionDateTime = strtotime($row['ActionItemCreated']);
+                        $actionDateTime = date("m/d/Y h:i a", $actionDateTime);
+
+                        print "
+                            <ul class='ActionItems'>
+                                <li>
+                                    <a href='#' id='expandRow$i' style='color: #E00122'>Note $i</a>
+                                    <b>Business: </b><a href='business.php?BusinessID=" . $row['BusinessID'] . "'>" . $row['BusinessName'] . "</a>&nbsp&nbsp&nbsp&nbsp&nbsp
+                                    <b>Date:</b> " . $actionDateTime . "
+                                </li>
+                            </ul>
+                        ";
+
+                    }
+                }
             }
         }
 
         print "<br /><hr /><hr /><br />";
-
+        /////////////////////////////////////////////////////////////////////////
 		print "<h3>Recent Contacts:</h3>";
 		// Pull 
 		$userNotesQuery = pullUserNotes($userID);
