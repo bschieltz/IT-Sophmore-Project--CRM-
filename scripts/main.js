@@ -61,7 +61,7 @@ $(function() {
 $(function(){
     $('.AIClass').click(function() {
         var clickedID=$this.attr('id');
-        alert(clickedID);
+        $(clickedID).dialog();
     });
 });
 
