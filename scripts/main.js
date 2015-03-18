@@ -70,6 +70,7 @@ $(function(){
     });
 });
 
+/*
 $(function() {
     var expandRowClass = $('.expandRow').attr('id');
 
@@ -81,7 +82,7 @@ $(function() {
         $('.allNotes').toggle();
     });
 });
-
+*/
 $(document).ready(function(){
     for (var i = 1; i <= 5; i++){
         $('#toExpandAI' + i).fadeOut(0);
