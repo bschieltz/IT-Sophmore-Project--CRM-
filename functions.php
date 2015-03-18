@@ -340,12 +340,48 @@
 
                 for($i=1; $i<=$numberOfActionItems; $i++) {
                     if ($row = mysqli_fetch_array($userActionItems)) {
-
-                        // Variables will be used to pull all associated Action Item Data
+                        // Pull all associtated Action Item Data
                         $OriginalActionItemID = $row['OriginalActionItemID'];
                         $NoteID = $row['NoteID'];
 
                         $assocActionItemsQuery = assocActionItemsQuery($OriginalActionItemID, $NoteID);
+
+
+/*
+                        if($assocActionItems = mysqli_query($dbc, $assocActionItemsQuery)) {
+                            if(mysqli_num_rows($assocActionItems) == 0) {
+                                print '<p style="color:red">No Other Action Items are associated with this.</p>';
+                            } else {
+                                $numAssocItems =  mysqli_num_rows($assocActionItems);
+
+                                for($j=1; j<=$numAssocItems; j++) {
+                                    if($assocRow = mysqli_fetch_array($assocActionItems)) {
+                                        // Print Associated Action Items Stuff
+
+                                        // Convert DateTime to something usable
+                                        $AIDateTime = strtotime($row['AIDate']);
+                                        $AIDateTime = date("m/d/Y h:i a", $AIDateTime);
+
+
+                                    }
+                                }
+                            }
+                        }
+
+
+*/
+
+
+
+
+
+
+
+
+
+
+
+
 
                         // Convert DateTime to something usable
                         $actionDateTime = strtotime($row['ActionItemCreated']);
@@ -366,37 +402,9 @@
                                                 <li><b>Email:</b> <a href='mailto:" . $row['Email'] . "'>" . $row['Email'] . "</a></li>
                                             </ul>
                                         <li><b>Interaction Type:</b> " . $row['InteractionType'] . "</li>
-                                        <li><b>Notes:</b><br /><div class='notes'> " . $row['Note'] . "</div></li>";
+                                        <li><b>Notes:</b><br /><div class='notes'> " . $row['Note'] . "</div></li>
 
-
-                        if($assocActionItems = mysqli_query($dbc, $assocActionItemsQuery)) {
-                            if(mysqli_num_rows($assocActionItems) == 0) {
-                                print '<li style="color:red">No Other Action Items are associated with this.</li>';
-                            } else {
-                                print "<li><b>Action Item History</b></li>";
-                                 /*
-
-                                $numAssocItems =  mysqli_num_rows($assocActionItems);
-
-                                for($j=1; j<=$numAssocItems; j++) {
-                                    if($assocRow = mysqli_fetch_array($assocActionItems)) {
-                                        // Print Associated Action Items Stuff
-
-                                        // Convert DateTime to something usable
-                                        $AIDateTime = strtotime($row['AIDate']);
-                                        $AIDateTime = date("m/d/Y h:i a", $AIDateTime);
-                                        print "
-                                            <ul>
-                                                <li>Test $j</li>
-                                            </ul>
-                                        ";
-*/
-                                    }
-                                }
-                            }
-                        }
-
-                        print "      </ul>
+                                    </ul>
                                 </div>
                             </ul>
                         "; //style='display:none;'
