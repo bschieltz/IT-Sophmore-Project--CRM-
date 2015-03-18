@@ -346,6 +346,8 @@
 
                         $assocActionItemsQuery = assocActionItemsQuery($OriginalActionItemID, $NoteID);
 
+                        alert($assocActionItemsQuery);
+
 
 /*
                         if($assocActionItems = mysqli_query($dbc, $assocActionItemsQuery)) {
