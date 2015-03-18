@@ -319,7 +319,7 @@
                             <ul class='actionItemsList'>
                                 <li>
                                     <a href='#' id='expandAI$i' style='color: #E00122'>Action Item $i</a>
-                                    <b>Business: </b><a href='business.php?BusinessID=" . $row['BusinessID'] . "'>" . $row['BusinessName'] . "</a>&nbsp&nbsp
+                                    <b>Business: </b><a href='business.php?BusinessID=" . $row['BusinessID'] . "'>" . $row['BusinessName'] . "</a><br />
                                     <b>Date:</b> " . $actionDateTime . "
                                 </li>
                                 <div class=DashAI$i >
