@@ -369,7 +369,7 @@
                                         <li><b>Notes:</b><br /><div class='notes'> " . $row['Note'] . "</div></li>";
 
 
-                        if($assocActionItems = mysqli_query($dbc, $assocActionItemsQuery)) {
+/*                        if($assocActionItems = mysqli_query($dbc, $assocActionItemsQuery)) {
                             if(mysqli_num_rows($assocActionItems) == 0) {
                                 print '<p style="color:red">No Other Action Items are associated with this.</p>';
                             } else {
@@ -393,7 +393,7 @@
                                 }
                             }
                         }
-
+*/
                         print "      </ul>
                                 </div>
                             </ul>
