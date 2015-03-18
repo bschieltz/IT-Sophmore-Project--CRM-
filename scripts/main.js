@@ -68,9 +68,14 @@ $(function(){
 });
 
 $(function() {
-    //var expandRow = $(this).attr('id');
-    //var toExpand = $("li ~ .DashNote").
+    var expandRow = $(this).attr('id');
+    var toExpand = $("li ~ .DashNote").attr('id');
 
+    $(expandRow).click(fucntion() {
+        $(toExpand).toggle();
+    });
+
+    /*
     $('#expandRow1').click(function() {
         $('.DashNote1').toggle();
     });
@@ -85,7 +90,7 @@ $(function() {
     });
     $('#expandRow5').click(function() {
         $('.DashNote5').toggle();
-    });
+    });*/
 });
 
 $(function() {

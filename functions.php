@@ -376,7 +376,7 @@
                                     <b>Business: </b><a href='business.php?BusinessID=" . $row['BusinessID'] . "'>" . $row['BusinessName'] . "</a><br />
                                     <div style='margin-left: 60px;'><b>Date:</b> " . $datetime . "</div>
                                 </li>
-                                <div class=DashNote style='display:none;'>
+                                <div class='DashNote' id='DashNote$i' style='display:none;'>
                                     <ul>
                                         <li><b>Employee:</b> <a href='employee.php?EmployeeID=" . $row['employeeID'] . "'>" . $row['FirstName'] . " " . $row['LastName'] . "</a></li>
                                             <ul>
