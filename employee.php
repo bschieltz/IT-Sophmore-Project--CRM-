@@ -4,6 +4,22 @@
  * Date: 1/31/2015
  * Time: 10:58 PM
  * Shows Individual Employees
+ *
+ * Default state of page is the employee search
+ * To call a specific employee use get: ?EmployeeID=1
+ * To skip straight to creating an employee use get (requires BusinessID): ?CreateEmployee=True&BusinessID=1
+
+ * All information is filled out on page load.  It is just hidden data until needed
+ * Which information is displayed is decided by class tags.
+ * Classes that exist on the page are formTag, searchTag, listTag, infoTag
+
+ * Send search to page using ?Search=
+ * mandatory code for a search box would look like:
+        <form action="employee.php">
+            <input type="search" name="Search" placeholder="Search for a Employee" />
+            <input type="submit" value="Search" />
+        </form>
+ * can be modified as necessary with id / class tags
  */
 require 'templates/header.html';
 ?>
@@ -41,10 +57,15 @@ if (!empty($_GET['Submit'])) {
     $email = $_GET['Email'];
     $personalNote = $_GET['PersonalNote'];
     $businessName = $_GET['BusinessName'];
+
+    //send all data to function for update. If employeeID == 0 then it adds to database, otherwise it updates
+    //first item in returned array is true/false for successful entry, second is businessID
+    //form validation code is inside the function
     $submitResult = pushEmployee($businessID,$employeeID,$jobTitle,$titleID,$firstName,$lastName,$phoneNumber,$extension,$email,$personalNote);
     $submitSuccessful = $submitResult[0];
-    if ($submitSuccessful){$employeeID = $submitResult[1];}
+    if ($submitSuccessful){$employeeID = $submitResult[1];} //if successful assign employeeID
 
+    // Get employee title
     $titleQuery = "SELECT Title
                   FROM ttitle WHERE TitleID = $titleID";
     if ($titleResult = mysqli_query($dbc, $titleQuery)) {
@@ -53,6 +74,8 @@ if (!empty($_GET['Submit'])) {
     }
 }
 
+// EmployeeID must already be set or exist in the url get
+// by requiring $submitSuccessful a failed update/add will cause the form to get populated with the submitted information for correction
 if ((!empty($_GET['EmployeeID']) or $employeeID > 0) and $submitSuccessful) {
     if ($employeeID == 0) {
         $employeeID = $_GET['EmployeeID'];
@@ -60,7 +83,7 @@ if ((!empty($_GET['EmployeeID']) or $employeeID > 0) and $submitSuccessful) {
     $employeeQuery = "SELECT `BusinessID`, `Active`, `JobTitle`, `TitleID`, `FirstName`, `LastName`,
                              `PhoneNumber`, `Extension`, `Email`, `PersonalNote` FROM `temployee`
                       WHERE EmployeeID = $employeeID";
-    if ($employee = mysqli_query($dbc, $employeeQuery)) {
+    if ($employee = mysqli_query($dbc, $employeeQuery)) { // grab employee info from table
         $row = mysqli_fetch_array($employee);
         $businessID = $row['BusinessID'];
         $active = $row['Active'];
@@ -74,6 +97,7 @@ if ((!empty($_GET['EmployeeID']) or $employeeID > 0) and $submitSuccessful) {
         $personalNote = $row['PersonalNote'];
     }
 
+    // Grab name of business employee works for
     $businessQuery = "SELECT BusinessName, PrimaryContact, `PrimaryPhone#`, Notes
                   FROM tbusiness WHERE BusinessID = $businessID";
     if ($business = mysqli_query($dbc, $businessQuery)) {
@@ -81,6 +105,7 @@ if ((!empty($_GET['EmployeeID']) or $employeeID > 0) and $submitSuccessful) {
         $businessName = $row['BusinessName'];
     }
 
+    // get title, ie mr, mrs etc
     $titleQuery = "SELECT Title
                   FROM ttitle WHERE TitleID = $titleID";
     if ($titleResult = mysqli_query($dbc, $titleQuery)) {
@@ -88,6 +113,7 @@ if ((!empty($_GET['EmployeeID']) or $employeeID > 0) and $submitSuccessful) {
         $title = $row['Title'];
     }
 
+    // get 5 most contacted UC employees
     $ucStaffQuery = "SELECT tnote.UserID, COUNT(*) as userCount, tuser.FirstName, tuser.LastName
             FROM tnote INNER JOIN tuser ON tnote.UserID = tuser.UserID
             WHERE EmployeeID = $employeeID
@@ -96,25 +122,30 @@ if ((!empty($_GET['EmployeeID']) or $employeeID > 0) and $submitSuccessful) {
             LIMIT 5";
     $ucStaff = mysqli_query($dbc, $ucStaffQuery);
 
-} elseif (!empty($_GET['CreateEmployee']) or !$submitSuccessful) {
+} elseif (!empty($_GET['CreateEmployee']) or !$submitSuccessful) { // if create called or submission fails get business ID from url
+    // business id needed to create employee and link to their employer
     $businessID = $_GET['BusinessID'];
 } elseif (!empty($_GET['Search'])) {
 
 }
 
 ?>
-<div id="businessPage">
+<div id="employeePage">
+
+    <!-- Employee search -->
     <form class="searchTag" action="employee.php">
         <input type="search" name="Search" placeholder="Search for an employee" />
         <input id="searchButton" type="submit" value="Search" />
     </form>
 
+    <!-- Search results -->
     <div class="listTag displayOff">
         <ul>
             <?php if (!empty($_GET['Search'])) {displayEmployeeList();} ?>
         </ul>
     </div>
 
+    <!-- Employee Information -->
     <div class="infoTag displayOff">
         <ul>
             <li>Status: <?= ($active == 1 ? "Active" : "Inactive") ?></li>
@@ -130,6 +161,7 @@ if ((!empty($_GET['EmployeeID']) or $employeeID > 0) and $submitSuccessful) {
         </ul>
         <input id="editButton" type="submit" value="Edit" />
 
+        <!-- most contacted UC staff based on number of notes -->
         <dl>
             <dt>Most often in contact with UC Staff:</dt>
             <?php
@@ -144,6 +176,7 @@ if ((!empty($_GET['EmployeeID']) or $employeeID > 0) and $submitSuccessful) {
         </dl>
     </div>
 
+    <!-- Form for adding/editing employees. -->
     <form class="formTag displayOff">
         <input type="hidden" name="Submit" value="True"/>
         <input type="hidden" name="BusinessID" value="<?= $businessID ?>"/>
@@ -169,6 +202,9 @@ if ((!empty($_GET['EmployeeID']) or $employeeID > 0) and $submitSuccessful) {
     <br /><br /><br />
 
     <?php // decide which layout to show
+    // javascript adds a css class to hide parts of the page we want hidden.
+    // this makes it possible to change what's displayed on the page without reloading the page.
+    // a reload should only occur when and edit/add is submitted, add button is clicked, or a search is submitted
     if ((!empty($_GET['EmployeeID']) or $employeeID > 0) and $submitSuccessful) {
         print'<script type="text/javascript">showTag(".infoTag")</script>';
     } elseif (!empty($_GET['CreateEmployee']) or !$submitSuccessful) {
