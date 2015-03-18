@@ -63,7 +63,7 @@ $(function test(){
         var clickedID=$(this).attr('id');
         var test = $("li ~ .DashAI").attr('id');
         //var toExpand=$(clickedID).nextall(':has(.DashAI):first)');
-        alert(test);
+        alert(clickedID + " " + test);
     });
 });
 
