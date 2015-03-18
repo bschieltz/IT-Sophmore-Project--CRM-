@@ -80,6 +80,7 @@ $(function() {
         //var expandRow = $(this).attr('id');
         //var toExpand = $("li ~ .DashNote").attr('id');
     });
+    /*
     $('#expandRow2').click(function() {
         $('.DashNote2').toggle();
     });
@@ -91,7 +92,7 @@ $(function() {
     });
     $('#expandRow5').click(function() {
         $('.DashNote5').toggle();
-    });
+    });*/
 });
 
 $(function() {
