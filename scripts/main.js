@@ -76,13 +76,13 @@ $(function() {
 
     var toExpand1 = $("li ~ .DashNote").attr('id');
 });
-
+*/
 $(function() {
     $('#allContacts').click(function() {
         $('.allNotes').toggle();
     });
 });
-*/
+
 $(document).ready(function(){
     for (var i = 1; i <= 5; i++){
         $('#toExpandAI' + i).fadeOut(0);
