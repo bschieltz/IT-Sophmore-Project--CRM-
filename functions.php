@@ -309,6 +309,7 @@
                 $numberOfActionItems = mysqli_num_rows($userActionItems);
 
                 print "<ul class='actionItemsList'><li><h4>Total Action Items: $numberOfActionItems</h4></li></ul>";
+                print "Test Upload";
 
                 for($i=1; $i<=$numberOfActionItems; $i++) {
                     if ($row = mysqli_fetch_array($userNotes)) {
@@ -318,7 +319,7 @@
                         print "
                             <ul class='ActionItems'>
                                 <li>
-                                    <a href='#' id='expandRow$i' style='color: #E00122'>Note $i</a>
+                                    <a href='#' id='expandRow$i' style='color: #E00122'>Action Item $i</a>
                                     <b>Business: </b><a href='business.php?BusinessID=" . $row['BusinessID'] . "'>" . $row['BusinessName'] . "</a>&nbsp&nbsp&nbsp&nbsp&nbsp
                                     <b>Date:</b> " . $actionDateTime . "
                                 </li>
