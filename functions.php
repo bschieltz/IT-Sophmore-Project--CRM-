@@ -68,11 +68,11 @@
     /****************************************************************************************/
     // Pulling Action Items By User for use on the Dashboard
     function pullUserActionItems($userID) {
-        $assignedToID = $userID;
+        $userID = $userID;
 
         // Query to pull all uncompleted action items
         $userActionItemsQuery = "
-            SELECT tuser.UserID as 'itemCreator', InteractionType, Note, tbusiness.BusinessID as 'BusinessID',
+            SELECT tuser.UserID, InteractionType, Note, tbusiness.BusinessID as 'BusinessID',
                 BusinessName, temployee.employeeID as 'employeeID', temployee.FirstName as 'FirstName',
                 temployee.LastName as 'LastName', temployee.PhoneNumber as 'Phone', temployee.Extension as 'Ext',
                 temployee.Email as 'Email', personalNote as 'EmployeeNote', tnote.DateTime as 'NoteCreated', tactionitem.DateTime as 'ActionItemCreated',
@@ -88,7 +88,7 @@
                     ON tbusiness.businessID = temployee.businessID
                 JOIN tinteractiontype
 					ON tnote.interactiontypeID = tinteractiontype.interactiontypeID
-            Where AssignedToUserID = $assignedToID
+            Where AssignedToUserID = $userID
                 AND actionComplete is NULL
             Order By 'ActionItemCreated' desc;
             ";
