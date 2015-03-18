@@ -309,9 +309,9 @@
                 $numberOfActionItems = mysqli_num_rows($userActionItems);
 
                 print "<ul class='actionItemsList'><li><h4>Total Action Items: $numberOfActionItems</h4></li></ul>";
-                print "Test Upload";
 
                 for($i=1; $i<=$numberOfActionItems; $i++) {
+                    print "Test Upload";
                     if ($row = mysqli_fetch_array($userNotes)) {
                         $actionDateTime = strtotime($row['ActionItemCreated']);
                         $actionDateTime = date("m/d/Y h:i a", $actionDateTime);
@@ -331,7 +331,7 @@
             }
         }
         else {
-            print "ERROR!";
+            print "ERROR IN ACTION ITEMS!";
         }
 
         print "<br /><hr /><hr /><br />";
