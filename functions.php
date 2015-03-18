@@ -99,7 +99,7 @@
     /****************************************************************************************/
     // Pull all items associated to a given Action Item
     function assocActionItemsQuery($OriginalActionItemID, $NoteID) {
-        $ActionItemID = $ActionItemID;
+        $OriginalActionItemID = $OriginalActionItemID;
         $NoteID = $NoteID;
 
         // Query to pull all the associated Action Items
@@ -346,12 +346,11 @@
 
                         $assocActionItemsQuery = assocActionItemsQuery($OriginalActionItemID, $NoteID);
 
-
                         if($assocActionItems = mysqli_query($dbc, $assocActionItemsQuery)){
                             print "Rows: " + mysqli_num_rows($assocActionItems) + ".";
                         }
                         else {
-                            print "Associated Error";
+                            print "Assoc Error";
                         }
 
 /*
