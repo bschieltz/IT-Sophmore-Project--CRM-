@@ -61,7 +61,7 @@ $(function() {
 $(function test(){
     $('.AIClass').click(function() {
         var clickedID=$(this).attr('id');
-        var test = $('a[id="' + clickedID + '"] ~ [id^=toExpand]').attr('id');
+        //var test = $('a[id="' + clickedID + '"] ~ [id^=toExpand]').attr('id');
         var test2 = $('div[id="'clickedID'"]');
         //var toExpand=$(clickedID).nextall(':has(.DashAI):first)');
         alert(clickedID + " " + test2);
@@ -72,7 +72,7 @@ $(function() {
     var expandRowClass = $('.expandRow').attr('id');
 
     var toExpand1 = $("li ~ .DashNote").attr('id');
-    alert(expandRowClass + " " + toExpand1);
+    //alert(expandRowClass + " " + toExpand1);
 
     /*
     $(expandRowClass).click(function() {
