@@ -49,6 +49,12 @@ $(function() {
 
 /** ******************* For Dashboard *************************/
 $(function() {
+    var rowToExpand = $("div[class^=Dash]");
+
+    $(rowToExpand).click(function() {
+        $(li + div).css("border", "3px solid red");
+    });
+
     $('#expandRow1').click(function() {
         $('.DashNote1').toggle();
     });
