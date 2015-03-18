@@ -312,7 +312,7 @@
 
                 for($i=1; $i<=$numberOfActionItems; $i++) {
                     print "Test Upload";
-                    if ($row = mysqli_fetch_array($userNotes)) {
+                    if ($row = mysqli_fetch_array($userActionItems)) {
                         $actionDateTime = strtotime($row['ActionItemCreated']);
                         $actionDateTime = date("m/d/Y h:i a", $actionDateTime);
 
