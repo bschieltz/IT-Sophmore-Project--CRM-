@@ -113,6 +113,8 @@
                 AND tactionitem.NoteID != $NoteID
             ORDER BY AIDate desc
         ";
+
+        return $assocActionItemsQuery;
     }
 
 
