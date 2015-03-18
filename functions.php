@@ -403,8 +403,8 @@
                             <ul class='recentContacts'>
                                 <li>
                                     <a href='#' class='expandRow' id='DashRow$i' style='color: #E00122'>Note $i</a>
-                                    <b>Business: </b><a href='business.php?BusinessID=" . $row['BusinessID'] . "'>" . $row['BusinessName'] . "</a>&nbsp&nbsp&nbsp&nbsp&nbsp
-                                    <b>Date:</b> " . $datetime . "
+                                    <b>Business: </b><a href='business.php?BusinessID=" . $row['BusinessID'] . "'>" . $row['BusinessName'] . "</a><br />
+                                    <div style='margin-left: 60px;'><b>Date:</b> " . $datetime . "</div>
                                 </li>
                                 <div class='DashNote' id='toDashRow$i' style='display:none;'>
                                     <ul>
