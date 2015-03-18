@@ -61,10 +61,11 @@ $(function() {
 $(function test(){
     $('.AIClass').click(function() {
         var clickedID=$(this).attr('id');
+        var expandID=$(this).id;
         //var test = $('a[id="' + clickedID + '"] ~ [id^=toExpand]').attr('id');
         var test2 = $('div[id="' + clickedID + '"]');
         //var toExpand=$(clickedID).nextall(':has(.DashAI):first)');
-        alert(clickedID + " " + test2);
+        alert(clickedID + " " + expandID);
     });
 });
 
