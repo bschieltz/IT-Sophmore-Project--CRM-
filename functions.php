@@ -365,8 +365,8 @@
                                         <li><b>Notes:</b><br /><div class='notes'> " . $row['Note'] . "</div></li>
                         "; //style='display:none;'
 
-                        print "<li><b>Item History: </b>";
-
+                        print "<li><b>Item History: </b></li>";
+/*
                         // Pull all associtated Action Item Data
                         $OriginalActionItemID = $row['OriginalActionItemID'];
                         $NoteID = $row['NoteID'];
@@ -385,7 +385,7 @@
                                 }
                             }
                         }
-
+*/
                         print "
                                     </ul>
                                 </div>
