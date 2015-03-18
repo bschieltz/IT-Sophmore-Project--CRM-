@@ -70,12 +70,13 @@ $(function(){
 $(function() {
     var expandRow = $(this).attr('id');
     var toExpand = $("li ~ .DashNote").attr('class');
+    var test = expandRow;
 
     $('#expandRow1').click(function() {
         var expandRow = $(this).attr('id');
         var toExpand = $("li ~ .DashNote").attr('class');
-        $('.DashNote1').toggle();
-        alert(expandRow + " " + toExpand);
+        $('.DashNote').toggle();
+        alert(expandRow + " " + toExpand + " " test);
     });
     $('#expandRow2').click(function() {
         $('.DashNote2').toggle();
