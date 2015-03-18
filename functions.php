@@ -363,7 +363,7 @@
                                         $AIDateTime = strtotime($assocRow['AIDate']);
                                         $AIDateTime = date("m/d/Y h:i a", $AIDateTime);
 
-                                        print "<p>$assocRow['AIDateTime']</p>";
+                                        print "<p>" . $assocRow['AIDateTime'] . "</p>";
 
                                     }
                                 }
