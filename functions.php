@@ -367,8 +367,8 @@
                             <ul class='recentContacts'>
                                 <li>
                                     <a href='#' id='expandRow$i' style='color: #E00122'>Note $i</a>
-                                    <b>Business: </b><a href='business.php?BusinessID=" . $row['BusinessID'] . "'>" . $row['BusinessName'] . "</a>&nbsp&nbsp&nbsp&nbsp&nbsp
-                                    <b>Date:</b> " . $datetime . "
+                                    <b>Business: </b><a href='business.php?BusinessID=" . $row['BusinessID'] . "'>" . $row['BusinessName'] . "</a><br />
+                                    <div style='text-align: right;'><b>Date:</b> " . $datetime . "</div>
                                 </li>
                                 <div class=DashNote$i style='display:none;'>
                                     <ul>
