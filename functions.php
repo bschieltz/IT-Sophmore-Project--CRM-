@@ -324,11 +324,11 @@
                         print "
                             <ul class='actionItemsList'>
                                 <li>
-                                    <a href='#' id='expandAI$i' class='AIClass' style='color: #E00122'>Action Item $i</a>
+                                    <a href='#' id='ExpandAI$i' class='AIClass' style='color: #E00122'>Action Item $i</a>
                                     <b>Business: </b><a href='business.php?BusinessID=" . $row['BusinessID'] . "'>" . $row['BusinessName'] . "</a><br />
                                     <div style='text-align: center;'><b>Date:</b> " . $actionDateTime . "</div>
                                 </li>
-                                <div id='toExpand$i'class='DashAI'>
+                                <div id='toExpandAI$i' class='DashAI'>
                                     <ul>
                                         <li><b>Employee:</b> <a href='employee.php?EmployeeID=" . $row['employeeID'] . "'>" . $row['FirstName'] . " " . $row['LastName'] . "</a></li>
                                             <ul>
@@ -372,11 +372,11 @@
                         print "
                             <ul class='recentContacts'>
                                 <li>
-                                    <a href='#' class='expandRow' id='expandRow$i' style='color: #E00122'>Note $i</a>
+                                    <a href='#' class='expandRow' id='DashRow$i' style='color: #E00122'>Note $i</a>
                                     <b>Business: </b><a href='business.php?BusinessID=" . $row['BusinessID'] . "'>" . $row['BusinessName'] . "</a><br />
                                     <div style='margin-left: 60px;'><b>Date:</b> " . $datetime . "</div>
                                 </li>
-                                <div class='DashNote' id='DashNote$i' style='display:none;'>
+                                <div class='DashNote' id='toDashRow$i' style='display:none;'>
                                     <ul>
                                         <li><b>Employee:</b> <a href='employee.php?EmployeeID=" . $row['employeeID'] . "'>" . $row['FirstName'] . " " . $row['LastName'] . "</a></li>
                                             <ul>

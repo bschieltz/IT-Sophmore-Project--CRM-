@@ -59,11 +59,16 @@ $(function() {
 /** ******************* For Dashboard *************************/
 
 $(function test(){
-    $('.AIClass').click(function() {
+    $('.AIClass, .expandRow').click(function() {
         var clickedID=$(this).attr('id');
-        var test = $('a[id="' + clickedID + '"] ~ [id^=toExpand]').attr('id');
+        //var test = $('a[id="' + clickedID + '"] ~ [id^=toExpand]').attr('id');
         //var toExpand=$(clickedID).nextall(':has(.DashAI):first)');
-        alert(clickedID + " " + test);
+        var expandID = '#to' + clickedID;
+        if ($(expandID).css('display') == 'none') {
+            $(expandID).fadeIn();
+        } else {
+            $(expandID).fadeOut(100);
+        }
     });
 });
 
@@ -73,6 +78,7 @@ $(function() {
     var toExpand1 = $("li ~ .DashNote").attr('id');
     //alert(expandRowClass + " " + toExpand1);
 
+
     /*
     $(expandRowClass).click(function() {
         $('#DashNote1').toggle();
@@ -80,7 +86,7 @@ $(function() {
         //var expandRow = $(this).attr('id');
         //var toExpand = $("li ~ .DashNote").attr('id');
     });*/
-    $('#expandRow1').click(function() {
+    /*$('#expandRow1').click(function() {
         $('#DashNote1').toggle();
     });
     $('#expandRow2').click(function() {
@@ -94,11 +100,17 @@ $(function() {
     });
     $('#expandRow5').click(function() {
         $('#DashNote5').toggle();
-    });
+    });*/
 });
 
 $(function() {
     $('#allContacts').click(function() {
         $('.allNotes').toggle();
     });
+});
+
+$(document).ready(function(){
+    for (var i = 1; i <= 5; i++){
+        $('#toExpandAI' + i).fadeOut(0);
+    }
 });
