@@ -58,7 +58,7 @@ $(function() {
 
 /** ******************* For Dashboard *************************/
 
-$(function(){
+$(function test(){
     $('.AIClass').click(function() {
         var clickedID=$(this).attr('id');
         var test = $("li ~ .DashAI").attr('id');
