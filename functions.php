@@ -314,23 +314,33 @@
             } else {
                 $numberOfActionItems = mysqli_num_rows($userActionItems);
 
-                print "<ul class='actionItemsList'><li><h4>Total Action Items: $numberOfActionItems</h4></li></ul>";
+                print "<h4 style='padding-left: 25px;'>Total Action Items: $numberOfActionItems</h4>";
 
                 for($i=1; $i<=$numberOfActionItems; $i++) {
-                    print "Test Upload";
-                    if ($row = mysqli_fetch_array($userNotes)) {
+                    if ($row = mysqli_fetch_array($userActionItems)) {
                         $actionDateTime = strtotime($row['ActionItemCreated']);
                         $actionDateTime = date("m/d/Y h:i a", $actionDateTime);
 
                         print "
-                            <ul class='ActionItems'>
+                            <ul class='actionItemsList'>
                                 <li>
-                                    <a href='#' id='expandRow$i' style='color: #E00122'>Action Item $i</a>
-                                    <b>Business: </b><a href='business.php?BusinessID=" . $row['BusinessID'] . "'>" . $row['BusinessName'] . "</a>&nbsp&nbsp&nbsp&nbsp&nbsp
-                                    <b>Date:</b> " . $actionDateTime . "
+                                    <a href='#' id='ExpandAI$i' class='AIClass' style='color: #E00122'>Action Item $i</a>
+                                    <b>Business: </b><a href='business.php?BusinessID=" . $row['BusinessID'] . "'>" . $row['BusinessName'] . "</a><br />
+                                    <div style='text-align: center;'><b>Date:</b> " . $actionDateTime . "</div>
                                 </li>
+                                <div id='toExpandAI$i' class='DashAI'>
+                                    <ul>
+                                        <li><b>Employee:</b> <a href='employee.php?EmployeeID=" . $row['employeeID'] . "'>" . $row['FirstName'] . " " . $row['LastName'] . "</a></li>
+                                            <ul>
+                                                <li><b>Phone #:</b> " . $row['Phone'] . " ext: " . $row['Ext'] . "</li>
+                                                <li><b>Email:</b> <a href='mailto:" . $row['Email'] . "'>" . $row['Email'] . "</a></li>
+                                            </ul>
+                                        <li><b>Interaction Type:</b> " . $row['InteractionType'] . "</li>
+                                        <li><b>Notes:</b><br /><div class='notes'> " . $row['Note'] . "</div></li>
+                                    </ul>
+                                </div>
                             </ul>
-                        ";
+                        "; //style='display:none;'
 
                     }
                 }
@@ -340,7 +350,7 @@
             print "ERROR IN ACTION ITEMS!";
         }
 
-        print "<br /><hr /><hr /><br />";
+        print "<br /><hr /><hr /><hr /><hr /><br />";
         /////////////////////////////////////////////////////////////////////////
 		print "<h3>Recent Contacts:</h3>";
 		// Pull 
@@ -362,11 +372,11 @@
                         print "
                             <ul class='recentContacts'>
                                 <li>
-                                    <a href='#' id='expandRow$i' style='color: #E00122'>Note $i</a>
-                                    <b>Business: </b><a href='business.php?BusinessID=" . $row['BusinessID'] . "'>" . $row['BusinessName'] . "</a>&nbsp&nbsp&nbsp&nbsp&nbsp
-                                    <b>Date:</b> " . $datetime . "
+                                    <a href='#' class='expandRow' id='DashRow$i' style='color: #E00122'>Note $i</a>
+                                    <b>Business: </b><a href='business.php?BusinessID=" . $row['BusinessID'] . "'>" . $row['BusinessName'] . "</a><br />
+                                    <div style='margin-left: 60px;'><b>Date:</b> " . $datetime . "</div>
                                 </li>
-                                <div class=DashNote$i style='display:none;'>
+                                <div class='DashNote' id='toDashRow$i' style='display:none;'>
                                     <ul>
                                         <li><b>Employee:</b> <a href='employee.php?EmployeeID=" . $row['employeeID'] . "'>" . $row['FirstName'] . " " . $row['LastName'] . "</a></li>
                                             <ul>
