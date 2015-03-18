@@ -346,7 +346,12 @@
 
                         $assocActionItemsQuery = assocActionItemsQuery($OriginalActionItemID, $NoteID);
 
-                        print "<p style:'color: red;'> test " + $NoteID + "</p>";
+                        if($assocActionItems = mysqli_query($dbc, $assocActionItemsQuery)){
+                            print "Rows: " + mysqli_num_rows($assocActionItems) + ".";
+                        }
+                        else {
+                            print "Associated Error";
+                        }
 
 /*
                         if($assocActionItems = mysqli_query($dbc, $assocActionItemsQuery)) {
