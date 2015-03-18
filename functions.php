@@ -365,28 +365,22 @@
                                         <li><b>Notes:</b><br /><div class='notes'> " . $row['Note'] . "</div></li>
                         "; //style='display:none;'
 
-                        print "<li><b>Item History: </b></li>";
+                        print "<li><b>Item History: </b>";
 
                         // Pull all associtated Action Item Data
                         $OriginalActionItemID = $row['OriginalActionItemID'];
                         $NoteID = $row['NoteID'];
 
                         $assocActionItemsQuery = pullAssocActionItems($OriginalActionItemID, $NoteID);
-/*
 
                         if($assocActionItems = mysqli_query($dbc, $assocActionItemsQuery)) {
-                            if(mysqli_num_rows($assocActionItems)== 0) {
-                                print "This Action Item has no history to display.</li>";
-                            }
-                            else {
-                                $numberOfAssocAI = mysqli_num_rows($assocActionItems);
-                                print "This item has $numberOfAssocAI history item(s)";
-                                for($j=1; $j <= $numberOfAssocAI; j++) {
-
-                                }
+                            if(mysqli_num_rows($assocActionItems) == 0) {
+                                print 'You do not have any Action Items at this time.</li>';
+                            } else {
+                                print 'This item has ActionItem History.</li>';
                             }
                         }
-*/
+
                         print "
                                     </ul>
                                 </div>
