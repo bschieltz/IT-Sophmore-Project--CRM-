@@ -98,7 +98,7 @@
     }
     /****************************************************************************************/
     // Pull all items associated to a given Action Item
-    function assocActionItemsQuery($OriginalActionItemID, $NoteID) {
+    function pullAssocActionItems($OriginalActionItemID, $NoteID) {
         $OriginalActionItemID = $OriginalActionItemID;
         $NoteID = $NoteID;
 
@@ -346,7 +346,7 @@
 
                         print "<p>original $OriginalActionItemID </p><p>NoteID: $NoteID</p>";
 
-                        $assocActionItemsQuery = assocActionItemsQuery($OriginalActionItemID, $NoteID);
+                        $assocActionItemsQuery = pullAssocActionItems($OriginalActionItemID, $NoteID);
 
                         if($assocActionItems = mysqli_query($dbc, $assocActionItemsQuery)){
                             print "Rows: " + mysqli_num_rows($assocActionItems) + ".";
