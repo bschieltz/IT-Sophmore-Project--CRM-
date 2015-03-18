@@ -75,10 +75,10 @@ $(function() {
 
 
     $('#expandRow1').click(function() {
-        //var expandRow = $(this).attr('id');
-        //var toExpand = $("li ~ .DashNote").attr('id');
         $('.DashNote1').toggle();
         //alert(toExpand + " " + toExpand1);
+        //var expandRow = $(this).attr('id');
+        //var toExpand = $("li ~ .DashNote").attr('id');
     });
     $('#expandRow2').click(function() {
         $('.DashNote2').toggle();
