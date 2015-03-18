@@ -346,19 +346,9 @@
                         $OriginalActionItemID = $row['OriginalActionItemID'];
                         $NoteID = $row['NoteID'];
 
-
                         $assocActionItemsQuery = pullAssocActionItems($OriginalActionItemID, $NoteID);
 
-
-
-
-
-
-
-
-
-
-
+                        print "<p>$assocActionItemsQuery</p>";
 
                         // Convert DateTime to something usable
                         $actionDateTime = strtotime($row['ActionItemCreated']);
@@ -380,11 +370,12 @@
                                             </ul>
                                         <li><b>Interaction Type:</b> " . $row['InteractionType'] . "</li>
                                         <li><b>Notes:</b><br /><div class='notes'> " . $row['Note'] . "</div></li>
-
                                     </ul>
                                 </div>
                             </ul>
                         "; //style='display:none;'
+
+
 
                     }
                 }
