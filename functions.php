@@ -322,7 +322,7 @@
                                     <b>Business: </b><a href='business.php?BusinessID=" . $row['BusinessID'] . "'>" . $row['BusinessName'] . "</a>&nbsp&nbsp&nbsp&nbsp&nbsp
                                     <b>Date:</b> " . $actionDateTime . "
                                 </li>
-                                <div class=DashAI$i style='display:none;'>
+                                <div class=DashAI$i >
                                     <ul>
                                         <li><b>Employee:</b> <a href='employee.php?EmployeeID=" . $row['employeeID'] . "'>" . $row['FirstName'] . " " . $row['LastName'] . "</a></li>
                                             <ul>
@@ -334,7 +334,7 @@
                                     </ul>
                                 </div>
                             </ul>
-                        ";
+                        "; //style='display:none;'
 
                     }
                 }
