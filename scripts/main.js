@@ -58,13 +58,6 @@ $(function() {
 
 /** ******************* For Dashboard *************************/
 $(function() {
-    var clickedItem = $("div[class^=Dash]");
-    var expandItem = $(li + div);
-
-    $(clickedItem).click(function() {
-        expandItem.toggle();
-    });
-    /*
     $('#expandRow1').click(function() {
         $('.DashNote1').toggle();
     });
@@ -80,7 +73,6 @@ $(function() {
     $('#expandRow5').click(function() {
         $('.DashNote5').toggle();
     });
-    */
 });
 
 $(function() {
