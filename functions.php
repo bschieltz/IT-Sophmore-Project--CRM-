@@ -366,12 +366,13 @@
                         "; //style='display:none;'
 
                         print "<li><b>Item History: </b></li>";
-/*
+
                         // Pull all associtated Action Item Data
                         $OriginalActionItemID = $row['OriginalActionItemID'];
                         $NoteID = $row['NoteID'];
 
                         $assocActionItemsQuery = pullAssocActionItems($OriginalActionItemID, $NoteID);
+/*
 
                         if($assocActionItems = mysqli_query($dbc, $assocActionItemsQuery)) {
                             if(mysqli_num_rows($assocActionItems)== 0) {
