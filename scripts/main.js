@@ -71,7 +71,7 @@ $(function() {
     var expandRowClass = $('.expandRow').attr('id');
 
     var toExpand1 = $("li ~ .DashNote").attr('id');
-    alert(expandRowClass + " " + toExpand1);
+    //alert(expandRowClass + " " + toExpand1);
 
     /*
     $(expandRowClass).click(function() {
