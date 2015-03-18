@@ -372,7 +372,7 @@
                         print "
                             <ul class='recentContacts'>
                                 <li>
-                                    <a href='#' id='expandRow$i' class='expandRowC' style='color: #E00122'>Note $i</a>
+                                    <a href='#' id='expandRow$i' class='expandRow' style='color: #E00122'>Note $i</a>
                                     <b>Business: </b><a href='business.php?BusinessID=" . $row['BusinessID'] . "'>" . $row['BusinessName'] . "</a><br />
                                     <div style='margin-left: 60px;'><b>Date:</b> " . $datetime . "</div>
                                 </li>
