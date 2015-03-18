@@ -73,7 +73,7 @@ $(function() {
 
     $('#expandRow1').click(function() {
         $('.DashNote1').toggle();
-        alert(expandRow);
+        //alert(expandRow);
     });
     $('#expandRow2').click(function() {
         $('.DashNote2').toggle();
