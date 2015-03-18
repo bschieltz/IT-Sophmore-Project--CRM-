@@ -402,11 +402,11 @@
                         print "
                             <ul class='recentContacts'>
                                 <li>
-                                    <a href='#' id='expandRow$i' style='color: #E00122'>Note $i</a>
+                                    <a href='#' class='expandRow' id='DashRow$i' style='color: #E00122'>Note $i</a>
                                     <b>Business: </b><a href='business.php?BusinessID=" . $row['BusinessID'] . "'>" . $row['BusinessName'] . "</a>&nbsp&nbsp&nbsp&nbsp&nbsp
                                     <b>Date:</b> " . $datetime . "
                                 </li>
-                                <div class=DashNote$i style='display:none;'>
+                                <div class='DashNote' id='toDashRow$i' style='display:none;'>
                                     <ul>
                                         <li><b>Employee:</b> <a href='employee.php?EmployeeID=" . $row['employeeID'] . "'>" . $row['FirstName'] . " " . $row['LastName'] . "</a></li>
                                             <ul>
