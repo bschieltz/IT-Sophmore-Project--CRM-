@@ -72,7 +72,28 @@ $(function test(){
     });
 });
 
+
+$(function(){
+    $('.AIClass').click(function() {
+        var clickedID=$(this).attr('id');
+        var test = $("li ~ .DashAI").attr('class');
+        //var toExpand=$(clickedID).nextall(':has(.DashAI):first)');
+        alert(test);
+    });
+});
+
 $(function() {
+    var expandRowClass = $('.expandRow').attr('class');
+
+    var toExpand1 = $("li ~ .DashNote").attr('class');
+    alert(expandRowClass + " " + toExpand1);
+
+
+    $('#expandRow1').click(function() {
+        var expandRow = $(this).attr('id');
+        var toExpand = $("li ~ .DashNote").attr('id');
+        $(toExpand).toggle();
+        //alert(expandRow + " " + toExpand);
     var expandRowClass = $('.expandRow').attr('id');
 
     var toExpand1 = $("li ~ .DashNote").attr('id');
