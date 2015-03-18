@@ -115,17 +115,18 @@
 
     /****************************************************************************************/
     // Display Business List
+    // Used for searching, grabs search from URL GET
 
     function displayBusinessList()
     {
-        include('includes/mysqli_connect.php');
-        $searchString = $_GET['Search'];
+        include('includes/mysqli_connect.php'); // connect to database
+        $searchString = $_GET['Search']; // get search string
         $businessListQuery = "SELECT BusinessID, BusinessName
                   FROM tbusiness
                   WHERE BusinessName like '%$searchString%'";
 
         $businessList = mysqli_query($dbc, $businessListQuery) or die("Error: ".mysqli_error($dbc));
-        for ($i=0; $i <= mysqli_num_rows($businessList); $i++) {
+        for ($i=0; $i <= mysqli_num_rows($businessList); $i++) { // repeat for each business matching search, create unordered list
             if($row = mysqli_fetch_array($businessList)) {
                 print '<li><a href="business.php?BusinessID=' . $row['BusinessID'] . '">' . $row['BusinessName'] . '</a></li>';
             }
@@ -135,6 +136,7 @@
 
     /****************************************************************************************/
     // Query to Push Business
+    // used for both edit and add functions
 
     function pushBusiness($businessID,$businessName,$primaryContact,$primaryPhoneNumber,$notes,$street1,$street2,$zip_code) {
         include('includes/mysqli_connect.php');
@@ -144,18 +146,18 @@
         /* Print Errors for correction.  Changes will still display on the page but are not committed to the database if this function returns false*/
 
         if ($valid) {
-            if ($businessID > 0) { // edits business
+            if ($businessID > 0) { // if there is a business id then it is an edit submission
                 $updateQuery = "UPDATE tbusiness
                                 SET BusinessName = '$businessName'
                                    ,PrimaryContact = '$primaryContact'
                                    ,`PrimaryPhone#` = '$primaryPhoneNumber'
                                    ,Notes = '$notes'
                                 WHERE BusinessID = $businessID";
-                if (mysqli_query($dbc, $updateQuery)) {
+                if (mysqli_query($dbc, $updateQuery)) { // if update is successful, find the zip code id for address updating
                     $updateQuery = "SELECT ZipsID
                                     FROM tzips
                                     WHERE zip_code = $zip_code";
-                    if ($zip = mysqli_query($dbc, $updateQuery)) {
+                    if ($zip = mysqli_query($dbc, $updateQuery)) { // if zip code id found update address
                         $row = mysqli_fetch_array($zip);
                         $zipID = $row['ZipsID'];
                         $updateQuery = "UPDATE taddress
@@ -163,7 +165,7 @@
                                            ,Street2 = '$street2'
                                            ,ZipsID = '$zipID'
                                         WHERE BusinessID = $businessID";
-                        if (mysqli_query($dbc, $updateQuery)) {
+                        if (mysqli_query($dbc, $updateQuery)) { // return true
                             print'<p>Record Updated</p>';
                             return array(true, $businessID);
                         }
@@ -173,23 +175,23 @@
                 $updateQuery = "INSERT INTO tbusiness
                                 (BusinessName,PrimaryContact,`PrimaryPhone#`,Notes)
                                 VALUES (\"$businessName\",\"$primaryContact\",\"$primaryPhoneNumber\",\"$notes\")";
-                if (mysqli_query($dbc, $updateQuery)) {
+                if (mysqli_query($dbc, $updateQuery)) { // if add is true then grab new business id based on last record added to database
                     $updateQuery = "SELECT BusinessID
                                     FROM tbusiness
                                     ORDER BY BusinessID DESC LIMIT 1";
-                    if ($business = mysqli_query($dbc, $updateQuery)){
+                    if ($business = mysqli_query($dbc, $updateQuery)){ // if business found then grab ID and lookup zip code id
                         $row = mysqli_fetch_array($business);
                         $businessID = $row['BusinessID'];
                         $updateQuery = "SELECT ZipsID
                                         FROM tzips
                                         WHERE zip_code = $zip_code";
-                        if ($zip = mysqli_query($dbc, $updateQuery)) {
+                        if ($zip = mysqli_query($dbc, $updateQuery)) {  // use zip id to add new address to database
                             $row = mysqli_fetch_array($zip);
                             $zipID = $row['ZipsID'];
                             $updateQuery = "INSERT INTO taddress
                                             (BusinessID,Street1,Street2,ZipsID)
                                             VALUES ($businessID,\"$street1\",\"$street2\",$zipID)";
-                            if (mysqli_query($dbc, $updateQuery)) {
+                            if (mysqli_query($dbc, $updateQuery)) { // if everything is added then return true
                                 print'<p>Record Added</p>';
                                 return array(true, $businessID);
                             }
@@ -198,12 +200,15 @@
                 }
             }
         }
+
+        // defaults to false.  Only reaches this line if neither return true triggers
         print'<p>Record NOT Updated</p>';
         return array(False, $businessID);
     }
 
     /****************************************************************************************/
     // Query to Pull Business
+    // only sets up query, does not call it
 
     function pullBusiness($businessID){
         $businessQuery = "SELECT BusinessName, PrimaryContact, `PrimaryPhone#`, Notes
@@ -234,6 +239,7 @@
 
     /****************************************************************************************/
     // Query to Push Employee
+    // Similar to business push, updates or adds employee based employeeID being zero or greater
 
     function pushEmployee($businessID,$employeeID,$jobTitle,$titleID,$firstName,$lastName,$phoneNumber,$extension,$email,$personalNote) {
         include('includes/mysqli_connect.php');
@@ -243,7 +249,7 @@
         /* Print Errors for correction.  Changes will still display on the page but are not committed to the database if this function returns false*/
 
         if ($valid) {
-            if ($employeeID > 0) { // edits business
+            if ($employeeID > 0) { // edits employee if employeeID is greater than zero
                 $updateQuery = "UPDATE temployee
                                 SET JobTitle = '$jobTitle'
                                    ,TitleID = $titleID
@@ -254,19 +260,19 @@
                                    ,Email = '$email'
                                    ,PersonalNote = '$personalNote'
                                 WHERE EmployeeID = $employeeID";
-                if (mysqli_query($dbc, $updateQuery)) {
+                if (mysqli_query($dbc, $updateQuery)) { //if successful
                     print'<p>Record Updated</p>';
                     return array(true, $employeeID);
                 }
-            } else { // adds business
+            } else { // adds employee
                 $updateQuery = "INSERT INTO temployee
                                 (BusinessID,Active,JobTitle,TitleID,FirstName,LastName,PhoneNumber,Extension,Email,PersonalNote)
                                 VALUES ($businessID,1,\"$jobTitle\",$titleID,\"$firstName\",\"$lastName\",\"$phoneNumber\",\"$extension\",\"$email\",\"$personalNote\")";
-                    if (mysqli_query($dbc, $updateQuery)) {
+                    if (mysqli_query($dbc, $updateQuery)) {  // if successful get employee by looking up most recent record added to employee table
                         $updateQuery = "SELECT EmployeeID
                                     FROM temployee
                                     ORDER BY EmployeeID DESC LIMIT 1";
-                        if ($employee = mysqli_query($dbc, $updateQuery)) {
+                        if ($employee = mysqli_query($dbc, $updateQuery)) { // use found employee id for return array
                             $row = mysqli_fetch_array($employee);
                             $employeeID = $row['EmployeeID'];
                             print'<p>Record Added</p>';

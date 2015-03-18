@@ -129,7 +129,7 @@ h1 a {
 #content a {
 	text-decoration:none;
 	color:#333;
-	border-bottom:1px solid #eee;
+	/*border-bottom:1px solid #eee;*/
 }
 
 #content a:hover {
@@ -237,7 +237,7 @@ blockquote {
 }
 #content li {
 	padding:10px;
-	border-bottom:1px solid #eee;
+	/*border-bottom:1px solid #eee;*/
 }
 
 img {
