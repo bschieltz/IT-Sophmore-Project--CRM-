@@ -346,18 +346,9 @@
                         $OriginalActionItemID = $row['OriginalActionItemID'];
                         $NoteID = $row['NoteID'];
 
-                        print "<p>original $OriginalActionItemID </p><p>NoteID: $NoteID</p>";
 
                         $assocActionItemsQuery = pullAssocActionItems($OriginalActionItemID, $NoteID);
 
-                        if($assocActionItems = mysqli_query($dbc, $assocActionItemsQuery)){
-                            print "Rows: " + mysqli_num_rows($assocActionItems) + ".";
-                        }
-                        else {
-                            print "Assoc Error";
-                        }
-
-/*
                         if($assocActionItems = mysqli_query($dbc, $assocActionItemsQuery)) {
                             if(mysqli_num_rows($assocActionItems) == 0) {
                                 print '<p style="color:red">No Other Action Items are associated with this.</p>';
@@ -369,9 +360,10 @@
                                         // Print Associated Action Items Stuff
 
                                         // Convert DateTime to something usable
-                                        $AIDateTime = strtotime($row['AIDate']);
+                                        $AIDateTime = strtotime($assocRow['AIDate']);
                                         $AIDateTime = date("m/d/Y h:i a", $AIDateTime);
 
+                                        print "<p>$assocRow['AIDateTime']</p>";
 
                                     }
                                 }
@@ -379,7 +371,6 @@
                         }
 
 
-*/
 
 
 
