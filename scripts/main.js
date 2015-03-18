@@ -60,7 +60,7 @@ $(function() {
 
 $(function(){
     $('.AIClass').click(function() {
-        var clickedID=$(this).closest('div');
+        var clickedID=$(this).closest('.DashAI');
         //var toExpand=$(clickedID).nextall(':has(.DashAI):first)');
         alert(clickedID);
     });
