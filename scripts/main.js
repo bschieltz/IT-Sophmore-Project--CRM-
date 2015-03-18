@@ -61,13 +61,16 @@ $(function() {
 $(function(){
     $('.AIClass').click(function() {
         var clickedID=$(this).attr('id');
-        var test = $("li ~ .DashAI").attr('id');
+        var test = $("li ~ .DashAI").attr('class');
         //var toExpand=$(clickedID).nextall(':has(.DashAI):first)');
         alert(test);
     });
 });
 
 $(function() {
+    //var expandRow = $(this).attr('id');
+    //var toExpand = $("li ~ .DashNote").
+
     $('#expandRow1').click(function() {
         $('.DashNote1').toggle();
     });
