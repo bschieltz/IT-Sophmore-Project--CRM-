@@ -59,7 +59,7 @@ $(function() {
 /** ******************* For Dashboard *************************/
 $(function() {
     $('#expandRow1').click(function() {
-        $('.DashNote1').toggle();
+        $('.DashNote1').fadeIn();
     });
     $('#expandRow2').click(function() {
         $('.DashNote2').toggle();
