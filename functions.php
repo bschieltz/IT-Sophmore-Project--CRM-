@@ -318,10 +318,21 @@
                         print "
                             <ul class='actionItemsList'>
                                 <li>
-                                    <a href='#' id='expandRow$i' style='color: #E00122'>Action Item $i</a>
+                                    <a href='#' id='expandAI$i' style='color: #E00122'>Action Item $i</a>
                                     <b>Business: </b><a href='business.php?BusinessID=" . $row['BusinessID'] . "'>" . $row['BusinessName'] . "</a>&nbsp&nbsp&nbsp&nbsp&nbsp
                                     <b>Date:</b> " . $actionDateTime . "
                                 </li>
+                                <div class=DashAI$i style='display:none;'>
+                                    <ul>
+                                        <li><b>Employee:</b> <a href='employee.php?EmployeeID=" . $row['employeeID'] . "'>" . $row['FirstName'] . " " . $row['LastName'] . "</a></li>
+                                            <ul>
+                                                <li><b>Phone #:</b> " . $row['Phone'] . " ext: " . $row['Ext'] . "</li>
+                                                <li><b>Email:</b> <a href='mailto:" . $row['Email'] . "'>" . $row['Email'] . "</a></li>
+                                            </ul>
+                                        <li><b>Interaction Type:</b> " . $row['InteractionType'] . "</li>
+                                        <li><b>Notes:</b><br /><div class='notes'> " . $row['Note'] . "</div></li>
+                                    </ul>
+                                </div>
                             </ul>
                         ";
 
@@ -333,7 +344,7 @@
             print "ERROR IN ACTION ITEMS!";
         }
 
-        print "<br /><hr /><hr /><br />";
+        print "<br /><hr /><hr /><hr /><hr /><br />";
         /////////////////////////////////////////////////////////////////////////
 		print "<h3>Recent Contacts:</h3>";
 		// Pull 
