@@ -73,26 +73,28 @@ $(function() {
     var toExpand1 = $("li ~ .DashNote").attr('id');
     alert(expandRowClass + " " + toExpand1);
 
-
+    /*
     $(expandRowClass).click(function() {
         $('#DashNote1').toggle();
         alert(toExpand + " " + toExpand1);
         //var expandRow = $(this).attr('id');
         //var toExpand = $("li ~ .DashNote").attr('id');
+    });*/
+    $('#expandRow1').click(function() {
+        $('#DashNote1').toggle();
     });
-    /*
     $('#expandRow2').click(function() {
-        $('.DashNote2').toggle();
+        $('#DashNote2').toggle();
     });
     $('#expandRow3').click(function() {
-        $('.DashNote3').toggle();
+        $('#DashNote3').toggle();
     });
     $('#expandRow4').click(function() {
-        $('.DashNote4').toggle();
+        $('#DashNote4').toggle();
     });
     $('#expandRow5').click(function() {
-        $('.DashNote5').toggle();
-    });*/
+        $('#DashNote5').toggle();
+    });
 });
 
 $(function() {
