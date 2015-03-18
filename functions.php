@@ -369,12 +369,14 @@
                                         <li><b>Notes:</b><br /><div class='notes'> " . $row['Note'] . "</div></li>";
 
 
-/*                        if($assocActionItems = mysqli_query($dbc, $assocActionItemsQuery)) {
+                        if($assocActionItems = mysqli_query($dbc, $assocActionItemsQuery)) {
                             if(mysqli_num_rows($assocActionItems) == 0) {
-                                print '<p style="color:red">No Other Action Items are associated with this.</p>';
+                                print '<li style="color:red">No Other Action Items are associated with this.</li>';
                             } else {
-                                $numAssocItems =  mysqli_num_rows($assocActionItems);
+                                print "<li><b>Action Item History</b></li>";
 
+                                $numAssocItems =  mysqli_num_rows($assocActionItems);
+/*
                                 for($j=1; j<=$numAssocItems; j++) {
                                     if($assocRow = mysqli_fetch_array($assocActionItems)) {
                                         // Print Associated Action Items Stuff
@@ -383,17 +385,16 @@
                                         $AIDateTime = strtotime($row['AIDate']);
                                         $AIDateTime = date("m/d/Y h:i a", $AIDateTime);
                                         print "
-                                            <h4>Action Item History</h4>
                                             <ul>
                                                 <li>Test $j</li>
                                             </ul>
                                         ";
-
+*/
                                     }
                                 }
                             }
                         }
-*/
+
                         print "      </ul>
                                 </div>
                             </ul>
