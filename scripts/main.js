@@ -58,12 +58,12 @@ $(function() {
 
 /** ******************* For Dashboard *************************/
 
-$function(){
+$(function(){
     $('.AIClass').click(function() {
         var clickedID=$this.attr('id');
         alert(clickedID);
     });
-}
+});
 
 $(function() {
     $('#expandRow1').click(function() {
