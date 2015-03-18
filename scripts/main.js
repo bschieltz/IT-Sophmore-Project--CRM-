@@ -75,7 +75,7 @@ $(function() {
         $(toExpand).toggle();
     });*/
 
-    $('expandRow').click(function() {
+    $(expandRow).click(function() {
         $('.DashNote1').toggle();
     });
     $('#expandRow2').click(function() {
