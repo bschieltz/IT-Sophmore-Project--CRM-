@@ -344,6 +344,8 @@
                         $OriginalActionItemID = $row['OriginalActionItemID'];
                         $NoteID = $row['NoteID'];
 
+                        print "<p>OAIID:" + $OriginalActionItemID + "</p><p>NoteID: " + $NoteID + "</p>";
+
                         $assocActionItemsQuery = assocActionItemsQuery($OriginalActionItemID, $NoteID);
 
                         if($assocActionItems = mysqli_query($dbc, $assocActionItemsQuery)){
