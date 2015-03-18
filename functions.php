@@ -342,13 +342,6 @@
 
                 for($i=1; $i<=$numberOfActionItems; $i++) {
                     if ($row = mysqli_fetch_array($userActionItems)) {
-                        // Pull all associtated Action Item Data
-                        $OriginalActionItemID = $row['OriginalActionItemID'];
-                        $NoteID = $row['NoteID'];
-
-                        $assocActionItemsQuery = pullAssocActionItems($OriginalActionItemID, $NoteID);
-
-                        print "<p>$assocActionItemsQuery</p>";
 
                         // Convert DateTime to something usable
                         $actionDateTime = strtotime($row['ActionItemCreated']);
@@ -370,13 +363,34 @@
                                             </ul>
                                         <li><b>Interaction Type:</b> " . $row['InteractionType'] . "</li>
                                         <li><b>Notes:</b><br /><div class='notes'> " . $row['Note'] . "</div></li>
+                        "; //style='display:none;'
+
+                        print "<li><b>Item History: </b>";
+
+                        // Pull all associtated Action Item Data
+                        $OriginalActionItemID = $row['OriginalActionItemID'];
+                        $NoteID = $row['NoteID'];
+
+                        $assocActionItemsQuery = pullAssocActionItems($OriginalActionItemID, $NoteID);
+
+                        if($assocActionItems = mysqli_query($dbc, $assocActionItemsQuery)) {
+                            if(mysqli_num_rows($assocActionItems)== 0) {
+                                print "This Action Item has no history to display.</li>";
+                            }
+                            else {
+                                $numberOfAssocAI = mysqli_num_rows($assocActionItems);
+                                print "This item has $numberOfAssocAI history item(s)";
+                                for($j=1; $j <= $numberOfAssocAI; j++) {
+
+                                }
+                            }
+                        }
+
+                        print "
                                     </ul>
                                 </div>
                             </ul>
-                        "; //style='display:none;'
-
-
-
+                        ";
                     }
                 }
             }
