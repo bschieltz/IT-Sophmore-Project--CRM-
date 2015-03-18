@@ -76,6 +76,7 @@ $(function() {
     });*/
 
     $(expandRow).click(function() {
+        alert(expandRow);
         $('.DashNote1').toggle();
     });
     $('#expandRow2').click(function() {
