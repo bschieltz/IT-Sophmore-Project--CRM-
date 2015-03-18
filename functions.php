@@ -346,6 +346,7 @@
 
                         $assocActionItemsQuery = assocActionItemsQuery($OriginalActionItemID, $NoteID);
 
+
                         if($assocActionItems = mysqli_query($dbc, $assocActionItemsQuery)){
                             print "Rows: " + mysqli_num_rows($assocActionItems) + ".";
                         }
