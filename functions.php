@@ -344,7 +344,7 @@
                         $OriginalActionItemID = $row['OriginalActionItemID'];
                         $NoteID = $row['NoteID'];
 
-                        print "<p>OAIID:" + $OriginalActionItemID + "</p><p>NoteID: " + $NoteID + "</p>";
+                        print "<p>original $OriginalActionItemID </p><p>NoteID: $NoteID</p>";
 
                         $assocActionItemsQuery = assocActionItemsQuery($OriginalActionItemID, $NoteID);
 
