@@ -71,12 +71,11 @@ $(function() {
     var expandRow = $(this).attr('id');
     var toExpand = $("li ~ .DashNote").attr('class');
 
-    $(expandRow).click(fucntion() {
+    /*$(expandRow).click(fucntion() {
         $(toExpand).toggle();
-    });
+    });*/
 
-    /*
-    $('#expandRow1').click(function() {
+    $('expandRow').click(function() {
         $('.DashNote1').toggle();
     });
     $('#expandRow2').click(function() {
@@ -90,7 +89,7 @@ $(function() {
     });
     $('#expandRow5').click(function() {
         $('.DashNote5').toggle();
-    });*/
+    });
 });
 
 $(function() {
