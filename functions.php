@@ -295,20 +295,53 @@
 		}
 		
 		print "<h2 style='color: #E00122;'>Welcome, $userFullName!</h2>";
-		
-		print "<br /><form action='notes.php' method='get'><input type='submit' value='Add new contact'  class='myButton'/></form><br />";
-		
-		print "<br />";
+
+        print "<br /><form action='notes.php' method='get'><input type='submit' value='Add New Interaction'  class='myButton'/></form>";
+        print "<form action='http://homepages.uc.edu/group1/business.php?CreateBusiness=True' method='get'><input type='submit' value='Add New Business'  class='myButton'/></form><br />";
+
+		print "<br /><br />";
 		
 		print "<h3>Current Action Items:</h3>";
 		
-		/*********** Action Items still need to be developed *********************/
-		print "<ul><li>Action Items still need to be developed!</li></ul><br />";
+		/***************************** Action Items  ************************************/
+		//print "<ul><li>Action Items still need to be developed!</li></ul><br />";
 
+        $userActionItemsQuery = pullUserActionItems($userID);
 
+        if($userActionItems = mysqli_query($dbc, $userActionItemsQuery)) {
+            if(mysqli_num_rows($userActionItems) == 0) {
+                print '<p style="color:red">You do not have any Action Items at this time.</p>';
+            } else {
+                $numberOfActionItems = mysqli_num_rows($userActionItems);
 
+                print "<ul class='actionItemsList'><li><h4>Total Action Items: $numberOfActionItems</h4></li></ul>";
 
+                for($i=1; $i<=$numberOfActionItems; $i++) {
+                    print "Test Upload";
+                    if ($row = mysqli_fetch_array($userNotes)) {
+                        $actionDateTime = strtotime($row['ActionItemCreated']);
+                        $actionDateTime = date("m/d/Y h:i a", $actionDateTime);
 
+                        print "
+                            <ul class='ActionItems'>
+                                <li>
+                                    <a href='#' id='expandRow$i' style='color: #E00122'>Action Item $i</a>
+                                    <b>Business: </b><a href='business.php?BusinessID=" . $row['BusinessID'] . "'>" . $row['BusinessName'] . "</a>&nbsp&nbsp&nbsp&nbsp&nbsp
+                                    <b>Date:</b> " . $actionDateTime . "
+                                </li>
+                            </ul>
+                        ";
+
+                    }
+                }
+            }
+        }
+        else {
+            print "ERROR IN ACTION ITEMS!";
+        }
+
+        print "<br /><hr /><hr /><br />";
+        /////////////////////////////////////////////////////////////////////////
 		print "<h3>Recent Contacts:</h3>";
 		// Pull 
 		$userNotesQuery = pullUserNotes($userID);
