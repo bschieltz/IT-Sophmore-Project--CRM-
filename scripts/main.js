@@ -62,7 +62,7 @@ $(function() {
     var expandItem = $(li + div);
 
     $(clickedItem).click(function() {
-        expandItem.css("border", "3px solid red");
+        expandItem.toggle();
     });
     /*
     $('#expandRow1').click(function() {
