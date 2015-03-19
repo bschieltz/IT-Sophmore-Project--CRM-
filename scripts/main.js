@@ -79,5 +79,6 @@ $(function() {
 $(document).ready(function(){
     for (var i = 1; i <= 5; i++){
         $('#toExpandAI' + i).fadeOut(0);
+        $('#toExpandAIH' + i).fadeOut(0);
     }
 });
