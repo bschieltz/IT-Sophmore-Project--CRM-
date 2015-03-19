@@ -379,12 +379,23 @@
                                 print 'You do not have any Action Items at this time.</li>';
                             } else {
                                 print "This item has Action Item $numHistoryItems history items.</li>";
-                                print "<ul>
-                                    <li>Test Item: </li>
-                                    </ul>
-                                ";
+                                for($j=1; $j <= $numHistoryItems; $j++) {
+                                    if($assocRow = mysqli_fetch_array($assocActionItems)) {
+                                        // Convert DateTime to something usable
+                                        $AIDateTime = strtotime($row['AIDate']);
+                                        $AIDateTime = date("m/d/Y h:i a", $AIDateTime);
 
+                                        print "
+                                            <ul class='actionItemsList'>
+                                                <a href='#' id='ExpandAI$j' class='AIClass' style='color: #E00122'>History Item $j</a>
+                                                <div id='toExpandAIH$j' class='DashAI'>
+                                                    <li>Test Item: </li>
+                                                </div>
+                                            </ul>
+                                        ";
 
+                                    }
+                                }
                             }
                         }
 
