@@ -105,10 +105,12 @@
         // Query to pull all the associated Action Items
         $assocActionItemsQuery = "
             SELECT tactionitem.NoteID, tactionitem.AssignedToUserID, tactionitem.originalactionitemID, tactionitem.DateTime as 'AIDate',
-              tnote.UserID as 'PreviousUser', tnote.Note as 'Note'
+              tnote.UserID as 'PreviousUserID', tuser.FirstName as 'pUserFirstName', tuser.LastName as 'pUserLastName',tnote.Note as 'Note'
             FROM tactionitem
               JOIN tnote
                 ON tactionitem.NoteID = tnote.NoteID
+              JOIN tuser
+                ON tnote.UserID = tuser.UserID
             WHERE tactionitem.OriginalActionItemID = $OriginalActionItemID
                 AND tactionitem.NoteID != $NoteID
             ORDER BY AIDate desc
@@ -384,12 +386,14 @@
                                         // Convert DateTime to something usable
                                         $AIDateTime = strtotime($assocRow['AIDate']);
                                         $AIDateTime = date("m/d/Y h:i a", $AIDateTime);
+                                        $pUserName = $assocRow['pUserFirstName'] + " " + $assocRow['pUserLastName'];
 
+                                        // Print History items related to this action item
                                         print "
                                             <ul class='actionItemsList'>
                                                 <a href='#' id='ExpandAIH$j' class='AIHClass' style='color: #E00122;'>History Item $j</a>
                                                 <div id='toExpandAIH$j' class='DashAI'>
-                                                    <li><b>User:</b>" . $assocRow['PreviousUser']  . "  &nbsp&nbsp&nbsp <b>Date:</b> $AIDateTime</li>
+                                                    <li><b>User:</b> $pUserName &nbsp&nbsp&nbsp <b>Date:</b> $AIDateTime</li>
                                                     <li><b>Notes: </b><br /><div class='notes'> " . $assocRow['Note'] . "</div></li>
                                                 </div>
                                             </ul>
