@@ -364,8 +364,8 @@
                                                 <li><b>Email:</b> <a href='mailto:" . $row['Email'] . "'>" . $row['Email'] . "</a></li>
                                             </ul>
                                         <li><b>Interaction Type:</b> " . $row['InteractionType'] . "</li>
-                                        <li><b>Notes:</b><br /><div class='notes'> " . $row['Note'] . "</div><br />
-                                            <h4>
+                                        <li><b>Notes:</b><br /><div class='notes'> " . $row['Note'] . "</div>
+                                            <h4 style='margin-left: 75px'>
                                                 <!-- Need to add Links -->
                                                 <a href=''>Add Note</a> |
                                                 <a href=''>Forward</a> |
