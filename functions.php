@@ -323,19 +323,19 @@
 		print "<h2 style='color: #E00122;'>Welcome, $userFullName!</h2>";
 
         print "<br /><form action='notes.php' method='get'><input type='submit' value='Add New Interaction'  class='myButton'/></form>";
-        print "<form action='http://homepages.uc.edu/group1/business.php?CreateBusiness=True' method='get'><input type='submit' value='Add New Business'  class='myButton'/></form><br />";
+        print "<form action='http://homepages.uc.edu/group1/business.php?CreateBusiness=True'><input type='submit' value='Add New Business'  class='myButton'/></form><br />";
 
 		print "<br /><br />";
 		
 		print "<h3>Current Action Items:</h3>";
 		
 		/***************************** Action Items  ************************************/
-		//print "<ul><li>Action Items still need to be developed!</li></ul><br />";
-
+        // Store Action Items query to variable
         $userActionItemsQuery = pullUserActionItems($userID);
 
+        // Run Action Items query
         if($userActionItems = mysqli_query($dbc, $userActionItemsQuery)) {
-            if(mysqli_num_rows($userActionItems) == 0) {
+            if(mysqli_num_rows($userActionItems) == 0) { // If no action items are present, print statement
                 print '<p style="color:red">You do not have any Action Items at this time.</p>';
             } else {
                 $numberOfActionItems = mysqli_num_rows($userActionItems);
@@ -380,7 +380,7 @@
                             if(mysqli_num_rows($assocActionItems) == 0) {
                                 print 'You do not have any Action Items at this time.</li>';
                             } else {
-                                print "This item has Action Item $numHistoryItems history items.</li>";
+                                print "This Action Item $numHistoryItems history items.</li>";
                                 for($j=1; $j <= $numHistoryItems; $j++) {
                                     if($assocRow = mysqli_fetch_array($assocActionItems)) {
                                         // Convert DateTime to something usable
