@@ -364,13 +364,15 @@
                                                 <li><b>Email:</b> <a href='mailto:" . $row['Email'] . "'>" . $row['Email'] . "</a></li>
                                             </ul>
                                         <li><b>Interaction Type:</b> " . $row['InteractionType'] . "</li>
-                                        <li><b>Notes:</b><br /><div class='notes'> " . $row['Note'] . "</div></li>
-                                        <p>
-                                            <!-- Need to add Links -->
-                                            <a href=''>Add Note</a> |
-                                            <a href=''>Forward</a> |
-                                            <a href=''>Mark Complete</a>
-                                        </p>
+                                        <li><b>Notes:</b><br /><div class='notes'> " . $row['Note'] . "</div><br />
+                                            <h4>
+                                                <!-- Need to add Links -->
+                                                <a href=''>Add Note</a> |
+                                                <a href=''>Forward</a> |
+                                                <a href=''>Mark Complete</a>
+                                            </h4>
+
+                                        </li>
                         "; //style='display:none;'
 
                         print "<li><b>Item History: </b>";
