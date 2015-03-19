@@ -386,7 +386,7 @@
                                         // Convert DateTime to something usable
                                         $AIDateTime = strtotime($assocRow['AIDate']);
                                         $AIDateTime = date("m/d/Y h:i a", $AIDateTime);
-                                        $pUserName = $assocRow['pUserFirstName'] + " " + $assocRow['pUserLastName'];
+                                        $pUserName = $assocRow['pUserFirstName'] . " " . $assocRow['pUserLastName'];
 
                                         // Print History items related to this action item
                                         print "
