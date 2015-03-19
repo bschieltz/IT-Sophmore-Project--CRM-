@@ -365,7 +365,7 @@
                                             </ul>
                                         <li><b>Interaction Type:</b> " . $row['InteractionType'] . "</li>
                                         <li><b>Notes:</b><br /><div class='notes'> " . $row['Note'] . "</div>
-                                            <h4 style='width: 50%; margin-left: auto; margin-right: auto; text-align: center;'>
+                                            <h4 style='width: 75%; margin-left: auto; margin-right: auto; text-align: center;'>
                                                 <!-- Need to add Links -->
                                                 <a href=''>Add Note</a> |
                                                 <a href=''>Forward</a> |
