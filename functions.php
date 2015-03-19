@@ -387,7 +387,7 @@
 
                                         print "
                                             <ul class='actionItemsList'>
-                                                <a href='#' id='ExpandAI$j' class='AIClass' style='color: #E00122'>History Item $j</a>
+                                                <a href='#' id='ExpandAI$i' class='AIHClass' style='color: #E00122'>History Item $j</a>
                                                 <div id='toExpandAIH$j' class='DashAI'>
                                                     <li>Test Item: </li>
                                                 </div>

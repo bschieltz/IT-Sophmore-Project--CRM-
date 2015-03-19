@@ -59,7 +59,7 @@ $(function() {
 /** ******************* For Dashboard *************************/
 
 $(function(){
-    $('.AIClass, .expandRow').click(function() {
+    $('.AIClass, .expandRow, .AIHClass').click(function() {
         var clickedID=$(this).attr('id');
         var expandID = '#to' + clickedID;
         if ($(expandID).css('display') == 'none') {
