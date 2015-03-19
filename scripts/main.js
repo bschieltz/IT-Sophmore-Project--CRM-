@@ -77,7 +77,7 @@ $(function() {
 });
 
 $(document).ready(function(){
-    for (var i = 1; i <= 5; i++){
+    for (var i = 1; i <= 50; i++){
         $('#toExpandAI' + i).fadeOut(0);
         $('#toExpandAIH' + i).fadeOut(0);
     }
