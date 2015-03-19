@@ -399,7 +399,7 @@
                                         print "
                                             <ul class='actionItemsList'>
                                                 <a href='#' id='ExpandAIH$j' class='AIHClass' style='color: #E00122;'>History Item $j</a>
-                                                <div id='toExpandAIH$j' class='DashAI'>
+                                                <div id='toExpandAIH$j' class='DashAI' style='display: none;'>
                                                     <li><b>User:</b> $pUserName &nbsp&nbsp&nbsp <b>Date:</b> $AIDateTime</li>
                                                     <li><b>Notes: </b><br /><div class='notes'> " . $assocRow['Note'] . "</div></li>
                                                 </div>
