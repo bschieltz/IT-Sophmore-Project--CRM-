@@ -365,6 +365,12 @@
                                             </ul>
                                         <li><b>Interaction Type:</b> " . $row['InteractionType'] . "</li>
                                         <li><b>Notes:</b><br /><div class='notes'> " . $row['Note'] . "</div></li>
+                                        <li>
+                                            <!-- Need to add Links -->
+                                            <a href=''>Add Note</a> |
+                                            <a href=''>Forward</a> |
+                                            <a href=''>Mark Complete</a>
+                                        </li>
                         "; //style='display:none;'
 
                         print "<li><b>Item History: </b>";
