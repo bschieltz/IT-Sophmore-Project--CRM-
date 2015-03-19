@@ -352,7 +352,7 @@
                         print "
                             <ul class='actionItemsList'>
                                 <li>
-                                    <a href='#' id='ExpandAI$i' class='AIClass' style='color: #E00122'>Action Item $i</a>
+                                    <h4><a href='#' id='ExpandAI$i' class='AIClass' style='color: #E00122'>Action Item $i</a></h4>
                                     <b>Business: </b><a href='business.php?BusinessID=" . $row['BusinessID'] . "'>" . $row['BusinessName'] . "</a><br />
                                     <div style='text-align: center;'><b>Date:</b> " . $actionDateTime . "</div>
                                 </li>
@@ -371,7 +371,6 @@
                                                 <a href=''>Forward</a> |
                                                 <a href=''>Mark Complete</a>
                                             </h4>
-
                                         </li>
                         "; //style='display:none;'
 
