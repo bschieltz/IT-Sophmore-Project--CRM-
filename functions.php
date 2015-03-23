@@ -251,16 +251,30 @@
     {
         include('includes/mysqli_connect.php');
         $searchString = $_GET['Search'];
-        $employeeListQuery = "SELECT EmployeeID, FirstName, LastName
+        $employeeListQuery = "SELECT EmployeeID, FirstName, LastName, concat(FirstName,' ',LastName) as FullName
                               FROM temployee
-                              WHERE Firstname like '%$searchString%' or LastName like '%$searchString%'";
+                              HAVING FullName like '%$searchString%'";
 
         $employeeList = mysqli_query($dbc, $employeeListQuery) or die("Error: ".mysqli_error($dbc));
-        for ($i=0; $i <= mysqli_num_rows($employeeList); $i++) {
-            if($row = mysqli_fetch_array($employeeList)) {
-                print '<li><a href="employee.php?EmployeeID=' . $row['EmployeeID'] . '">' . $row['FirstName'] . ' ' . $row['LastName'] . '</a></li>';
+        if (mysqli_num_rows($employeeList) > 0) {
+            for ($i=0; $i <= mysqli_num_rows($employeeList); $i++) {
+                if($row = mysqli_fetch_array($employeeList)) {
+                    print '<li><a href="employee.php?EmployeeID=' . $row['EmployeeID'] . '">' . $row['FirstName'] . ' ' . $row['LastName'] . '</a></li>';
+                }
             }
+        } else {
+            print '<p>No Results Found</p>';
         }
+    }
+
+    /****************************************************************************************/
+    // Query to Flip Active Status of an employee
+    function flipActive($active,$employeeID){
+        $active = ($active == 1 ? 0 : 1);
+        $updateQuery = "UPDATE temployee
+                        SET Active = $active
+                        WHERE EmployeeID = $employeeID";
+        mysqli_query($dbc, $updateQuery) or die("Error: ". $updateQuery);
     }
 
     /****************************************************************************************/
@@ -466,7 +480,7 @@
                     } else {
                     }
                 }
-                print "<a href='#' id='allContacts' style='color: #E00122; text-align: center;'>Toggle All Contacts</a>";
+                print "<a href='#' id='allContacts' style='color: #E00122; text-align: center;'>View All Contacts</a>";
                 print "<div class='allNotes' style='display:none;'>";
                 for ($i = 6; $i <= $numberOfNotes; $i++) {
                     if ($row = mysqli_fetch_array($userNotes)) {
