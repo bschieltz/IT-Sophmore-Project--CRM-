@@ -1,8 +1,8 @@
 <?php
 	// Block php errors from showing on site
 	//error_reporting(0);
-	
-	/****************************************************************************************/
+
+    /****************************************************************************************/
 
 	// Function to build and display the Login Form
 	function login_form() {
@@ -75,8 +75,9 @@
             SELECT tuser.UserID, InteractionType, Note, tbusiness.BusinessID as 'BusinessID',
                 BusinessName, temployee.employeeID as 'employeeID', temployee.FirstName as 'FirstName',
                 temployee.LastName as 'LastName', temployee.PhoneNumber as 'Phone', temployee.Extension as 'Ext',
-                temployee.Email as 'Email', personalNote as 'EmployeeNote', tnote.DateTime as 'NoteCreated', tactionitem.DateTime as 'ActionItemCreated',
-                ActionItemID, OriginalActionItemID, ReferanceID, AssignedToUserID, tactionitem.NoteID, actionComplete
+                temployee.Email as 'Email', personalNote as 'EmployeeNote', tnote.DateTime as 'NoteCreated',
+                tactionitem.DateTime as 'ActionItemCreated', ActionItemID, OriginalActionItemID, ReferanceID,
+                AssignedToUserID, tactionitem.NoteID as 'NoteID', actionComplete
             FROM tuser
                 JOIN tactionitem
                     ON tuser.userID = tactionitem.AssignedToUserID
@@ -95,9 +96,34 @@
 
         return $userActionItemsQuery;
     }
+    /****************************************************************************************/
+    // Pull all items associated to a given Action Item
+    function pullAssocActionItems($OriginalActionItemID, $NoteID) {
+        $OriginalActionItemID = $OriginalActionItemID;
+        $NoteID = $NoteID;
+
+        // Query to pull all the associated Action Items
+        $assocActionItemsQuery = "
+            SELECT tactionitem.NoteID, tactionitem.AssignedToUserID, tactionitem.originalactionitemID, tactionitem.DateTime as 'AIDate',
+              tnote.UserID as 'PreviousUserID', tuser.FirstName as 'pUserFirstName', tuser.LastName as 'pUserLastName',tnote.Note as 'Note'
+            FROM tactionitem
+              JOIN tnote
+                ON tactionitem.NoteID = tnote.NoteID
+              JOIN tuser
+                ON tnote.UserID = tuser.UserID
+            WHERE tactionitem.OriginalActionItemID = $OriginalActionItemID
+                AND tactionitem.NoteID != $NoteID
+            ORDER BY AIDate desc
+        ";
+
+        return $assocActionItemsQuery;
+    }
+
+
+
 
     /****************************************************************************************/
-    // pullTitleList
+    // pull Title List
 
     function pullTitles() {
         include('includes/mysqli_connect.php');
@@ -111,6 +137,49 @@
             }
         }
         return $titleList;
+    }
+
+    /****************************************************************************************/
+    // get specific title
+
+    function getTitle ($titleID) {
+        include('includes/mysqli_connect.php'); // connect to database
+        $titleQuery = "SELECT Title
+                  FROM ttitle WHERE TitleID = $titleID";
+        if ($titleResult = mysqli_query($dbc, $titleQuery)) {
+            $row = mysqli_fetch_array($titleResult);
+            return $row['Title'];
+        }
+        return "";
+    }
+
+    /****************************************************************************************/
+    // pull interaction types list
+    function pullInteractionTypes() {
+        $interactionTypeList = [];
+        $interactionTypeQuery = "SELECT InteractionType, InteractionTypeID FROM tinteractiontype";
+        if ($interactionTypeResult = mysqli_query($dbc, $interactionTypeQuery)) {
+            for ($i=0; $i < mysqli_num_rows($interactionTypeResult); $i++) {
+                if($row = mysqli_fetch_array($interactionTypeResult)) {
+                    array_push($interactionTypeList, array($row['InteractionType'],$row['InteractionTypeID']));
+                }
+            }
+        }
+        return $interactionTypeList;
+}
+    /****************************************************************************************/
+    // get specific interaction type
+
+    function getInteractionType ($interactionTypeID) {
+        include('includes/mysqli_connect.php'); // connect to database
+        $interactionQuery = "SELECT InteractionType
+                        FROM tinteractiontype
+                        WHERE InteractionTypeID = $interactionTypeID";
+        if ($interactionResult = mysqli_query($dbc, $interactionQuery)) {
+            $row = mysqli_fetch_array($interactionResult);
+            return $row['InteractionType'];
+        }
+        return "";
     }
 
     /****************************************************************************************/
@@ -225,21 +294,36 @@
     {
         include('includes/mysqli_connect.php');
         $searchString = $_GET['Search'];
-        $employeeListQuery = "SELECT EmployeeID, FirstName, LastName
+        $employeeListQuery = "SELECT EmployeeID, FirstName, LastName, concat(FirstName,' ',LastName) as FullName
                               FROM temployee
-                              WHERE Firstname like '%$searchString%' or LastName like '%$searchString%'";
+                              HAVING FullName like '%$searchString%'";
 
         $employeeList = mysqli_query($dbc, $employeeListQuery) or die("Error: ".mysqli_error($dbc));
-        for ($i=0; $i <= mysqli_num_rows($employeeList); $i++) {
-            if($row = mysqli_fetch_array($employeeList)) {
-                print '<li><a href="employee.php?EmployeeID=' . $row['EmployeeID'] . '">' . $row['FirstName'] . ' ' . $row['LastName'] . '</a></li>';
+        if (mysqli_num_rows($employeeList) > 0) {
+            for ($i=0; $i <= mysqli_num_rows($employeeList); $i++) {
+                if($row = mysqli_fetch_array($employeeList)) {
+                    print '<li><a href="employee.php?EmployeeID=' . $row['EmployeeID'] . '">' . $row['FirstName'] . ' ' . $row['LastName'] . '</a></li>';
+                }
             }
+        } else {
+            print '<p>No Results Found</p>';
         }
     }
 
     /****************************************************************************************/
+    // Query to Flip Active Status of an employee
+    function flipActive($active,$employeeID){
+        include('includes/mysqli_connect.php');
+        $active = ($active == 1 ? 0 : 1);
+        $updateQuery = "UPDATE temployee
+                        SET Active = $active
+                        WHERE EmployeeID = $employeeID";
+        mysqli_query($dbc, $updateQuery);
+    }
+
+    /****************************************************************************************/
     // Query to Push Employee
-    // Similar to business push, updates or adds employee based employeeID being zero or greater
+// Similar to business push, updates or adds employee based employeeID being zero or greater
 
     function pushEmployee($businessID,$employeeID,$jobTitle,$titleID,$firstName,$lastName,$phoneNumber,$extension,$email,$personalNote) {
         include('includes/mysqli_connect.php');
@@ -297,34 +381,36 @@
 		print "<h2 style='color: #E00122;'>Welcome, $userFullName!</h2>";
 
         print "<br /><form action='notes.php' method='get'><input type='submit' value='Add New Interaction'  class='myButton'/></form>";
-        print "<form action='http://homepages.uc.edu/group1/business.php?CreateBusiness=True' method='get'><input type='submit' value='Add New Business'  class='myButton'/></form><br />";
+        print "<form action='http://homepages.uc.edu/group1/business.php?CreateBusiness=True'><input type='submit' value='Add New Business'  class='myButton'/></form><br />";
 
 		print "<br /><br />";
 		
 		print "<h3>Current Action Items:</h3>";
 		
 		/***************************** Action Items  ************************************/
-		//print "<ul><li>Action Items still need to be developed!</li></ul><br />";
-
+        // Store Action Items query to variable
         $userActionItemsQuery = pullUserActionItems($userID);
 
+        // Run Action Items query
         if($userActionItems = mysqli_query($dbc, $userActionItemsQuery)) {
-            if(mysqli_num_rows($userActionItems) == 0) {
+            if(mysqli_num_rows($userActionItems) == 0) { // If no action items are present, print statement
                 print '<p style="color:red">You do not have any Action Items at this time.</p>';
             } else {
                 $numberOfActionItems = mysqli_num_rows($userActionItems);
 
-                print "<h4 style='padding-left: 25px;'>Total Action Items: $numberOfActionItems</h4>";
+                print "<h4 style='padding-left: 25px;'>Total Action Items: <b>$numberOfActionItems</b></h4>";
 
                 for($i=1; $i<=$numberOfActionItems; $i++) {
                     if ($row = mysqli_fetch_array($userActionItems)) {
+
+                        // Convert DateTime to something usable
                         $actionDateTime = strtotime($row['ActionItemCreated']);
                         $actionDateTime = date("m/d/Y h:i a", $actionDateTime);
 
                         print "
                             <ul class='actionItemsList'>
                                 <li>
-                                    <a href='#' id='ExpandAI$i' class='AIClass' style='color: #E00122'>Action Item $i</a>
+                                    <b><a href='#' id='ExpandAI$i' class='AIClass' style='color: #E00122'>Action Item $i</a></b>
                                     <b>Business: </b><a href='business.php?BusinessID=" . $row['BusinessID'] . "'>" . $row['BusinessName'] . "</a><br />
                                     <div style='text-align: center;'><b>Date:</b> " . $actionDateTime . "</div>
                                 </li>
@@ -336,12 +422,58 @@
                                                 <li><b>Email:</b> <a href='mailto:" . $row['Email'] . "'>" . $row['Email'] . "</a></li>
                                             </ul>
                                         <li><b>Interaction Type:</b> " . $row['InteractionType'] . "</li>
-                                        <li><b>Notes:</b><br /><div class='notes'> " . $row['Note'] . "</div></li>
+                                        <li><b>Notes:</b><br /><div class='notes'> " . $row['Note'] . "</div>
+                                            <h4 style='width: 75%; margin-left: auto; margin-right: auto; text-align: center;'>
+                                                <!-- Need to add Links -->
+                                                <a href=''>Add Note</a> |
+                                                <a href=''>Forward</a> |
+                                                <a href=''>Mark Complete</a>
+                                            </h4>
+                                        </li>
+                        "; //style='display:none;'
+
+                        print "<li><b>Item History: </b>";
+
+                        // Pull all associtated Action Item Data
+                        $OriginalActionItemID = $row['OriginalActionItemID'];
+                        $NoteID = $row['NoteID'];
+
+                        $assocActionItemsQuery = pullAssocActionItems($OriginalActionItemID, $NoteID);
+
+                        if($assocActionItems = mysqli_query($dbc, $assocActionItemsQuery)) {
+                            $numHistoryItems = mysqli_num_rows($assocActionItems);
+                            if(mysqli_num_rows($assocActionItems) == 0) {
+                                print 'You do not have any Action Items at this time.</li>';
+                            } else {
+                                print "This Action Item $numHistoryItems history items.</li>";
+                                for($j=1; $j <= $numHistoryItems; $j++) {
+                                    if($assocRow = mysqli_fetch_array($assocActionItems)) {
+                                        // Convert DateTime to something usable
+                                        $AIDateTime = strtotime($assocRow['AIDate']);
+                                        $AIDateTime = date("m/d/Y h:i a", $AIDateTime);
+                                        $pUserName = $assocRow['pUserFirstName'] . " " . $assocRow['pUserLastName'];
+
+                                        // Print History items related to this action item
+                                        print "
+                                            <ul class='actionItemsList'>
+                                                <a href='#' id='ExpandAIH$i$j' class='AIHClass' style='color: #E00122;'>History Item $j</a>
+                                                <div id='toExpandAIH$i$j' class='DashAI' style='display: none;'>
+                                                    <li><b>User:</b> $pUserName &nbsp&nbsp&nbsp <b>Date:</b> $AIDateTime</li>
+                                                    <li><b>Notes: </b><br /><div class='notes'> " . $assocRow['Note'] . "</div></li>
+                                                </div>
+                                            </ul>
+                                        ";
+
+                                    }
+                                }
+                            }
+                        }
+
+                        print "
                                     </ul>
                                 </div>
                             </ul>
-                        "; //style='display:none;'
-
+                        ";
                     }
                 }
             }
@@ -392,7 +524,7 @@
                     } else {
                     }
                 }
-                print "<a href='#' id='allContacts' style='color: #E00122; text-align: center;'>Toggle All Contacts</a>";
+                print "<a href='#' id='allContacts' style='color: #E00122; text-align: center;'>View All Contacts</a>";
                 print "<div class='allNotes' style='display:none;'>";
                 for ($i = 6; $i <= $numberOfNotes; $i++) {
                     if ($row = mysqli_fetch_array($userNotes)) {
@@ -402,11 +534,11 @@
                         print "
                             <ul class='recentContacts'>
                                 <li>
-                                    <a href='#' id='expandRow$i' style='color: #E00122'>Note $i</a>
-                                    <b>Business: </b><a href='business.php?BusinessID=" . $row['BusinessID'] . "'>" . $row['BusinessName'] . "</a>&nbsp&nbsp&nbsp&nbsp&nbsp
-                                    <b>Date:</b> " . $datetime . "
+                                    <a href='#' class='expandRow' id='DashRow$i' style='color: #E00122'>Note $i</a>
+                                    <b>Business: </b><a href='business.php?BusinessID=" . $row['BusinessID'] . "'>" . $row['BusinessName'] . "</a><br />
+                                    <div style='margin-left: 60px;'><b>Date:</b> " . $datetime . "</div>
                                 </li>
-                                <div class=DashNote$i style='display:none;'>
+                                <div class='DashNote' id='toDashRow$i' style='display:none;'>
                                     <ul>
                                         <li><b>Employee:</b> <a href='employee.php?EmployeeID=" . $row['employeeID'] . "'>" . $row['FirstName'] . " " . $row['LastName'] . "</a></li>
                                             <ul>
@@ -429,7 +561,7 @@
 		}
 	}
 	
-	/****************************************************************************************/
+    /****************************************************************************************/
 
 	function logout() {
 		// Destroy cookie

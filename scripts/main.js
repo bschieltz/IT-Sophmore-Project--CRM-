@@ -44,7 +44,8 @@ $(function() {
     $('#cancelButton').on('click', function(event){
         event.preventDefault();
         if ((window.location.search.substring(1)).split("=")[0] == "BusinessID"
-          || (window.location.search.substring(1)).split("=")[0] == "EmployeeID") {
+          || (window.location.search.substring(1)).split("=")[0] == "EmployeeID"
+          || (window.location.search.substring(1)).split("=")[0] == "UserID") {
             showTag(".infoTag"); // on a specific business/employee, switch back to information
             console.log(window.location.search.substring(1))
         } else if ((window.location.search.substring(1)).split("=")[0] == "Search") {
@@ -58,11 +59,9 @@ $(function() {
 
 /** ******************* For Dashboard *************************/
 
-$(function test(){
-    $('.AIClass, .expandRow').click(function() {
+$(function(){
+    $('.AIClass, .expandRow, .AIHClass').click(function() {
         var clickedID=$(this).attr('id');
-        //var test = $('a[id="' + clickedID + '"] ~ [id^=toExpand]').attr('id');
-        //var toExpand=$(clickedID).nextall(':has(.DashAI):first)');
         var expandID = '#to' + clickedID;
         if ($(expandID).css('display') == 'none') {
             $(expandID).fadeIn();
@@ -70,37 +69,6 @@ $(function test(){
             $(expandID).fadeOut(100);
         }
     });
-});
-
-$(function() {
-    var expandRowClass = $('.expandRow').attr('id');
-
-    var toExpand1 = $("li ~ .DashNote").attr('id');
-    //alert(expandRowClass + " " + toExpand1);
-
-
-    /*
-    $(expandRowClass).click(function() {
-        $('#DashNote1').toggle();
-        alert(toExpand + " " + toExpand1);
-        //var expandRow = $(this).attr('id');
-        //var toExpand = $("li ~ .DashNote").attr('id');
-    });*/
-    /*$('#expandRow1').click(function() {
-        $('#DashNote1').toggle();
-    });
-    $('#expandRow2').click(function() {
-        $('#DashNote2').toggle();
-    });
-    $('#expandRow3').click(function() {
-        $('#DashNote3').toggle();
-    });
-    $('#expandRow4').click(function() {
-        $('#DashNote4').toggle();
-    });
-    $('#expandRow5').click(function() {
-        $('#DashNote5').toggle();
-    });*/
 });
 
 $(function() {
@@ -112,5 +80,6 @@ $(function() {
 $(document).ready(function(){
     for (var i = 1; i <= 5; i++){
         $('#toExpandAI' + i).fadeOut(0);
+        $('#toExpandAIH' + i).fadeOut(0);
     }
 });

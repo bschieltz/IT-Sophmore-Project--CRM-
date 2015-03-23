@@ -66,12 +66,14 @@ if (!empty($_GET['Submit'])) {
     if ($submitSuccessful){$employeeID = $submitResult[1];} //if successful assign employeeID
 
     // Get employee title
-    $titleQuery = "SELECT Title
-                  FROM ttitle WHERE TitleID = $titleID";
-    if ($titleResult = mysqli_query($dbc, $titleQuery)) {
-        $row = mysqli_fetch_array($titleResult);
-        $title = $row['Title'];
-    }
+    $title = getTitle($titleID);
+
+}
+
+if (($_GET['ChangeActive'] == 0) || ($_GET['ChangeActive'] == 1)) {
+    $active = $_GET['ChangeActive'];
+    $employeeID = $_GET['EmployeeID'];
+    flipActive($active,$employeeID);
 }
 
 // EmployeeID must already be set or exist in the url get
@@ -106,12 +108,7 @@ if ((!empty($_GET['EmployeeID']) or $employeeID > 0) and $submitSuccessful) {
     }
 
     // get title, ie mr, mrs etc
-    $titleQuery = "SELECT Title
-                  FROM ttitle WHERE TitleID = $titleID";
-    if ($titleResult = mysqli_query($dbc, $titleQuery)) {
-        $row = mysqli_fetch_array($titleResult);
-        $title = $row['Title'];
-    }
+    $title = getTitle($titleID);
 
     // get 5 most contacted UC employees
     $ucStaffQuery = "SELECT tnote.UserID, COUNT(*) as userCount, tuser.FirstName, tuser.LastName
@@ -133,7 +130,7 @@ if ((!empty($_GET['EmployeeID']) or $employeeID > 0) and $submitSuccessful) {
 <div id="employeePage">
 
     <!-- Employee search -->
-    <form class="searchTag" action="employee.php">
+    <form class="searchTag listTag" action="employee.php">
         <input type="search" name="Search" placeholder="Search for an employee" />
         <input id="searchButton" type="submit" value="Search" />
     </form>
@@ -145,10 +142,17 @@ if ((!empty($_GET['EmployeeID']) or $employeeID > 0) and $submitSuccessful) {
         </ul>
     </div>
 
+    <!-- Active / Inactive Button -->
+    <form class="formTag displayOff" action="employee.php">
+        <input type="hidden" name="ChangeActive" value="<?= $active ?>"/>
+        <input type="hidden" name="EmployeeID" value="<?= $employeeID ?>"/>
+        <input class="formTag" id="changeActive" type="submit" value=<?= ($active ? print'"Suspend Employee"' : print'"Activate Employee"') ?>/>
+    </form>
+
     <!-- Employee Information -->
     <div class="infoTag displayOff">
         <ul>
-            <li>Status: <?= ($active == 1 ? "Active" : "Inactive") ?></li>
+            <li>Status: <?= ($active ? "Active" : "Inactive") ?></li>
             <li>Job Title: <?= $jobTitle ?></li>
             <li>Title: <?= $title ?></li>
             <li>First Name: <?= $firstName ?></li>

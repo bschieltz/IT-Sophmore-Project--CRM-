@@ -134,7 +134,7 @@ ini_set('display_errors',1);  error_reporting(E_ALL);
     ?>
 
     <!-- Search Box -->
-    <form class="searchTag" action="business.php">
+    <form class="searchTag listTag" action="business.php">
         <input type="search" name="Search" placeholder="Search for a Business" />
         <input id="searchButton" type="submit" value="Search" />
     </form>
