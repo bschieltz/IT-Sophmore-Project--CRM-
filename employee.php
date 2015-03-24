@@ -73,7 +73,7 @@ if (!empty($_GET['Submit'])) {
 if (($_GET['ChangeActive'] == 0) || ($_GET['ChangeActive'] == 1)) {
     $active = $_GET['ChangeActive'];
     $employeeID = $_GET['EmployeeID'];
-    flipActive($active,$employeeID);
+    flipActive($active,"employee",$employeeID);
 }
 
 // EmployeeID must already be set or exist in the url get

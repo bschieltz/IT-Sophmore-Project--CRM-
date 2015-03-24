@@ -28,12 +28,14 @@ require 'templates/header.html';
 include('includes/mysqli_connect.php');
 $userID = 0;
 $titleID = 0;
+$title = "";
 $firstName = "";
 $lastName = "";
 $email = "";
 $admin = 0;
 $active = 0;
 $phoneNumber = "";
+$interactionType = "";
 $interactionTypeID = 0;
 $submitSuccessful = true;  // defaults to true.  only turns false if database update fails for validation reasons.
 $titleList = pullTitles();
@@ -46,7 +48,6 @@ if (!empty($_GET['Submit'])) {
     $lastName = $_GET['LastName'];
     $email = $_GET['Email'];
     $admin = $_GET['Admin'];
-    $active = $_GET['Active'];
     $phoneNumber = $_GET['PhoneNumber'];
     $interactionTypeID = $_GET['InteractionType'];
 
@@ -54,7 +55,7 @@ if (!empty($_GET['Submit'])) {
     //send all data to function for update. If UserID == 0 then it adds to database, otherwise it updates
     //first item in returned array is true/false for successful entry, second is businessID
     //form validation code is inside the function
-    $submitResult = pushUser($userID,$titleID,$firstName,$lastName,$email,$admin,$active,$phoneNumber,$interactionTypeID);
+    $submitResult = pushUser($userID,$titleID,$firstName,$lastName,$email,$admin,$phoneNumber,$interactionTypeID);
     $submitSuccessful = $submitResult[0];
     if ($submitSuccessful){$userID = $submitResult[1];} //if successful assign userID
 
@@ -63,6 +64,12 @@ if (!empty($_GET['Submit'])) {
 
     // Get user interaction type
     $interactionType = getInteractionType($interactionTypeID);
+}
+
+if (($_GET['ChangeActive'] == 0) || ($_GET['ChangeActive'] == 1)) {
+    $active = $_GET['ChangeActive'];
+    $userID = $_GET['UserID'];
+    flipActive($active,"user",$userID);
 }
 
 // UserID must already be set or exist in the url get
@@ -100,6 +107,12 @@ if ((!empty($_GET['UserID']) or $userID > 0) and $submitSuccessful) {
 ?>
 <div id="userPage">
 
+    <!-- Add User Button -->
+    <form class="searchTag listTag infoTag"  action="user.php">
+        <input type="hidden" name="CreateUser" value="True"/>
+        <input id="addUserButton" type="submit" value="Add New User" />
+    </form>
+
     <!-- User search -->
     <form class="searchTag listTag" action="user.php">
         <input type="search" name="Search" placeholder="Search for a User" />
@@ -113,16 +126,23 @@ if ((!empty($_GET['UserID']) or $userID > 0) and $submitSuccessful) {
         </ul>
     </div>
 
+    <!-- Active / Inactive Button -->
+    <form class="formTag displayOff" action="user.php">
+        <input type="hidden" name="ChangeActive" value="<?= $active ?>"/>
+        <input type="hidden" name="UserID" value="<?= $userID ?>"/>
+        <input class="formTag" id="changeActive" type="submit" value=<?= ($active ? print'"Suspend User"' : print'"Activate User"') ?>/>
+    </form>
+
     <!-- User Information -->
     <div class="infoTag displayOff">
         <ul>
-            <li>Status: <?= ($active == 1 ? "Active" : "Inactive") ?></li>
+            <li>Status: <?= ($active ? "Active" : "Inactive") ?></li>
             <li>Title: <?= $title ?></li>
             <li>First Name: <?= $firstName ?></li>
             <li>Last Name: <?= $lastName ?></li>
             <li>Phone Number: <?= $phoneNumber ?></li>
             <li>Email: <?= $email ?></li>
-            <li>Admin: <?= $admin ?></li>
+            <li>Admin: <?= ($admin ? "Yes" : "No") ?></li>
             <li>Interaction Type: <?= $interactionType ?></li>;
         </ul>
         <input id="editButton" type="submit" value="Edit" />
@@ -143,6 +163,14 @@ if ((!empty($_GET['UserID']) or $userID > 0) and $submitSuccessful) {
         Last Name: <input type="text" name="LastName" size="20" value="<?= $lastName ?>" placeholder=""/><br />
         Phone Number: <input type="text" name="PhoneNumber" size="20" value="<?= $phoneNumber ?>" placeholder=""/><br />
         Email: <input type="text" name="Email" size="20" value="<?= $email ?>" placeholder=""/><br />
+        Interaction Type: <select name="InteractionTypeID">
+            <?php
+            for ($i=0; $i < sizeof($interactionList); $i++) {
+                print'<option value="' . $interactionList[$i][1] . '"' . ($interactionList[$i][0]==$title ? ' Selected' : '') . '>' . $interactionList[$i][0] . '</option>' . "\r\n";
+            }
+            ?>
+        </select><br />
+        Admin: <input type="checkbox" name="Admin" value="Admin" <?= ($admin ? ' checked' : ''); ?> /><br />
         <input id="cancelButton" type="submit" value="Cancel" />
         <input id="submitButton" type="submit" value="Submit" />
     </form>

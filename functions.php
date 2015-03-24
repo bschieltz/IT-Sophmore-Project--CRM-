@@ -207,14 +207,66 @@
     // Query to Push Business
     // used for both edit and add functions
 
-    function pushBusiness($businessID,$businessName,$primaryContact,$primaryPhoneNumber,$notes,$street1,$street2,$zip_code) {
+    function pushBusiness($businessID,$businessName,$primaryContact,$primaryPhoneNumber,$notes,$street1,$street2,$zip_code)
+    {
         include('includes/mysqli_connect.php');
 
         $valid = true;
         /* Add Validation Code here*/
         /* Print Errors for correction.  Changes will still display on the page but are not committed to the database if this function returns false*/
-
-        if ($valid) {
+        // validate business name
+        if (!isset($businessName)) {
+            print"Error: enter a valid business name<br>";
+            $valid = false;
+        }
+        //validate primary contact
+        if (!isset($primaryContact)) {
+            print"Error: enter a primary contact<br>";
+            $valid = false;
+        }
+        // validate phone number.
+        if (!isset($primaryPhoneNumber)) {
+            print"Error: enter a primary phone number<br>";
+            $valid = false;
+        } // else if (regular expression match, phone num) { strip all non-numeric }
+        // validate notes.
+        if (!isset($notes)) {
+            print"Error: please enter notes<br>";
+            $valid = false;
+        }
+        // validate address. TODO: Not sure if street2 is optional!
+        if (!isset($street1)) {
+            print"Error: enter a street address<br>";
+            $valid = false;
+        }
+        // may be optional, but not sure if database accepts NULL values
+        if (!isset($street2)) {
+            print"Error: please enter a complete street address<br>";
+            $valid = false;
+        }
+        // validate zip
+        if (!isset($zip_code)) {
+            print"Error: please enter a valid zip code<br>";
+            $valid = false;
+        } else if (!preg_match('/[0-9]{5}([- ]?[0-9]{4})?$/', $zip_code)) {
+            print"Error: please enter a valid zip code<br>";
+            $valid = false;
+        }
+        // validate city
+        if (!isset($city)) {
+            print"Error: please enter a city<br>";
+            $valid = false;
+        }
+        // validate state prefix
+        if (!isset($statePrefix)) {
+            print"Error: please enter a two-letter state prefix";
+            $valid = false;
+        } else if (!preg_match('/\b[A-Z]{2}/', $statePrefix)) {
+            print"Error: please enter a two-letter state prefix";
+        $valid = false;
+        }
+        // TODO: query database to ensure current form submission is unique and not duplicate!
+        if ($valid) { // passed validation
             if ($businessID > 0) { // if there is a business id then it is an edit submission
                 $updateQuery = "UPDATE tbusiness
                                 SET BusinessName = '$businessName'
@@ -311,19 +363,25 @@
     }
 
     /****************************************************************************************/
-    // Query to Flip Active Status of an employee
-    function flipActive($active,$employeeID){
+    // Query to Flip Active Status of an employee or user
+    function flipActive($active,$idType/*"user" or "employee"*/,$ID){
         include('includes/mysqli_connect.php');
         $active = ($active == 1 ? 0 : 1);
-        $updateQuery = "UPDATE temployee
+        if ($idType == "user") {
+            $updateQuery = "UPDATE tuser
                         SET Active = $active
-                        WHERE EmployeeID = $employeeID";
+                        WHERE UserID = $ID";
+        } elseif ($idType == "employee") {
+            $updateQuery = "UPDATE temployee
+                        SET Active = $active
+                        WHERE EmployeeID = $ID";
+        }
         mysqli_query($dbc, $updateQuery);
     }
 
     /****************************************************************************************/
     // Query to Push Employee
-// Similar to business push, updates or adds employee based employeeID being zero or greater
+    // Similar to business push, updates or adds employee based employeeID being zero or greater
 
     function pushEmployee($businessID,$employeeID,$jobTitle,$titleID,$firstName,$lastName,$phoneNumber,$extension,$email,$personalNote) {
         include('includes/mysqli_connect.php');
@@ -369,7 +427,77 @@
         return array(False, $employeeID);
     }
 
-	/****************************************************************************************/
+    /****************************************************************************************/
+    // Display User List
+
+    function displayUserList()
+    {
+        include('includes/mysqli_connect.php');
+        $searchString = $_GET['Search'];
+        $userListQuery = "SELECT UserID, FirstName, LastName, concat(FirstName,' ',LastName) as FullName
+                              FROM tuser
+                              HAVING FullName like '%$searchString%'";
+
+        $userList = mysqli_query($dbc, $userListQuery) or die("Error: ".mysqli_error($dbc));
+        if (mysqli_num_rows($userList) > 0) {
+            for ($i=0; $i <= mysqli_num_rows($userList); $i++) {
+                if($row = mysqli_fetch_array($userList)) {
+                    print '<li><a href="user.php?UserID=' . $row['UserID'] . '">' . $row['FirstName'] . ' ' . $row['LastName'] . '</a></li>';
+                }
+            }
+        } else {
+            print '<p>No Results Found</p>';
+        }
+    }
+
+/****************************************************************************************/
+// Query to Push User
+// Similar to business push, updates or adds user based userID being zero or greater
+
+    function pushUser($userID,$titleID,$firstName,$lastName,$email,$admin,$phoneNumber,$interactionTypeID) {
+        include('includes/mysqli_connect.php');
+
+        $valid = true;
+        /* Add Validation Code here*/
+        /* Print Errors for correction.  Changes will still display on the page but are not committed to the database if this function returns false*/
+
+        if ($valid) {
+            if ($userID > 0) { // edits user if $userID is greater than zero
+                $updateQuery = "UPDATE tuser
+                                SET TitleID = $titleID
+                                   ,FirstName = '$firstName'
+                                   ,LastName = '$lastName'
+                                   ,Email = '$email'
+                                   ,Admin = $admin
+                                   ,PhoneNumber = '$phoneNumber'
+                                   ,InteractionTypeID = '$interactionTypeID'
+                                WHERE UserID = $userID";
+                if (mysqli_query($dbc, $updateQuery)) { //if successful
+                    print'<p>Record Updated</p>';
+                    return array(true, $userID);
+                }
+            } else { // adds user
+                $updateQuery = "INSERT INTO tuser
+                                (Active,TitleID,FirstName,LastName,Email,Admin,PhoneNumber,InteractionTypeID)
+                                VALUES (1,$titleID,\"$firstName\",\"$lastName\",\"$email\",\"$admin\",\"$phoneNumber\",\"$interactionTypeID\")";
+                if (mysqli_query($dbc, $updateQuery)) {  // if successful get user by looking up most recent record added to user table
+                    $updateQuery = "SELECT UserID
+                                    FROM tuser
+                                    ORDER BY UserID DESC LIMIT 1";
+                    if ($user = mysqli_query($dbc, $updateQuery)) { // use found user id for return array
+                        $row = mysqli_fetch_array($user);
+                        $userID = $row['UserID'];
+                        print'<p>Record Added</p>';
+                        return array(true, $userID);
+                    }
+                }
+            }
+        }
+        print'<p>Record NOT Updated</p>';
+        return array(False, $userID);
+    }
+
+    /****************************************************************************************/
 	// Build Dashboard
 	function dashboard($userID, $userFullName) {
 		include('includes/mysqli_connect.php');
