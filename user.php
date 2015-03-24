@@ -143,7 +143,7 @@ if ((!empty($_GET['UserID']) or $userID > 0) and $submitSuccessful) {
             <li>Phone Number: <?= $phoneNumber ?></li>
             <li>Email: <?= $email ?></li>
             <li>Admin: <?= ($admin ? "Yes" : "No") ?></li>
-            <li>Interaction Type: <?= $interactionType ?></li>;
+            <li>Interaction Type: <?= $interactionType ?></li>
         </ul>
         <input id="editButton" type="submit" value="Edit" />
     </div>
@@ -170,7 +170,7 @@ if ((!empty($_GET['UserID']) or $userID > 0) and $submitSuccessful) {
             }
             ?>
         </select><br />
-        Admin: <input type="checkbox" name="Admin" value="Admin" <?= ($admin ? ' checked' : ''); ?> /><br />
+        Admin: <input type="checkbox" name="Admin" value="Admin" <?= ($admin ? ' checked' : '') ?> /><br />
         <input id="cancelButton" type="submit" value="Cancel" />
         <input id="submitButton" type="submit" value="Submit" />
     </form>
