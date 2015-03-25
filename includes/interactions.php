@@ -19,12 +19,19 @@ class Interactions {
     function setEmployeeID($employeeID){$this->employeeID = $employeeID;}
 
     function printActionItems(){
-        include('includes/mysqli_connect.php');
+        require_once('includes/mysqli_connect.php');
         // Store Action Items query to variable
-        $userActionItemsQuery = pullUserActionItems($this->userID);
+        $actionItemsQuery = "";
+        if ($this->userID > 0) {
+            $actionItemsQuery = pullUserActionItems($this->userID);
+        } elseif ($this->businessID > 0) {
+
+        } elseif ($this->employeeID > 0) {
+
+        }
 
         // Run Action Items query
-        if($userActionItems = mysqli_query($dbc, $userActionItemsQuery)) {
+        if($userActionItems = mysqli_query($dbc, $actionItemsQuery)) {
             if(mysqli_num_rows($userActionItems) == 0) { // If no action items are present, print statement
                 print '<p style="color:red">You do not have any Action Items at this time.</p>';
             } else {
@@ -115,7 +122,91 @@ class Interactions {
         }
     }
 
-    function printNotes(){}
+    function printNotes(){
+        require_once('includes/mysqli_connect.php');
+        print "<h3>Recent Contacts:</h3>";
+        // Pull
+        $notesQuery = "";
+        if ($this->userID > 0) {
+            $notesQuery = pullUserNotes($this->userID);
+        } elseif ($this->businessID > 0) {
+
+        } elseif ($this->employeeID > 0) {
+
+        }
+
+        if($notes = mysqli_query($dbc, $notesQuery)) {
+            if (mysqli_num_rows($notes) == 0) {
+                print '<p style="color:red">You do not have any notes stored in the system.</p>';
+            } else {
+
+                $numberOfNotes = mysqli_num_rows($notes);
+
+                //print "<table id='notesTable'>";
+                for ($i = 1; $i <= $numberOfNotes && $i <= 5; $i++) {
+                    if ($row = mysqli_fetch_array($notes)) {
+                        $datetime = strtotime($row['DateTime']);
+                        $datetime = date("m/d/Y h:i a", $datetime);
+
+                        print "
+                            <ul class='recentContacts'>
+                                <li>
+                                    <a href='#' class='expandRow' id='DashRow$i' style='color: #E00122'>Note $i</a>
+                                    <b>Business: </b><a href='business.php?BusinessID=" . $row['BusinessID'] . "'>" . $row['BusinessName'] . "</a><br />
+                                    <div style='margin-left: 60px;'><b>Date:</b> " . $datetime . "</div>
+                                </li>
+                                <div class='DashNote' id='toDashRow$i' style='display:none;'>
+                                    <ul>
+                                        <li><b>Employee:</b> <a href='employee.php?EmployeeID=" . $row['employeeID'] . "'>" . $row['FirstName'] . " " . $row['LastName'] . "</a></li>
+                                            <ul>
+                                                <li><b>Phone #:</b> " . $row['Phone'] . " ext: " . $row['Ext'] . "</li>
+                                                <li><b>Email:</b> <a href='mailto:" . $row['Email'] . "'>" . $row['Email'] . "</a></li>
+                                            </ul>
+                                        <li><b>Interaction Type:</b> " . $row['InteractionType'] . "</li>
+                                        <li><b>Notes:</b><br /><div class='notes'> " . $row['Note'] . "</div></li>
+                                    </ul>
+                                </div>
+                            </ul>
+                        ";
+                    } else {
+                    }
+                }
+                print "<a href='#' id='allContacts' style='color: #E00122; text-align: center;'>View All Contacts</a>";
+                print "<div class='allNotes' style='display:none;'>";
+                for ($i = 6; $i <= $numberOfNotes; $i++) {
+                    if ($row = mysqli_fetch_array($notes)) {
+                        $datetime = strtotime($row['DateTime']);
+                        $datetime = date("m/d/Y h:i a", $datetime);
+
+                        print "
+                            <ul class='recentContacts'>
+                                <li>
+                                    <a href='#' class='expandRow' id='DashRow$i' style='color: #E00122'>Note $i</a>
+                                    <b>Business: </b><a href='business.php?BusinessID=" . $row['BusinessID'] . "'>" . $row['BusinessName'] . "</a><br />
+                                    <div style='margin-left: 60px;'><b>Date:</b> " . $datetime . "</div>
+                                </li>
+                                <div class='DashNote' id='toDashRow$i' style='display:none;'>
+                                    <ul>
+                                        <li><b>Employee:</b> <a href='employee.php?EmployeeID=" . $row['employeeID'] . "'>" . $row['FirstName'] . " " . $row['LastName'] . "</a></li>
+                                            <ul>
+                                                <li><b>Phone #:</b> " . $row['Phone'] . " ext: " . $row['Ext'] . "</li>
+                                                <li><b>Email:</b> <a href='mailto:" . $row['Email'] . "'>" . $row['Email'] . "</a></li>
+                                            </ul>
+                                        <li><b>Interaction Type:</b> " . $row['InteractionType'] . "</li>
+                                        <li><b>Notes:</b><br /><div class='notes'> " . $row['Note'] . "</div></li>
+                                    </ul>
+                                </div>
+                            </ul>
+                        ";
+                    }
+                }
+                print "</div>";
+            }
+        }
+        else {
+            print "<h3>ERROR!</h3>";
+        }
+    }
 
     function printInteractions(){}
 }
