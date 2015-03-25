@@ -22,6 +22,7 @@
  * can be modified as necessary with id / class tags
  */
 require 'templates/header.html';
+require('includes/mysqli_connect.php');
 ini_set('display_errors',1);  error_reporting(E_ALL);
 ?>
 

@@ -126,7 +126,7 @@
     // pull Title List
 
     function pullTitles() {
-        require_once('includes/mysqli_connect.php');
+        require('includes/mysqli_connect.php');
         $titleList = [];
         $titleQuery = "SELECT Title, TitleID FROM ttitle";
         if ($titleResult = mysqli_query($dbc, $titleQuery)) {
@@ -143,7 +143,7 @@
     // get specific title
 
     function getTitle ($titleID) {
-        require_once('includes/mysqli_connect.php'); // connect to database
+        require('includes/mysqli_connect.php'); // connect to database
         $titleQuery = "SELECT Title
                   FROM ttitle WHERE TitleID = $titleID";
         if ($titleResult = mysqli_query($dbc, $titleQuery)) {
@@ -171,7 +171,7 @@
     // get specific interaction type
 
     function getInteractionType ($interactionTypeID) {
-        require_once('includes/mysqli_connect.php'); // connect to database
+        require('includes/mysqli_connect.php'); // connect to database
         $interactionQuery = "SELECT InteractionType
                         FROM tinteractiontype
                         WHERE InteractionTypeID = $interactionTypeID";
@@ -188,7 +188,7 @@
 
     function displayBusinessList()
     {
-        require_once('includes/mysqli_connect.php'); // connect to database
+        require('includes/mysqli_connect.php'); // connect to database
         $searchString = $_GET['Search']; // get search string
         $businessListQuery = "SELECT BusinessID, BusinessName
                   FROM tbusiness
@@ -209,7 +209,7 @@
 
     function pushBusiness($businessID,$businessName,$primaryContact,$primaryPhoneNumber,$notes,$street1,$street2,$zip_code)
     {
-        require_once('includes/mysqli_connect.php'); // connect to database
+        require('includes/mysqli_connect.php'); // connect to database
 
         $valid = true;
         /* Add Validation Code here*/
@@ -344,7 +344,7 @@
 
     function displayEmployeeList()
     {
-        require_once('includes/mysqli_connect.php'); // connect to database
+        require('includes/mysqli_connect.php'); // connect to database
         $searchString = $_GET['Search'];
         $employeeListQuery = "SELECT EmployeeID, FirstName, LastName, concat(FirstName,' ',LastName) as FullName
                               FROM temployee
@@ -365,7 +365,7 @@
     /****************************************************************************************/
     // Query to Flip Active Status of an employee or user
     function flipActive($active,$idType/*"user" or "employee"*/,$ID){
-        require_once('includes/mysqli_connect.php'); // connect to database
+        require('includes/mysqli_connect.php'); // connect to database
         $active = ($active == 1 ? 0 : 1);
         if ($idType == "user") {
             $updateQuery = "UPDATE tuser
@@ -384,7 +384,7 @@
     // Similar to business push, updates or adds employee based employeeID being zero or greater
 
     function pushEmployee($businessID,$employeeID,$jobTitle,$titleID,$firstName,$lastName,$phoneNumber,$extension,$email,$personalNote) {
-        require_once('includes/mysqli_connect.php'); // connect to database
+        require('includes/mysqli_connect.php'); // connect to database
 
         $valid = true;
         /* Add Validation Code here*/
@@ -432,7 +432,7 @@
 
     function displayUserList()
     {
-        require_once('includes/mysqli_connect.php'); // connect to database
+        require('includes/mysqli_connect.php'); // connect to database
         $searchString = $_GET['Search'];
         $userListQuery = "SELECT UserID, FirstName, LastName, concat(FirstName,' ',LastName) as FullName
                               FROM tuser
@@ -455,7 +455,7 @@
 // Similar to business push, updates or adds user based userID being zero or greater
 
     function pushUser($userID,$titleID,$firstName,$lastName,$email,$admin,$phoneNumber,$interactionTypeID) {
-        require_once('includes/mysqli_connect.php'); // connect to database
+        require('includes/mysqli_connect.php'); // connect to database
 
         $valid = true;
         /* Add Validation Code here*/
@@ -500,7 +500,7 @@
     /****************************************************************************************/
 	// Build Dashboard
 	function dashboard($userID, $userFullName) {
-        require_once('includes/mysqli_connect.php'); // connect to database
+        require('includes/mysqli_connect.php'); // connect to database
 		
 		if($_SESSION["userAuth"] != "1") {
 			noAuth();
