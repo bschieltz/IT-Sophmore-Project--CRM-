@@ -26,7 +26,6 @@ ini_set('display_errors',1);  error_reporting(E_ALL);
 ?>
 
 <?php
-    include('includes/mysqli_connect.php');
     $businessID = 0;
     $businessName = "";
     $primaryContact = "";

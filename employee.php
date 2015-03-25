@@ -25,7 +25,6 @@ require 'templates/header.html';
 ?>
 
 <?php
-include('includes/mysqli_connect.php');
 $businessID = 0;
 $employeeID = 0;
 $active = 1;

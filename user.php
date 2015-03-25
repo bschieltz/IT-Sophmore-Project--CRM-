@@ -25,7 +25,6 @@ require 'templates/header.html';
 ?>
 
 <?php
-include('includes/mysqli_connect.php');
 $userID = 0;
 $titleID = 0;
 $title = "";
@@ -177,11 +176,16 @@ if ((!empty($_GET['UserID']) or $userID > 0) and $submitSuccessful) {
 
     <br /><br /><br />
 
-    <?php // decide which layout to show
+    <?php
+
+    // decide which layout to show
     // javascript adds a css class to hide parts of the page we want hidden.
     // this makes it possible to change what's displayed on the page without reloading the page.
     // a reload should only occur when and edit/add is submitted, add button is clicked, or a search is submitted
     if ((!empty($_GET['UserID']) or $userID > 0) and $submitSuccessful) {
+        $actionItems = new Interactions();
+        $actionItems->setUserID($userID);
+        $actionItems->printActionItems();
         print'<script type="text/javascript">showTag(".infoTag")</script>';
     } elseif (!empty($_GET['CreateUser']) or !$submitSuccessful) {
         print'<script type="text/javascript">showTag(".formTag")</script>';
