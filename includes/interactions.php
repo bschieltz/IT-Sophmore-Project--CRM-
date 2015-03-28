@@ -19,7 +19,7 @@ class Interactions {
     function setEmployeeID($employeeID){$this->employeeID = $employeeID;}
 
     function printActionItems(){
-        require_once('includes/mysqli_connect.php');
+        require('includes/mysqli_connect.php');
         // Store Action Items query to variable
         $actionItemsQuery = "";
         if ($this->userID > 0) {
@@ -123,7 +123,7 @@ class Interactions {
     }
 
     function printNotes(){
-        require_once('includes/mysqli_connect.php');
+        require('includes/mysqli_connect.php');
         print "<h3>Recent Contacts:</h3>";
         // Pull
         $notesQuery = "";

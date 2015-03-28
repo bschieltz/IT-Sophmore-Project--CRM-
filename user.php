@@ -69,8 +69,8 @@ if (isset($_POST['Submit'])) {
     $interactionType = getInteractionType($interactionTypeID);
 }
 
-if (($_GET['ChangeActive'] == 0) || ($_GET['ChangeActive'] == 1)) {
-    $active = $_GET['ChangeActive'];
+if (($_POST['ChangeActive'] == 0) || ($_POST['ChangeActive'] == 1)) {
+    $active = $_POST['ChangeActive'];
     $userID = $_GET['UserID'];
     flipActive($active,"user",$userID);
 }
@@ -132,10 +132,10 @@ if ((isset($_GET['UserID']) or $userID > 0) and $submitSuccessful) {
 
     <!-- Active / Inactive Button -->
     <?php ($_SESSION["admin"] ? print'
-    <form class="formTag displayOff" action="user.php">
+    <form class="formTag displayOff" action="user.php" method="post">
         <input type="hidden" name="ChangeActive" value="' . $active . '"/>
         <input type="hidden" name="UserID" value="' . $userID . '"/>
-        <input class="formTag" id="changeActive" type="submit" value="' . ($active ? print"Suspend User" : print"Activate User") . '"/>
+        <input class="formTag" id="changeActive" type="submit" value="' . ($active ? "Suspend User" : "Activate User") . '"/>
     </form>' : ''); ?>
 
     <!-- User Information -->
@@ -176,7 +176,7 @@ if ((isset($_GET['UserID']) or $userID > 0) and $submitSuccessful) {
             ?>
         </select><br />
         <?php ($_SESSION["admin"] ? print"Admin: <input type='checkbox' name='Admin' value='" . $admin . "' " . ($admin ? ' checked' : '') . "/><br />": ""); ?>
-        <?php ($_SERVER["admin"] || $_SESSION["userID"] == $userID ?
+        <?php ($_SESSION["admin"] || $_SESSION["userID"] == $userID ?
             print 'Change Password: <input type="password" name="Password1" value="" /><br />
             Change Password: <input type="password" name="Password2" value="" /><br />' : "");
         ?>
@@ -196,6 +196,7 @@ if ((isset($_GET['UserID']) or $userID > 0) and $submitSuccessful) {
         $actionItems = new Interactions();
         $actionItems->setUserID($userID);
         $actionItems->printActionItems();
+        $actionItems->printNotes();
         print'<script type="text/javascript">showTag(".infoTag")</script>';
     } elseif (!empty($_GET['CreateUser']) or !$submitSuccessful) {
         print'<script type="text/javascript">showTag(".formTag")</script>';
