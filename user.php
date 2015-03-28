@@ -37,25 +37,28 @@ $active = 0;
 $phoneNumber = "";
 $interactionType = "";
 $interactionTypeID = 0;
+$password1 = "";
+$password2 = "";
 $submitSuccessful = true;  // defaults to true.  only turns false if database update fails for validation reasons.
 $titleList = pullTitles();
 $interactionList = pullInteractionTypes();
 
-if (!empty($_GET['Submit'])) {
-    $userID = $_GET['UserID'];
-    $titleID = $_GET['TitleID'];
-    $firstName = $_GET['FirstName'];
-    $lastName = $_GET['LastName'];
-    $email = $_GET['Email'];
-    $admin = $_GET['Admin'];
-    $phoneNumber = $_GET['PhoneNumber'];
-    $interactionTypeID = $_GET['InteractionType'];
-
+if (isset($_POST['Submit'])) {
+    $userID = $_POST['UserID'];
+    $titleID = $_POST['TitleID'];
+    $firstName = $_POST['FirstName'];
+    $lastName = $_POST['LastName'];
+    $email = $_POST['Email'];
+    $admin = (isset($_POST['Admin']) ? 1 : 0);
+    $phoneNumber = $_POST['PhoneNumber'];
+    $interactionTypeID = $_POST['InteractionTypeID'];
+    $password1 = (isset($_POST['Password1']) ? $_POST['Password1'] : "");
+    $password2 = (isset($_POST['Password2']) ? $_POST['Password2'] : "");
 
     //send all data to function for update. If UserID == 0 then it adds to database, otherwise it updates
     //first item in returned array is true/false for successful entry, second is businessID
     //form validation code is inside the function
-    $submitResult = pushUser($userID,$titleID,$firstName,$lastName,$email,$admin,$phoneNumber,$interactionTypeID);
+    $submitResult = pushUser($userID,$titleID,$firstName,$lastName,$email,$admin,$phoneNumber,$interactionTypeID,$password1,$password2);
     $submitSuccessful = $submitResult[0];
     if ($submitSuccessful){$userID = $submitResult[1];} //if successful assign userID
 
@@ -74,7 +77,7 @@ if (($_GET['ChangeActive'] == 0) || ($_GET['ChangeActive'] == 1)) {
 
 // UserID must already be set or exist in the url get
 // by requiring $submitSuccessful a failed update/add will cause the form to get populated with the submitted information for correction
-if ((!empty($_GET['UserID']) or $userID > 0) and $submitSuccessful) {
+if ((isset($_GET['UserID']) or $userID > 0) and $submitSuccessful) {
     if ($userID == 0) {
         $userID = $_GET['UserID'];
     }
@@ -89,7 +92,7 @@ if ((!empty($_GET['UserID']) or $userID > 0) and $submitSuccessful) {
         $admin = $row['Admin'];
         $active = $row['Active'];
         $phoneNumber = $row['PhoneNumber'];
-        $interactionTypeID = $row['InteractionType'];
+        $interactionTypeID = $row['InteractionTypeID'];
     }
 
     // get title, ie mr, mrs etc
@@ -108,10 +111,11 @@ if ((!empty($_GET['UserID']) or $userID > 0) and $submitSuccessful) {
 <div id="userPage">
 
     <!-- Add User Button -->
+    <?php ($_SESSION["admin"] ? print'
     <form class="searchTag listTag infoTag"  action="user.php">
         <input type="hidden" name="CreateUser" value="True"/>
         <input id="addUserButton" type="submit" value="Add New User" />
-    </form>
+    </form>' : ''); ?>
 
     <!-- User search -->
     <form class="searchTag listTag" action="user.php">
@@ -127,11 +131,12 @@ if ((!empty($_GET['UserID']) or $userID > 0) and $submitSuccessful) {
     </div>
 
     <!-- Active / Inactive Button -->
+    <?php ($_SESSION["admin"] ? print'
     <form class="formTag displayOff" action="user.php">
-        <input type="hidden" name="ChangeActive" value="<?= $active ?>"/>
-        <input type="hidden" name="UserID" value="<?= $userID ?>"/>
-        <input class="formTag" id="changeActive" type="submit" value=<?= ($active ? print'"Suspend User"' : print'"Activate User"') ?>/>
-    </form>
+        <input type="hidden" name="ChangeActive" value="' . $active . '"/>
+        <input type="hidden" name="UserID" value="' . $userID . '"/>
+        <input class="formTag" id="changeActive" type="submit" value="' . ($active ? print"Suspend User" : print"Activate User") . '"/>
+    </form>' : ''); ?>
 
     <!-- User Information -->
     <div class="infoTag displayOff">
@@ -142,14 +147,14 @@ if ((!empty($_GET['UserID']) or $userID > 0) and $submitSuccessful) {
             <li>Last Name: <?= $lastName ?></li>
             <li>Phone Number: <?= $phoneNumber ?></li>
             <li>Email: <?= $email ?></li>
-            <li>Admin: <?= ($admin ? "Yes" : "No") ?></li>
+            <?php ($_SESSION["admin"] ? print"<li>Admin: " . ($admin ? "Yes" : "No") . "</li>" : ""); ?>
             <li>Interaction Type: <?= $interactionType ?></li>
         </ul>
-        <input id="editButton" type="submit" value="Edit" />
+        <?php ($_SESSION["admin"] || $_SESSION["userID"] == $userID ? print'<input id="editButton" type="submit" value="Edit" />' : '')?>
     </div>
 
     <!-- Form for adding/editing users. -->
-    <form class="formTag displayOff">
+    <form class="formTag displayOff" method="post">
         <input type="hidden" name="Submit" value="True"/>
         <input type="hidden" name="UserID" value="<?= $userID ?>"/>
         Title: <select name="TitleID">
@@ -166,11 +171,15 @@ if ((!empty($_GET['UserID']) or $userID > 0) and $submitSuccessful) {
         Interaction Type: <select name="InteractionTypeID">
             <?php
             for ($i=0; $i < sizeof($interactionList); $i++) {
-                print'<option value="' . $interactionList[$i][1] . '"' . ($interactionList[$i][0]==$title ? ' Selected' : '') . '>' . $interactionList[$i][0] . '</option>' . "\r\n";
+                print'<option value="' . $interactionList[$i][1] . '"' . ($interactionList[$i][0]==$interactionType ? ' Selected' : '') . '>' . $interactionList[$i][0] . '</option>' . "\r\n";
             }
             ?>
         </select><br />
-        Admin: <input type="checkbox" name="Admin" value="Admin" <?= ($admin ? ' checked' : '') ?> /><br />
+        <?php ($_SESSION["admin"] ? print"Admin: <input type='checkbox' name='Admin' value='" . $admin . "' " . ($admin ? ' checked' : '') . "/><br />": ""); ?>
+        <?php ($_SERVER["admin"] || $_SESSION["userID"] == $userID ?
+            print 'Change Password: <input type="password" name="Password1" value="" /><br />
+            Change Password: <input type="password" name="Password2" value="" /><br />' : "");
+        ?>
         <input id="cancelButton" type="submit" value="Cancel" />
         <input id="submitButton" type="submit" value="Submit" />
     </form>

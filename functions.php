@@ -156,6 +156,7 @@
     /****************************************************************************************/
     // pull interaction types list
     function pullInteractionTypes() {
+        require('includes/mysqli_connect.php'); // connect to database
         $interactionTypeList = [];
         $interactionTypeQuery = "SELECT InteractionType, InteractionTypeID FROM tinteractiontype";
         if ($interactionTypeResult = mysqli_query($dbc, $interactionTypeQuery)) {
@@ -454,12 +455,18 @@
 // Query to Push User
 // Similar to business push, updates or adds user based userID being zero or greater
 
-    function pushUser($userID,$titleID,$firstName,$lastName,$email,$admin,$phoneNumber,$interactionTypeID) {
+    function pushUser($userID,$titleID,$firstName,$lastName,$email,$admin,$phoneNumber,$interactionTypeID,$password1,$password2) {
         require('includes/mysqli_connect.php'); // connect to database
 
         $valid = true;
         /* Add Validation Code here*/
         /* Print Errors for correction.  Changes will still display on the page but are not committed to the database if this function returns false*/
+        if ($password1 != "" || $password2 != "") {
+            if ($password1 != $password2) {
+                $valid = false;
+                print "Your passwords do not match, please try again.";
+            }
+        }
 
         if ($valid) {
             if ($userID > 0) { // edits user if $userID is greater than zero
@@ -470,16 +477,17 @@
                                    ,Email = '$email'
                                    ,Admin = $admin
                                    ,PhoneNumber = '$phoneNumber'
-                                   ,InteractionTypeID = '$interactionTypeID'
-                                WHERE UserID = $userID";
+                                   ,InteractionTypeID = '$interactionTypeID' " .
+                                    ($password1 != "" ? ",Password = '$password1'" : "") .
+                                " WHERE UserID = $userID";
                 if (mysqli_query($dbc, $updateQuery)) { //if successful
                     print'<p>Record Updated</p>';
                     return array(true, $userID);
                 }
             } else { // adds user
                 $updateQuery = "INSERT INTO tuser
-                                (Active,TitleID,FirstName,LastName,Email,Admin,PhoneNumber,InteractionTypeID)
-                                VALUES (1,$titleID,\"$firstName\",\"$lastName\",\"$email\",\"$admin\",\"$phoneNumber\",\"$interactionTypeID\")";
+                                (Active,TitleID,FirstName,LastName,Email,Admin,PhoneNumber,InteractionTypeID,Password)
+                                VALUES (1,$titleID,\"$firstName\",\"$lastName\",\"$email\",\"$admin\",\"$phoneNumber\",\"$interactionTypeID\",\"$password1\")";
                 if (mysqli_query($dbc, $updateQuery)) {  // if successful get user by looking up most recent record added to user table
                     $updateQuery = "SELECT UserID
                                     FROM tuser
@@ -493,7 +501,7 @@
                 }
             }
         }
-        print'<p>Record NOT Updated</p>';
+        print'<p>Record NOT Updated</p>'. $updateQuery;
         return array(False, $userID);
     }
 

@@ -48,7 +48,7 @@
 						$userLastName = $row['LastName'];
 						$userFullName = "{$row['Title']} {$row['LastName']}";
 						$userAuth = $row['Active'];
-						
+                        $admin = $row['Admin'];
 					
 						// Complete login by setting Session variables and cookie
 							// Set cookie to show user logged into site for 24 hours
@@ -58,6 +58,7 @@
 							$_SESSION["userFullName"] = $userFullName;
 							$_SESSION["userID"] = $userID;
 							$_SESSION["userAuth"] = $userAuth;
+                            $_SESSION["admin"] = $admin;
 						
 						/******  Begin building dashboard  *****/
 						
