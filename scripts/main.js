@@ -60,26 +60,19 @@ $(function() {
 /** ******************* For Dashboard *************************/
 
 $(function(){
-    $('.AIClass, .expandRow, .AIHClass').click(function() {
-        var clickedID=$(this).attr('id');
-        var expandID = '#to' + clickedID;
+    $('.AIClass, .expandRow, .AIHClass').on('click', function(event) {
+        event.preventDefault();
+        var clickedID=$(this).attr('name');
+        var expandID = '[name=to' + clickedID + ']';
+        var subexpandID = '.to' + clickedID;
         if ($(expandID).css('display') == 'none') {
             $(expandID).fadeIn();
         } else {
             $(expandID).fadeOut(100);
+            $(subexpandID).fadeOut(100);
         }
     });
 });
 
-$(function() {
-    $('#allContacts').click(function() {
-        $('.allNotes').toggle();
-    });
-});
-
 $(document).ready(function(){
-    for (var i = 1; i <= 5; i++){
-        $('#toExpandAI' + i).fadeOut(0);
-        $('#toExpandAIH' + i).fadeOut(0);
-    }
 });

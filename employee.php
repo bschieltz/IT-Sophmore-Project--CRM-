@@ -210,6 +210,10 @@ if ((!empty($_GET['EmployeeID']) or $employeeID > 0) and $submitSuccessful) {
     // this makes it possible to change what's displayed on the page without reloading the page.
     // a reload should only occur when and edit/add is submitted, add button is clicked, or a search is submitted
     if ((!empty($_GET['EmployeeID']) or $employeeID > 0) and $submitSuccessful) {
+        $actionItems = new Interactions();
+        $actionItems->setEmployeeID($employeeID);
+        $actionItems->printActionItems();
+        $actionItems->printNotes();
         print'<script type="text/javascript">showTag(".infoTag")</script>';
     } elseif (!empty($_GET['CreateEmployee']) or !$submitSuccessful) {
         print'<script type="text/javascript">showTag(".formTag")</script>';

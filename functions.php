@@ -42,12 +42,17 @@
 
 	/****************************************************************************************/
 	// Pulling Notes By User for use on the Dashboard
-	function pullUserNotes($userID) {
-		$userID = $userID;
-		
+	function pullUserNotes($subjectID, $subject) {
+        if ($subject == "UserID") {
+            $subject = "tuser.userID";
+        } elseif ($subject == "BusinessID") {
+            $subject = "tbusiness.BusinessID";
+        } elseif ($subject = "EmployeeID") {
+            $subject = "temployee.EmployeeID";
+        }
 		// Query to pull all contacts
-		$userNotesQuery = "SELECT tuser.UserID, InteractionType, Note, tbusiness.BusinessID as 'BusinessID',
-            BusinessName, temployee.employeeID as 'employeeID', temployee.FirstName as 'FirstName',
+		$userNotesQuery = "SELECT tuser.UserID, tuser.FirstName as 'UserFirstName', tuser.LastName as 'UserLastName', InteractionType, Note, tbusiness.BusinessID as 'BusinessID',
+            BusinessName, temployee.EmployeeID as 'employeeID', temployee.FirstName as 'FirstName',
             temployee.LastName as 'LastName', temployee.PhoneNumber as 'Phone', temployee.Extension as 'Ext',
             temployee.Email as 'Email', personalNote, tnote.DateTime as 'NoteCreated', tnote.NoteID
 			FROM tuser
@@ -59,20 +64,27 @@
                     ON tnote.businessID = tbusiness.businessID
                 Right JOIN temployee
                     ON tnote.employeeID = temployee.employeeID
-			WHERE tuser.userID = $userID
+			WHERE $subject = $subjectID
 			Order By NoteCreated desc";
 
+//        print $userNotesQuery;
 		return $userNotesQuery;
 	}
 
     /****************************************************************************************/
     // Pulling Action Items By User for use on the Dashboard
-    function pullUserActionItems($userID) {
-        $userID = $userID;
+    function pullUserActionItems($searchID,$subject) {
+        if ($subject == "UserID") {
+            $subject = "AssignedToUserID";
+        } elseif ($subject == "BusinessID") {
+            $subject = "tbusiness.BusinessID";
+        } elseif ($subject = "EmployeeID") {
+            $subject = "temployee.EmployeeID";
+        }
 
         // Query to pull all uncompleted action items
         $userActionItemsQuery = "
-            SELECT tuser.UserID, InteractionType, Note, tbusiness.BusinessID as 'BusinessID',
+            SELECT tuser.UserID, tuser.FirstName as 'UserFirstName', tuser.LastName as 'UserLastName', InteractionType, Note, tbusiness.BusinessID as 'BusinessID',
                 BusinessName, temployee.employeeID as 'employeeID', temployee.FirstName as 'FirstName',
                 temployee.LastName as 'LastName', temployee.PhoneNumber as 'Phone', temployee.Extension as 'Ext',
                 temployee.Email as 'Email', personalNote as 'EmployeeNote', tnote.DateTime as 'NoteCreated',
@@ -89,7 +101,7 @@
                     ON tbusiness.businessID = temployee.businessID
                 JOIN tinteractiontype
 					ON tnote.interactiontypeID = tinteractiontype.interactiontypeID
-            Where AssignedToUserID = $userID
+            Where $subject = $searchID
             Order By ActionItemCreated DESC;
             ";
 
@@ -97,7 +109,7 @@
     }
     /****************************************************************************************/
     // Pull all items associated to a given Action Item
-    function pullAssocActionItems($OriginalActionItemID, $NoteID, $originalDate) {
+    function pullAssocActionItems($OriginalActionItemID, $NoteID) {
         $OriginalActionItemID = $OriginalActionItemID;
         $NoteID = $NoteID;
 

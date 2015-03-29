@@ -213,6 +213,10 @@ ini_set('display_errors',1);  error_reporting(E_ALL);
     // this makes it possible to change what's displayed on the page without reloading the page.
     // a reload should only occur when and edit/add is submitted, add button is clicked, or a search is submitted
     if ((!empty($_GET['BusinessID']) or $businessID > 0) and $submitSuccessful) {
+        $actionItems = new Interactions();
+        $actionItems->setBusinessID($businessID);
+        $actionItems->printActionItems();
+        $actionItems->printNotes();
         print'<script type="text/javascript">showTag(".infoTag")</script>';
     } elseif (!empty($_GET['CreateBusiness']) or !$submitSuccessful) {
         print'<script type="text/javascript">showTag(".formTag")</script>';

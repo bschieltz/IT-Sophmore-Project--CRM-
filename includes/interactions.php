@@ -26,8 +26,10 @@ class Interactions {
         $actionDateTime = strtotime($row['NoteCreated']);
         $actionDateTime = date("m/d/Y h:i a", $actionDateTime);
         $actionCompete = "";
-        if (!is_null($row['actionComplete'])) {
-            $actionCompete = " complete";
+        if ($headerType == "action") {
+            if (!is_null($row['actionComplete'])) {
+                $actionCompete = " complete";
+            }
         }
         array_push($this->alreadyPrintedNotes,$row['NoteID']);
         print "
@@ -39,13 +41,14 @@ class Interactions {
                 </li>
             </ul>
                <ul name='toExpandAI$headerType$i' class='DashAI displayOff $headerType'>
-                    <li style='float:right;'><b>Employee:</b> <a href='employee.php?EmployeeID=" . $row['employeeID'] . "'>" . $row['FirstName'] . " " . $row['LastName'] . "</a></li>
+                    <li style='float:right;'><b>Employee:</b> <a href='employee.php?EmployeeID=" . $row['EmployeeID'] . "'>" . $row['FirstName'] . " " . $row['LastName'] . "</a></li>
                     <li><b>Business: </b><a href='business.php?BusinessID=" . $row['BusinessID'] . "'>" . $row['BusinessName'] . "</a></li>
                     <li style='float:right;'><b>Email:</b> <a href='mailto:" . $row['Email'] . "'>" . $row['Email'] . "</a></li>
                     <li><b>Phone #:</b> " . $row['Phone'] . " ext: " . $row['Ext'] . "</li>
+                    <li style='float:right;'><b>UC Staff:</b> <a href='user.php?UserID=" . $row['UserID'] . "'>" . $row['UserFirstName'] . " " . $row['UserLastName'] . "</a></li>
                     <li><b>Interaction Type:</b> " . $row['InteractionType'] . "</li>
                     <li><div class='notes'> " . $row['Note'] . "</div>";
-                        if (!is_null($row['actionComplete'])) {
+                        if (is_null($row['actionComplete'])) {
                             print"<h4 style='width: 75%; margin-left: auto; margin-right: auto; text-align: center;'>
                                 <!-- Need to add Links -->
                                 <a href=''>Add Note</a> |
@@ -81,10 +84,10 @@ class Interactions {
                             // Print History items related to this action item
                             print "
                                 <ul name='toExpandAIaction$i' class='actionItemsList displayOff AIHClass'>
-                                    <li><a href='#' name='ExpandAIH$i$j' class='AIHClass'>History Item $j</a></li>
+                                    <li><a href='#' name='ExpandAIH$i$j' class='AIHClass'>" . substr($assocRow['Note'],0,40) . "</a></li>
                                 </ul>
                                 <ul name='toExpandAIH$i$j' class='DashAI displayOff DashAIH toExpandAIaction$i'>
-                                    <li><b>User:</b> $pUserName &nbsp&nbsp&nbsp <b>Date:</b> $AIDateTime</li>
+                                    <li><b>UC Staff:</b><a href='user.php?UserID=" . $row['UserID'] . "'> $pUserName &nbsp&nbsp&nbsp</a> <b>Date:</b> $AIDateTime</li>
                                     <li><b>Notes: </b><br /><div class='notes'> " . $assocRow['Note'] . "</div></li>
                                 </ul>
                             ";
@@ -103,13 +106,12 @@ class Interactions {
         $actionItemsQuery = "";
 
         if ($this->userID > 0) {
-            $actionItemsQuery = pullUserActionItems($this->userID);
+            $actionItemsQuery = pullUserActionItems($this->userID,"UserID");
         } elseif ($this->businessID > 0) {
-
+            $actionItemsQuery = pullUserActionItems($this->businessID,"BusinessID");
         } elseif ($this->employeeID > 0) {
-
+            $actionItemsQuery = pullUserActionItems($this->employeeID,"EmployeeID");
         }
-
         // Run Action Items query
         if($userActionItems = mysqli_query($dbc, $actionItemsQuery)) {
             if(mysqli_num_rows($userActionItems) == 0) { // If no action items are present, print statement
@@ -140,13 +142,16 @@ class Interactions {
         print "<h3>Recent Contacts:</h3>";
         // Pull
         $notesQuery = "";
+//          print $this->userID . $this->businessID . $this->employeeID;
         if ($this->userID > 0) {
-            $notesQuery = pullUserNotes($this->userID);
+            $notesQuery = pullUserNotes($this->userID,"UserID");
         } elseif ($this->businessID > 0) {
-
+            $notesQuery = pullUserNotes($this->businessID,"BusinessID");
         } elseif ($this->employeeID > 0) {
-
+            $notesQuery = pullUserNotes($this->employeeID,"EmployeeID");
         }
+        //print $notesQuery;
+
 
         if($notes = mysqli_query($dbc, $notesQuery)) {
             if (mysqli_num_rows($notes) == 0) {
