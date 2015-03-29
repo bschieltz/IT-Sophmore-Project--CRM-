@@ -28,7 +28,7 @@
 						define('TITLE', 'UCC CRMS');
 
 						print "<div align='center'>";
-						print "<h1 style='color: red'>Sorry, we could not find you in our database.</h1>";
+						print "<h3 style='color: red'>Sorry, we could not find you in our database.</h3>";
 						print "<p style='color: red'>You can try again or contact
 							this system administrator for access.
 						</p>";

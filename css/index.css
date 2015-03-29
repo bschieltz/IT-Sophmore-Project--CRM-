@@ -231,12 +231,12 @@ blockquote {
 }
 
 #content ul, ol {
-	margin:10px 10px 10px 50px;
-	border-top:1px solid #eee;
-
+	/*margin:10px 10px 10px 50px;
+	border-top:1px solid #eee;*/
+    list-style-type: none;
 }
 #content li {
-	padding:10px;
+	/*padding:10px;*/
 	/*border-bottom:1px solid #eee;*/
 }
 
@@ -263,13 +263,6 @@ a.more:hover {
 	text-decoration:underline;
 }
 
-.displayOff {
-    display: none;
-}
-
-.infoTag{}
-
-.formTag{}
 /***************************** index page specific ***********************************************/
 #loginTable td {
 	line-height:25px;
@@ -277,20 +270,6 @@ a.more:hover {
 	padding: 15px;
 	padding-right: 0px;
 	padding-left: 5px;
-}
-
-.recentContacts, .actionItemsList{
-    border-bottom: solid;
-}
-
-.recentContacts li {}
-
-.notes {
-    border: 2px solid #000000;
-    background-color: #f0f0f0;
-    box-shadow: 0 2px 2px ;
-    margin: 20px;
-    padding: 10px;
 }
 
 .myButton {
@@ -350,9 +329,68 @@ a.more:hover {
 
 
 
-/***************************** notes page specific ***********************************************/
+/***************************** interactions specific ***********************************************/
 
+.recentContacts, .actionItemsList{
+    list-style-type: none;
+    /*border-bottom: solid;*/
+}
 
+.recentContacts li {}
 
+.notes {
+    background-color: #f0f0f0;
+    padding: 5px;
+}
+
+#content .interactionHeader a, .AIHClass a {
+    display: block;
+    color: #ffffff;
+    list-style-type: none;
+    padding:10px;
+    margin:5px 0 0 0;
+}
+
+#content .AIHClass a {
+    color: #ffffff;
+    font-size: 14px;
+    margin: 5px 0 0 60px;
+    padding: 5px;
+    background-color: maroon;
+}
+
+.interactionHeader.action{
+    background-color: #E00122;
+}
+
+.interactionHeader.action.complete {
+    background-color: maroon;
+}
+
+.interactionHeader.note{
+    background-color: #444;
+}
+
+#content .DashAI {
+    color: #000000;
+    font-size: 12px;
+    background-color: #f5978e;
+    padding: 10px;
+}
+
+#content .DashAI b {
+    color: #ffffff;
+}
+
+#content .DashAI.note {
+    background-color: #999999;
+}
+
+.DashAIH {
+    margin: 0 0 0 60px;
+}
 /***************************** Reports page specific ***********************************************/
 
+.displayOff {
+    display: none;
+}
