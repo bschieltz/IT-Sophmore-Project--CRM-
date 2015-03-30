@@ -104,7 +104,7 @@
             Where $subject = $searchID
             Order By ActionItemCreated DESC;
             ";
-
+//        print $userActionItemsQuery;
         return $userActionItemsQuery;
     }
     /****************************************************************************************/
@@ -121,9 +121,9 @@
               JOIN tnote
                 ON tactionitem.NoteID = tnote.NoteID
               JOIN tuser
-                ON tnote.UserID = tuser.UserID
+                ON tactionitem.AssignedToUserID = tuser.UserID
             WHERE tactionitem.OriginalActionItemID = $OriginalActionItemID
-                AND tactionitem.NoteID < $NoteID
+                AND tnote.NoteID < $NoteID
             ORDER BY AIDate desc
         ";
 

@@ -41,11 +41,12 @@ class Interactions {
                 </li>
             </ul>
                <ul name='toExpandAI$headerType$i' class='DashAI displayOff $headerType'>
-                    <li style='float:right;'><b>Employee:</b> <a href='employee.php?EmployeeID=" . $row['EmployeeID'] . "'>" . $row['FirstName'] . " " . $row['LastName'] . "</a></li>
+                    <li style='float:right;'><b>Employee:</b> <a href='employee.php?EmployeeID=" . $row['employeeID'] . "'>" . $row['FirstName'] . " " . $row['LastName'] . "</a></li>
                     <li><b>Business: </b><a href='business.php?BusinessID=" . $row['BusinessID'] . "'>" . $row['BusinessName'] . "</a></li>
                     <li style='float:right;'><b>Email:</b> <a href='mailto:" . $row['Email'] . "'>" . $row['Email'] . "</a></li>
                     <li><b>Phone #:</b> " . $row['Phone'] . " ext: " . $row['Ext'] . "</li>
-                    <li style='float:right;'><b>UC Staff:</b> <a href='user.php?UserID=" . $row['UserID'] . "'>" . $row['UserFirstName'] . " " . $row['UserLastName'] . "</a></li>
+                    <li style='float:right;'>
+                        <b>" . ($headerType == "action" ? "Assigned To: " : "Created By: ") . "</b><a href='user.php?UserID=" . $row['UserID'] . "'>" . $row['UserFirstName'] . " " . $row['UserLastName'] . "</a></li>
                     <li><b>Interaction Type:</b> " . $row['InteractionType'] . "</li>
                     <li><div class='notes'> " . $row['Note'] . "</div>";
                         if (is_null($row['actionComplete'])) {
@@ -87,7 +88,7 @@ class Interactions {
                                     <li><a href='#' name='ExpandAIH$i$j' class='AIHClass'>" . substr($assocRow['Note'],0,40) . "</a></li>
                                 </ul>
                                 <ul name='toExpandAIH$i$j' class='DashAI displayOff DashAIH toExpandAIaction$i'>
-                                    <li><b>UC Staff:</b><a href='user.php?UserID=" . $row['UserID'] . "'> $pUserName &nbsp&nbsp&nbsp</a> <b>Date:</b> $AIDateTime</li>
+                                    <li><b>UC Staff:</b><a href='user.php?UserID=" . $assocRow['AssignedToUserID'] . "'> $pUserName &nbsp&nbsp&nbsp</a> <b>Date:</b> $AIDateTime</li>
                                     <li><b>Notes: </b><br /><div class='notes'> " . $assocRow['Note'] . "</div></li>
                                 </ul>
                             ";
