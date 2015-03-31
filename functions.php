@@ -559,4 +559,117 @@
 		logout();
 	}
 
+    /****************************************************************************************/
+
+    /*
+        This function will insert a new interaction.  It requires:
+            $UserID - Number: The user ID of the user creating the note
+            $BusinessID - Number: Business ID of the business the note should be attached to
+            $EmployeeID - Number: Employee ID of the employee the note should be attached to
+            $InteractionTypeID - Number: The ID of the interaction type which this note refers to
+            $Note - String: The note as a string
+    */
+    function insertInteraction($userID, $BusinessID, $EmployeeID, $InteractionTypeID, $Note) {
+        print "<p>inFunction: $userID, $BusinessID, $EmployeeID, $InteractionTypeID, $Note.</p>";
+
+        // Query to add new Interaction
+        $addInteractionQuery = '
+                Insert Into tnote (UserID, BusinessID, EmployeeID, InteractionTypeID, Note)
+                    Values (' . $userID . ', ' . $BusinessID . ', ' . $EmployeeID . ', ' . $InteractionTypeID . ', "' . $Note . '");
+            ';
+
+        return $addInteractionQuery;
+    }
+
+    /****************************************************************************************/
+
+    /*
+        * This function controls Action Items, creating new, forwarding and closing depending on the variables passed.  It requires:
+            $UserID - Number: The User ID of the user creating the note
+            $BusinessID - Number: Business ID of the business the note should be attached to
+            $EmployeeID - Number: Employee ID of the employee the note should be attached to
+            $InteractionTypeID - Number: The ID of the interaction type which this note refers to
+            $Note - String: The note as a string
+            $OriginalActionItemID - Number: The original Action Item ID this Action Item should be linked to
+            $ReferanceID - Number: The Action Item ID this Action Item is in response to (the Action Item ID of the current open Action Item)
+            $AssignedToUserID - Number: The User ID of the user who the Action Item is to be assigned to
+            $CloseAction - Number: Indicator to signal if Action Item is completed and should be closed (0 = Do Not Close, 1 = Close)
+        * PHP must use "mysqli_multi_query" instead of "mysqli_query" as multiple queries must be run with each calling of the function.
+        * Unused parameters should be passed to the function as blank ("") to generate a NULL value in the database.
+        * $CloseAction should never be an unused parameter, requires either a zero (0) or a one (1) in order for the function to process.
+        * To create a NEW Action Item, both the $OriginalActionItemID and the $CloseAction parameters should be passed as zero (0).
+        * To forward an Action Item, the $OriginalActionItemID parameter must be included and greater than zero; the $CloseAction parameter must be passed as zero (0).
+        * To close an Action Item, the $CloseAction parameter must be passed as one (1).
+    */
+    function insertActionItem($userID, $BusinessID, $EmployeeID, $InteractionTypeID, $Note, $OriginalActionItemID, $ReferanceID, $AssignedToUserID, $CloseAction) {
+
+        if($OriginalActionItemID == 0 && $CloseAction == 0) { // This will be used to add a new Action Item
+            /*
+                To add a new Action Item, the OriginalActionItemID should be passed as zero (0), indicating this Action Item is not in response to any other.
+                The CloseAction should be returned as zero (0) to indicate that the Action Item should not be closed out.
+            */
+            $addActionItemQuery = "
+                    INSERT INTO tnote (UserID, BusinessID, EmployeeID, InteractionTypeID, Note)
+                        VALUES ($userID, $BusinessID, $EmployeeID, $InteractionTypeID, \"$Note\");
+
+                    SELECT last_insert_id()
+                    INTO @noteIDNum;
+
+                    INSERT INTO tactionitem(AssignedToUserID, NoteID)
+                    VALUES ($AssignedToUserID, @noteIDNum);
+
+                    SELECT last_insert_id()
+                    INTO @AIIDNum;
+
+                    UPDATE tactionitem
+                    SET OriginalActionItemID = @AIIDNum
+                    WHERE ActionItemID = @AIIDNum;
+                ";
+
+            return $addActionItemQuery;
+        }
+        else if($OriginalActionItemID > 0 && $CloseAction == 0) { // This will be used to forward an action item
+            /*
+                To forward an Action Item, the OriginalActionItemID the Action Item will be linked to should be included.
+                The CloseAction should be returned as zero (0) to indicate that the Action Item should not be closed out.
+            */
+            $addActionItemQuery = "
+                    UPDATE tactionitem
+                    SET actionComplete = Now()
+                    WHERE ActionItemID = $ReferanceID;
+
+                    INSERT INTO tnote( UserID, BusinessID, EmployeeID, InteractionTypeID, Note )
+                    VALUES ( $userID, $BusinessID, $EmployeeID, $InteractionTypeID,  \"$Note\" ) ;
+
+                    SELECT LAST_INSERT_ID( )
+                    INTO @noteID ;
+
+                    INSERT INTO tactionitem( OriginalActionItemID, ReferanceID, AssignedToUserID, NoteID, ActionComplete )
+                    VALUES ( $OriginalActionItemID, $ReferanceID, $AssignedToUserID, @noteID , NULL );
+                ";
+
+            return $addActionItemQuery;
+        }
+        else if($CloseAction == 1) { // This will be used to close an action item
+            /*
+                To close an Action Item,
+            */
+            $addActionItemQuery = "
+                    UPDATE tactionitem
+                    SET actionComplete = Now()
+                    WHERE ActionItemID = $ReferanceID;
+
+                    INSERT INTO tnote( UserID, BusinessID, EmployeeID, InteractionTypeID, Note )
+                    VALUES ( $userID, $BusinessID, $EmployeeID, $InteractionTypeID,  \"$Note\" ) ;
+                ";
+
+            return $addActionItemQuery;
+        }
+        else {
+            print "<h2 style='color: red;'>An error has occurred and no database updates have been processed.</h2>";
+        }
+    }
+
+
+
 ?>
