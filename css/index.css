@@ -324,6 +324,50 @@ a.more:hover {
 #businessPage ul {
     list-style: none
 }
+#searchInput {
+    border: 5px solid white;
+    width: 50%;
+    -webkit-box-shadow:
+    inset 0 0 8px  rgba(0,0,0,0.1),
+    0 0 16px rgba(0,0,0,0.1);
+    -moz-box-shadow:
+    inset 0 0 8px  rgba(0,0,0,0.1),
+    0 0 16px rgba(0,0,0,0.1);
+    box-shadow:
+    inset 0 0 8px  rgba(0,0,0,0.1),
+    0 0 16px rgba(0,0,0,0.1);
+    padding: 15px 15px;
+    background: rgba(255,255,255,0.5);
+}
+#addBusinessButton, #searchButton, #addEmployeeButton, #cancelButton, #submitButton {
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+    -moz-box-shadow:inset 0px 3px 0px 0px #f5978e;
+    -webkit-box-shadow:inset 0px 3px 0px 0px #f5978e;
+    box-shadow:inset 0px 3px 0px 0px #f5978e;
+    background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #f24537), color-stop(1, #c62d1f));
+    background:-moz-linear-gradient(top, #f24537 5%, #E00122 100%);
+    background:-webkit-linear-gradient(top, #f24537 5%, #E00122 100%);
+    background:-o-linear-gradient(top, #f24537 5%, #E00122 100%);
+    background:-ms-linear-gradient(top, #f24537 5%, #E00122 100%);
+    background:linear-gradient(to bottom, #f24537 5%, #E00122 100%);
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#f24537', endColorstr='#E00122',GradientType=0);
+    background-color:#f24537;
+    -moz-border-radius:6px;
+    -webkit-border-radius:6px;
+    border-radius:6px;
+    border:1px solid #ffffff;
+    display:inline-block;
+    cursor:pointer;
+    color:#ffffff;
+    font-family:arial;
+    font-size:15px;
+    font-weight:bold;
+    padding:15px 15px;
+    text-decoration:none;
+    text-shadow:0px 1px 0px #810e05;
+}
 
 /***************************** users page specific ***********************************************/
 

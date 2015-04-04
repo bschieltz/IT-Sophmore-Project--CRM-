@@ -131,7 +131,7 @@ if ((!empty($_GET['EmployeeID']) or $employeeID > 0) and $submitSuccessful) {
 
     <!-- Employee search -->
     <form class="searchTag listTag" action="employee.php">
-        <input type="search" name="Search" placeholder="Search for an employee" />
+        <input id="searchInput" type="search" name="Search" placeholder="Search for an employee" />
         <input id="searchButton" type="submit" value="Search" />
     </form>
 
