@@ -21,6 +21,24 @@ class Interactions {
     function setEmployeeID($employeeID){$this->employeeID = $employeeID;}
 
     /****************************************************************************************/
+    // Print Edit Box
+    private function printEditBox($i,$userID,$businessID,$employeeID){
+        print "<ul class='editBoxHeader' name='editBox$i'>";
+            if ($userID == "")  {
+                print'<li class="editNew"><a href="">Add New Interaction</a></li>';
+            } else {
+                print'<h4 style="width: 75%; margin-left: auto; margin-right: auto; text-align: center;">
+                      <li class="editForwardClose"><a href="">Forward</a> | <a href=""> Close</a></li></h4>';
+            }
+        print'</ul>';
+        print"<form class='editBoxContent displayOff' name='toeditBox$i'>
+            <input type='hidden' name='submitInteraction' value='true' />
+            <input type='hidden' name='BusinessID'/>
+            <textarea name='Note' role='8' cols='40'></textarea>
+        </form>";
+    }
+
+    /****************************************************************************************/
     // Prints individual note / action item record
     private function printItem($i,$row,$headerType){
         $actionDateTime = strtotime($row['NoteCreated']);
@@ -50,12 +68,9 @@ class Interactions {
                     <li><b>Interaction Type:</b> " . $row['InteractionType'] . "</li>
                     <li><div class='notes'> " . $row['Note'] . "</div>";
                         if (is_null($row['actionComplete'])) {
-                            print"<h4 style='width: 75%; margin-left: auto; margin-right: auto; text-align: center;'>
-                                <!-- Need to add Links -->
-                                <a href=''>Add Note</a> |
-                                <a href=''>Forward</a> |
-                                <a href=''>Mark Complete</a>
-                            </h4>";
+                            if ($row['actionComplete'] == NULL && $headerType == "action") {
+                               $this->printEditBox($i,$row['UserID'],$row['BusinessID'],$row['employeeID']);
+                            }
                         }
                     print"</li>
                 </ul>
@@ -179,5 +194,50 @@ class Interactions {
 
     /****************************************************************************************/
     // Print notes and action items mixed by most recent
-    function printInteractions(){}
+    function printInteractions(){
+        require('includes/mysqli_connect.php');
+        // Store Action Items query to variable
+        $actionItemsQuery = "";
+        $name = "";
+
+        if ($this->userID > 0) {
+            $actionItemsQuery = pullInteractions($this->userID,"UserID");
+            $name = "User";
+        } elseif ($this->employeeID > 0) {
+            $actionItemsQuery = pullInteractions($this->employeeID,"EmployeeID");
+            $name = "Employee";
+        } elseif ($this->businessID > 0) {
+            $actionItemsQuery = pullInteractions($this->businessID,"BusinessID");
+            $name = "Business";
+        }
+
+        if ($name != "") {
+            if ($this->employeeID != "" || $this->businessID != ""){
+                $this->printEditBox(0,"",$this->businessID,$this->employeeID);
+            }
+            // Run Action Items query
+            if ($userActionItems = mysqli_query($dbc, $actionItemsQuery)) {
+                if (mysqli_num_rows($userActionItems) == 0) { // If no action items are present, print statement
+                    print '<p style="color:red">No Interactions this ' . $name . '</p>';
+                } else {
+                    $numberOfActionItems = mysqli_num_rows($userActionItems);
+                    //print "<h4 style='padding-left: 25px;'>Action Items: 1-<b>$numberOfActionItems</b></h4>";
+
+                    for ($i = 1; $i <= $numberOfActionItems; $i++) {
+                        if ($row = mysqli_fetch_array($userActionItems)) {
+                            if (!in_array($row['NoteID'], $this->alreadyPrintedNotes)) {
+                                if ($row['ActionItemID'] != NULL) {
+                                    $this->printItem($i, $row, "action");
+                                } else {
+                                    $this->printItem($i, $row, "note");
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                print "ERROR IN ACTION ITEMS! $actionItemsQuery";
+            }
+        }
+    }
 }

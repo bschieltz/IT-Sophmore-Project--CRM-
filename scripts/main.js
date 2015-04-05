@@ -60,7 +60,7 @@ $(function() {
 /** ******************* For Dashboard *************************/
 
 $(function(){
-    $('.AIClass, .expandRow, .AIHClass').on('click', function(event) {
+    $('.AIClass, .expandRow, .AIHClass, .editBoxHeader').on('click', function(event) {
         event.preventDefault();
         var clickedID=$(this).attr('name');
         var expandID = '[name=to' + clickedID + ']';

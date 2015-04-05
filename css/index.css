@@ -419,7 +419,7 @@ a.more:hover {
     color: #000000;
     font-size: 12px;
     background-color: #f5978e;
-    padding: 10px;
+    padding: 5px 10px 5px 10px;
 }
 
 #content .DashAI b {
@@ -428,10 +428,15 @@ a.more:hover {
 
 #content .DashAI.note {
     background-color: #999999;
+    margin-bottom: 2px;
 }
 
 .DashAIH {
     margin: 0 0 0 60px;
+}
+
+#content .editBoxContent textarea {
+    width: 100%;
 }
 /***************************** Reports page specific ***********************************************/
 

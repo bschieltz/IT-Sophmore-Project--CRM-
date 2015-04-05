@@ -130,8 +130,62 @@
         return $assocActionItemsQuery;
     }
 
+    /****************************************************************************************/
+    // Pulling Action Items By User for use on the Dashboard
+    function pullInteractions($searchID,$subject) {
+        if ($subject == "UserID") {
+            $subject = "AssignedToUserID";
+            $subject2 = "tuser.UserID";
+        } elseif ($subject == "BusinessID") {
+            $subject = "tbusiness.BusinessID";
+            $subject2 = "tbusiness.BusinessID";
+        } elseif ($subject = "EmployeeID") {
+            $subject = "temployee.EmployeeID";
+            $subject2 = "temployee.EmployeeID";
+        }
 
-
+        // Query to pull all uncompleted action items
+        $userActionItemsQuery = "
+            SELECT tuser.UserID, tuser.FirstName as 'UserFirstName', tuser.LastName as 'UserLastName', InteractionType, Note, tbusiness.BusinessID as 'BusinessID',
+                BusinessName, temployee.employeeID as 'employeeID', temployee.FirstName as 'FirstName',
+                temployee.LastName as 'LastName', temployee.PhoneNumber as 'Phone', temployee.Extension as 'Ext',
+                temployee.Email as 'Email', personalNote as 'EmployeeNote', tnote.DateTime as 'NoteCreated',
+                tactionitem.DateTime as 'ActionItemCreated', ActionItemID, OriginalActionItemID, ReferanceID,
+                AssignedToUserID, tactionitem.NoteID as 'NoteID', actionComplete
+            FROM tuser
+                JOIN tactionitem
+                    ON tuser.userID = tactionitem.AssignedToUserID
+                JOIN tnote
+                    ON tactionitem.noteID = tnote.noteID
+                JOIN tbusiness
+                    ON tnote.businessID = tbusiness.businessID
+                JOIN temployee
+                    ON tbusiness.businessID = temployee.businessID
+                JOIN tinteractiontype
+					ON tnote.interactiontypeID = tinteractiontype.interactiontypeID
+            Where $subject = $searchID
+            UNION ALL
+            SELECT tuser.UserID, tuser.FirstName as 'UserFirstName', tuser.LastName as 'UserLastName', InteractionType, Note, tbusiness.BusinessID as 'BusinessID',
+                BusinessName, temployee.EmployeeID as 'employeeID', temployee.FirstName as 'FirstName',
+                temployee.LastName as 'LastName', temployee.PhoneNumber as 'Phone', temployee.Extension as 'Ext',
+                temployee.Email as 'Email', personalNote as 'EmployeeNote', tnote.DateTime as 'NoteCreated',
+                NULL AS 'ActionItemCreated', NULL AS 'ActionItemID', NULL AS 'OriginalActionItemID', NULL AS 'ReferanceID',
+                NULL AS 'AssignedToUserID', tnote.NoteID as 'NoteID', NULL AS 'actionComplete'
+			FROM tuser
+				Right JOIN tnote
+					ON tuser.userID = tnote.userID
+				Right JOIN tinteractiontype
+					ON tnote.interactiontypeID = tinteractiontype.interactiontypeID
+                Right JOIN tbusiness
+                    ON tnote.businessID = tbusiness.businessID
+                Right JOIN temployee
+                    ON tnote.employeeID = temployee.employeeID
+			WHERE $subject2 = $searchID
+			Order By NoteCreated DESC;
+            ";
+//        print $userActionItemsQuery;
+        return $userActionItemsQuery;
+    }
 
     /****************************************************************************************/
     // pull Title List
