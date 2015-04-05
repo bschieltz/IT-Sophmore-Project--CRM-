@@ -12,18 +12,34 @@ class Interactions {
     private $businessID = 0;
     private $employeeID = 0;
     private $alreadyPrintedNotes = [];
+    private $businessName = "";
 
     function getUserID(){return $this->userID;}
     function getBusinessID(){return $this->businessID;}
     function getEmployeeID(){return $this->employeeID;}
     function setUserID($userID){$this->userID = $userID;}
-    function setBusinessID($businessID){$this->businessID = $businessID;}
+    function setBusinessID($businessID){
+        require('includes/mysqli_connect.php'); // connect to database
+        $this->businessID = $businessID;
+        $businessQuery = "SELECT BusinessName, PrimaryContact, `PrimaryPhone#`, Notes
+                  FROM tbusiness WHERE BusinessID = $this->businessID";
+        if ($business = mysqli_query($dbc, $businessQuery)) {
+            $row = mysqli_fetch_array($business);
+            $this->businessName = $row['BusinessName'];
+        }
+    }
     function setEmployeeID($employeeID){$this->employeeID = $employeeID;}
 
     /****************************************************************************************/
     // Print Edit Box
-    private function printEditBox($i,$userID,$businessID,$employeeID){
-        print "<ul class='editBoxHeader' name='editBox$i'>";
+    private function printEditBox($type,$sentI,$userID,$businessID,$businessName,$employeeID){
+        require('includes/mysqli_connect.php'); // connect to database
+        $userListQuery = "SELECT UserID, FirstName, LastName FROM tuser";
+        $userList = mysqli_query($dbc, $userListQuery) or die("Error: ".mysqli_error($dbc));
+        $employeeListQuery = "SELECT EmployeeID, FirstName, LastName FROM temployee WHERE BusinessID = $businessID";
+        $employeeList = mysqli_query($dbc, $employeeListQuery) or die("Error: ".mysqli_error($dbc));
+
+        print "<ul class='editBoxHeader' name='editBox$sentI'>";
             if ($userID == "")  {
                 print'<li class="editNew"><a href="">Add New Interaction</a></li>';
             } else {
@@ -31,10 +47,39 @@ class Interactions {
                       <li class="editForwardClose"><a href="">Forward</a> | <a href=""> Close</a></li></h4>';
             }
         print'</ul>';
-        print"<form class='editBoxContent displayOff' name='toeditBox$i'>
+        print"<form class='editBoxContent displayOff' name='toeditBox$sentI'>
             <input type='hidden' name='submitInteraction' value='true' />
-            <input type='hidden' name='BusinessID'/>
+            <input type='hidden' name='BusinessID' value='$businessID'/>
+            <input type='hidden' name='UserID' value='" . $_SESSION['userID'] . "'>
+            Business: $businessName
+            Involving: <select name='EmployeeID'>
+                <option value=''>None</option>";
+                    if (mysqli_num_rows($employeeList) > 0) {
+                        for ($i=0; $i <= mysqli_num_rows($employeeList); $i++) {
+                            if($row = mysqli_fetch_array($employeeList)) {
+                                print "<option value='" . $row['EmployeeID'] . "'" . ($row['EmployeeID'] == $employeeID ? ' Selected' : '') . ">" . $row['FirstName'] . " " . $row['LastName'] . "</option>";
+                            }
+                        }
+                    }
+                print"</select>
+            <div" . ($type != "note" ? " class='displayOff'" : '') . ">Type: <select class='InteractionSelection' name='InteractionType$sentI'>
+                <option value='Note'>Note</option>
+                <option value='Action Item'" . ($type != "note" ? ' Selected' : '') . ">Action Item</option>
+            </select></div>
+            <div class='ShowInteractionType$sentI" . ($type == "note" ? ' displayOff' : '') . "'>
+                Forward To: <select name='AssignedToUserID'>
+                <option value=''>Close</option>";
+                    if (mysqli_num_rows($userList) > 0) {
+                        for ($i=0; $i <= mysqli_num_rows($userList); $i++) {
+                            if($row = mysqli_fetch_array($userList)) {
+                                print "<option value='" . $row['UserID'] . "'>" . $row['FirstName'] . " " . $row['LastName'] . "</option>";
+                            }
+                        }
+                    }
+                print"</select>
+            </div>
             <textarea name='Note' role='8' cols='40'></textarea>
+            <input type='button' value='Submit' name='Submit'/>
         </form>";
     }
 
@@ -69,7 +114,9 @@ class Interactions {
                     <li><div class='notes'> " . $row['Note'] . "</div>";
                         if (is_null($row['actionComplete'])) {
                             if ($row['actionComplete'] == NULL && $headerType == "action") {
-                               $this->printEditBox($i,$row['UserID'],$row['BusinessID'],$row['employeeID']);
+                                if ($row['UserID'] == $_SESSION['userID']) {
+                                    $this->printEditBox($headerType, $i, $row['UserID'], $row['BusinessID'], $row['BusinessName'], $row['employeeID']);
+                                }
                             }
                         }
                     print"</li>
@@ -213,7 +260,7 @@ class Interactions {
 
         if ($name != "") {
             if ($this->employeeID != "" || $this->businessID != ""){
-                $this->printEditBox(0,"",$this->businessID,$this->employeeID);
+                $this->printEditBox("note",0,"",$this->businessID,$this->businessName,$this->employeeID);
             }
             // Run Action Items query
             if ($userActionItems = mysqli_query($dbc, $actionItemsQuery)) {

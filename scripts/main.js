@@ -57,6 +57,17 @@ $(function() {
     });
 });
 
+$(function() {
+    $('.InteractionSelection').on('change', function(event){
+        var expandID = '.Show' + $(this).attr('name');
+        if ($(this).val() == 'Note'){
+            $(expandID).fadeOut(100);
+        } else {
+            $(expandID).fadeIn();
+        }
+    });
+});
+
 /** ******************* For Dashboard *************************/
 
 $(function(){
