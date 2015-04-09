@@ -71,7 +71,7 @@ if (isset($_POST['Submit'])) {
 
 if (($_POST['ChangeActive'] == 0) || ($_POST['ChangeActive'] == 1)) {
     $active = $_POST['ChangeActive'];
-    $userID = $_GET['UserID'];
+    $userID = $_POST['UserID'];
     flipActive($active,"user",$userID);
 }
 

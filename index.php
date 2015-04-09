@@ -83,8 +83,8 @@
 			if(isset($_SESSION["userID"])) {
 				$userFullName = $_SESSION["userFullName"];
 				$userID = $_SESSION["userID"];
-				
-				dashboard($userID, $userFullName);
+
+                dashboard($userID, $userFullName);
 			}
 			else {
 				define('TITLE', 'UCC CRMS');

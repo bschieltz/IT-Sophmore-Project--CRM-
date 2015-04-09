@@ -587,8 +587,7 @@
 		print "<br /><br />";
         $actionItems = new Interactions();
         $actionItems->setUserID($userID);
-        $actionItems->printActionItems();
-        $actionItems->printNotes();
+        $actionItems->printInteractions();
 
 	}
 	
