@@ -31,6 +31,12 @@ class Interactions {
     function setEmployeeID($employeeID){$this->employeeID = $employeeID;}
 
     /****************************************************************************************/
+    // Submit interaction
+    function submitInteraction(){
+
+    }
+
+    /****************************************************************************************/
     // Print Edit Box
     private function printEditBox($type,$sentI,$userID,$businessID,$businessName,$employeeID,$interactionType){
         require('includes/mysqli_connect.php'); // connect to database
