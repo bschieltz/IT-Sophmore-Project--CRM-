@@ -584,7 +584,7 @@
 		print "<h2 style='color: #E00122;'>Welcome, $userFullName!</h2>";
 
         print "<br /><form action='notes.php' method='get'><input type='submit' value='Add New Interaction'  class='myButton'/></form>";
-        print "<form action='". urlencode($addBusinessLink) ."'><input type='submit' value='Add New Business'  class='myButton'/></form><br />";
+        print "<form action='". urlencode(htmlspecialchars($addBusinessLink), ENT_QUOTES)) ."'><input type='submit' value='Add New Business'  class='myButton'/></form><br />";
 
 		print "<br /><br />";
         $actionItems = new Interactions();
