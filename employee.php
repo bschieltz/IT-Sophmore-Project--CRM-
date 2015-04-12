@@ -159,7 +159,7 @@ if ((!empty($_GET['EmployeeID']) or $employeeID > 0) and $submitSuccessful) {
             <li>Last Name: <?= $lastName ?></li>
             <li>Phone Number: <?= $phoneNumber ?></li>
             <li>Ext: <?= $extension ?></li>
-            <li>Email: <?= $email ?></li>
+            <li>Email: <a href="mailto:<?= $email ?>"><?= $email ?></a></li>
             <li>Personal Note: <?= $personalNote ?></li>
             <li>Works for: <a href="business.php?BusinessID=<?= $businessID ?>"><?= $businessName ?></a></li>
         </ul>
