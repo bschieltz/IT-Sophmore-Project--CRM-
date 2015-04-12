@@ -436,7 +436,25 @@ a.more:hover {
 }
 
 #content .editBoxContent textarea {
-    width: 100%;
+    width: 99.8%;
+    margin-top: 3px;
+}
+
+.displayInline{
+    display: inline;
+}
+
+#content .editBoxHeader{
+    font-size: 14px;
+}
+
+#content .editBoxContent{
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: bold;
+    background-color: #E00122;
+    /*border: solid 1px black;*/
+    padding: 3px;
 }
 /***************************** Reports page specific ***********************************************/
 
