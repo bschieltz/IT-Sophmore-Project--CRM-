@@ -32,12 +32,13 @@ class Interactions {
 
     /****************************************************************************************/
     // Print Edit Box
-    private function printEditBox($type,$sentI,$userID,$businessID,$businessName,$employeeID){
+    private function printEditBox($type,$sentI,$userID,$businessID,$businessName,$employeeID,$interactionType){
         require('includes/mysqli_connect.php'); // connect to database
         $userListQuery = "SELECT UserID, FirstName, LastName FROM tuser";
         $userList = mysqli_query($dbc, $userListQuery) or die("Error: ".mysqli_error($dbc));
         $employeeListQuery = "SELECT EmployeeID, FirstName, LastName FROM temployee WHERE BusinessID = $businessID";
         $employeeList = mysqli_query($dbc, $employeeListQuery) or die("Error: ".mysqli_error($dbc));
+        $interactionList = pullInteractionTypes();
 
         print "<ul class='editBoxHeader' name='editBox$sentI'>";
             if ($userID == "")  {
@@ -61,8 +62,13 @@ class Interactions {
                             }
                         }
                     }
+                print"</select><br />
+                    Interaction Type: <select name='InteractionTypeID'>";
+                    for ($i=0; $i < sizeof($interactionList); $i++) {
+                        print'<option value="' . $interactionList[$i][1] . '"' . ($interactionList[$i][0]==$interactionType ? ' Selected' : '') . '>' . $interactionList[$i][0] . '</option>' . "\r\n";
+                    }
                 print"</select>
-            <div" . ($type != "note" ? " class='displayOff'" : '') . ">Type: <select class='InteractionSelection' name='InteractionType$sentI'>
+            <div" . ($type != "note" ? " class='displayOff'" : '') . " style='display:inline;'>Type: <select class='InteractionSelection' name='InteractionType$sentI'>
                 <option value='Note'>Note</option>
                 <option value='Action Item'" . ($type != "note" ? ' Selected' : '') . ">Action Item</option>
             </select></div>
@@ -89,6 +95,10 @@ class Interactions {
         $actionDateTime = strtotime($row['NoteCreated']);
         $actionDateTime = date("m/d/Y h:i a", $actionDateTime);
         $actionCompete = "";
+        $OriginalActionItemID = $row['OriginalActionItemID'];
+        $NoteID = $row['NoteID'];
+        $originalDate = $row['ActionItemCreated'];
+
         if ($headerType == "action") {
             if (!is_null($row['actionComplete'])) {
                 $actionCompete = " complete";
@@ -115,7 +125,7 @@ class Interactions {
                         if (is_null($row['actionComplete'])) {
                             if ($row['actionComplete'] == NULL && $headerType == "action") {
                                 if ($row['UserID'] == $_SESSION['userID']) {
-                                    $this->printEditBox($headerType, $i, $row['UserID'], $row['BusinessID'], $row['BusinessName'], $row['employeeID']);
+                                    $this->printEditBox($headerType, $i, $row['UserID'], $row['BusinessID'], $row['BusinessName'], $row['employeeID'],$row['InteractionType'],$OriginalActionItemID);
                                 }
                             }
                         }
@@ -126,9 +136,6 @@ class Interactions {
         if ($headerType == "action") { // if action item print history
             require('includes/mysqli_connect.php');
             // Pull all associated Action Item Data
-            $OriginalActionItemID = $row['OriginalActionItemID'];
-            $NoteID = $row['NoteID'];
-            $originalDate = $row['ActionItemCreated'];
 
             $assocActionItemsQuery = pullAssocActionItems($OriginalActionItemID, $NoteID, $originalDate);
 
@@ -260,7 +267,7 @@ class Interactions {
 
         if ($name != "") {
             if ($this->employeeID != "" || $this->businessID != ""){
-                $this->printEditBox("note",0,"",$this->businessID,$this->businessName,$this->employeeID);
+                $this->printEditBox("note",0,"",$this->businessID,$this->businessName,$this->employeeID,"",0);
             }
             // Run Action Items query
             if ($userActionItems = mysqli_query($dbc, $actionItemsQuery)) {
