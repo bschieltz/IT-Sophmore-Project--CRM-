@@ -579,7 +579,7 @@
 			noAuth();
 		}
 
-        $addBusinessLink = "http://homepages.uc.edu/group1/business.php?CreateBusiness=True";
+        $addBusinessLink = "business.php?CreateBusiness=True";
 		
 		print "<h2 style='color: #E00122;'>Welcome, $userFullName!</h2>";
 
