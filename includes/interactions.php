@@ -68,11 +68,11 @@ class Interactions {
                         print'<option value="' . $interactionList[$i][1] . '"' . ($interactionList[$i][0]==$interactionType ? ' Selected' : '') . '>' . $interactionList[$i][0] . '</option>' . "\r\n";
                     }
                 print"</select>
-            <div" . ($type != "note" ? " class='displayOff'" : '') . " style='display:inline;'>Type: <select class='InteractionSelection' name='InteractionType$sentI'>
+            <div class='displayInline" . ($type != "note" ? " displayOff" : '') . "'>Type: <select class='InteractionSelection' name='InteractionType$sentI'>
                 <option value='Note'>Note</option>
                 <option value='Action Item'" . ($type != "note" ? ' Selected' : '') . ">Action Item</option>
             </select></div>
-            <div class='ShowInteractionType$sentI" . ($type == "note" ? ' displayOff' : '') . "'>
+            <div class='displayInline ShowInteractionType$sentI" . ($type == "note" ? " displayOff" : "") . "'>
                 Forward To: <select name='AssignedToUserID'>
                 <option value=''>Close</option>";
                     if (mysqli_num_rows($userList) > 0) {
