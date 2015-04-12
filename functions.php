@@ -773,7 +773,7 @@
             // Query failed, return False
             return False;
         }
-    }  // Close function insertActionItem()  test
+    }  // Close function insertActionItem()
 
     /*****************************************************************************************************/
 
