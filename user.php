@@ -146,7 +146,7 @@ if ((isset($_GET['UserID']) or $userID > 0) and $submitSuccessful) {
             <li>First Name: <?= $firstName ?></li>
             <li>Last Name: <?= $lastName ?></li>
             <li>Phone Number: <?= $phoneNumber ?></li>
-            <li>Email: <a href="mailto:'<?= $email ?>'"><?= $email ?></a></li> <!-- test -->
+            <li>Email: <a href="mailto:'<?= $email ?>'"><?= $email ?></a></li> <!-- Needs Testing -->
             <?php ($_SESSION["admin"] ? print"<li>Admin: " . ($admin ? "Yes" : "No") . "</li>" : ""); ?>
             <li>Interaction Type: <?= $interactionType ?></li>
         </ul>
