@@ -578,11 +578,13 @@
 		if($_SESSION["userAuth"] != "1") {
 			noAuth();
 		}
+
+        $addBusinessLink = "http://homepages.uc.edu/group1/business.php?CreateBusiness=True";
 		
 		print "<h2 style='color: #E00122;'>Welcome, $userFullName!</h2>";
 
         print "<br /><form action='notes.php' method='get'><input type='submit' value='Add New Interaction'  class='myButton'/></form>";
-        print "<form action='http://homepages.uc.edu/group1/business.php?CreateBusiness=True'><input type='submit' value='Add New Business'  class='myButton'/></form><br />";
+        print "<form action='$addBusinessLink'><input type='submit' value='Add New Business'  class='myButton'/></form><br />";
 
 		print "<br /><br />";
         $actionItems = new Interactions();
