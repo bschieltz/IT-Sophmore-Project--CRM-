@@ -615,6 +615,7 @@
 	}
 
     /****************************************************************************************/
+
     /*
         This function will insert a new interaction.  It requires:
             $UserID - Number: The user ID of the user creating the note
