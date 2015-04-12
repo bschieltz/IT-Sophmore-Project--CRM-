@@ -587,6 +587,7 @@
                <input type='submit' value='Add New Business'  class='myButton'/></form><br />";
 
 		print "<br /><br />";
+
         $actionItems = new Interactions();
         $actionItems->setUserID($userID);
         $actionItems->printInteractions();
