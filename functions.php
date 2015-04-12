@@ -613,7 +613,168 @@
 	}
 
     /****************************************************************************************/
+    /*
+        This function will insert a new interaction.  It requires:
+            $UserID - Number: The user ID of the user creating the note
+            $BusinessID - Number: Business ID of the business the note should be attached to
+            $EmployeeID - Number: Employee ID of the employee the note should be attached to
+            $InteractionTypeID - Number: The ID of the interaction type which this note refers to
+            $Note - String: The note as a string
+    */
+    function insertInteraction($userID, $BusinessID, $EmployeeID, $InteractionTypeID, $Note) {
+        // Connect to and select the database; Assures database connection is made
+        include('includes/mysqli_connect.php');
+
+        // Query to add new Interaction
+        $addInteractionQuery = '
+                Insert Into tnote (UserID, BusinessID, EmployeeID, InteractionTypeID, Note)
+                    Values (' . $userID . ', ' . $BusinessID . ', ' . $EmployeeID . ', ' . $InteractionTypeID . ', "' . $Note . '");
+            ';
+
+        // Make sure database is available to connect to
+        if(!$dbc) {
+            print "<h2 style='color: red;'>ERROR: Could not connect to database</h2>";
+            die("<p>Connection error: " . mysqli_connect_error() . "</p>");
+            print "<p style='color: red;'>No changes made to the database.</p>";
+        }
+
+        // Run the query, return true if the query completes successfully, return false if it does not
+        if($insertNewInteraction = mysqli_query($dbc, $addInteractionQuery)) {
+            //print "<h2 style='color: green;'>Interaction Added!<br /></h2>";  // Used for testing
+            //print "noteID = " . mysqli_insert_id($dbc) . "</h2>";  // Used for testing
+
+            // Query ran successfully, return True
+            return True;
+        } else { // Unable to run the query
+            print "<h2 style='color: red;'>ERROR ENTERING DATA INTO DATABASE!</h2>
+                    <p>Error Message: " . mysqli_error($dbc) . "</p>
+                ";
+
+            // Query failed, return False
+            return False;
+        }
+    } // Close function insertInteraction()
 
 
+    /************************************************************/
+    /*
+        * This function controls Action Items, creating new, forwarding and closing depending on the variables passed.  It requires:
+            $UserID - Number: The User ID of the user creating the note
+            $BusinessID - Number: Business ID of the business the note should be attached to
+            $EmployeeID - Number: Employee ID of the employee the note should be attached to
+            $InteractionTypeID - Number: The ID of the interaction type which this note refers to
+            $Note - String: The note as a string
+            $OriginalActionItemID - Number: The original Action Item ID this Action Item should be linked to
+            $ReferanceID - Number: The Action Item ID this Action Item is in response to (the Action Item ID of the current open Action Item)
+            $AssignedToUserID - Number: The User ID of the user who the Action Item is to be assigned to.  Must be passed as the user responding when closing an Action Item
+            $CloseAction - Number: Indicator to signal if Action Item is completed and should be closed (0 = Do Not Close, 1 = Close)
+        * PHP must use "mysqli_multi_query" instead of "mysqli_query" as multiple queries must be run with each calling of the function.
+        * Unused parameters should be passed to the function as blank ("") to generate a NULL value in the database.
+        * $CloseAction should never be an unused parameter, requires either a zero (0) or a one (1) in order for the function to process.
+        * To create a NEW Action Item, both the $OriginalActionItemID and the $CloseAction parameters should be passed as zero (0).
+        * To forward an Action Item, the $OriginalActionItemID parameter must be included and greater than zero; the $CloseAction parameter must be passed as zero (0).
+        * To close an Action Item, the $CloseAction parameter must be passed as one (1).
+    */
+    function insertActionItem($userID, $BusinessID, $EmployeeID, $InteractionTypeID, $Note, $OriginalActionItemID, $ReferanceID, $AssignedToUserID, $CloseAction) {
+        // Connect to and select the database; Assures database connection is made
+        include('includes/mysqli_connect.php');
+
+        // Make sure database is available to connect to
+        if(!$dbc) {
+            print "<h2 style='color: red;'>ERROR: Could not connect to database</h2>";
+            die("<p>Connection error: " . mysqli_connect_error() . "</p>");  // Prevent any further database actions
+            print "<p style='color: red;'>No changes made to the database.</p>";
+        }
+
+        if($OriginalActionItemID == 0 && $CloseAction == 0) { // This will be used to add a new Action Item
+            /*
+                To add a new Action Item, the OriginalActionItemID should be passed as zero (0), indicating this Action Item is not in response to any other.
+                The CloseAction should be passed as zero (0) to indicate that the Action Item should not be closed out.
+            */
+            $addActionItemQuery = "
+                    INSERT INTO tnote (UserID, BusinessID, EmployeeID, InteractionTypeID, Note)
+                        VALUES ($userID, $BusinessID, $EmployeeID, $InteractionTypeID, \"$Note\");
+
+                    SELECT last_insert_id()
+                    INTO @noteIDNum;
+
+                    INSERT INTO tactionitem(AssignedToUserID, NoteID)
+                    VALUES ($AssignedToUserID, @noteIDNum);
+
+                    SELECT last_insert_id()
+                    INTO @AIIDNum;
+
+                    UPDATE tactionitem
+                    SET OriginalActionItemID = @AIIDNum
+                    WHERE ActionItemID = @AIIDNum;
+                ";
+        }
+        else if($OriginalActionItemID > 0 && $CloseAction == 0) { // This will be used to forward an action item
+            /*
+                To forward an Action Item, the OriginalActionItemID the Action Item will be linked to should be included,
+                as well as the ReferanceID (the ActionItemID of the Action Item being addressed.  The CloseAction should
+                be passed as zero (0) to indicate that the Action Item should not be closed out.
+            */
+            $addActionItemQuery = "
+                    UPDATE tactionitem
+                    SET actionComplete = Now()
+                    WHERE ActionItemID = $ReferanceID;
+
+                    INSERT INTO tnote( UserID, BusinessID, EmployeeID, InteractionTypeID, Note )
+                    VALUES ( $userID, $BusinessID, $EmployeeID, $InteractionTypeID,  \"$Note\" ) ;
+
+                    SELECT LAST_INSERT_ID( )
+                    INTO @noteID ;
+
+                    INSERT INTO tactionitem( OriginalActionItemID, ReferanceID, AssignedToUserID, NoteID, ActionComplete )
+                    VALUES ( $OriginalActionItemID, $ReferanceID, $AssignedToUserID, @noteID , NULL );
+                ";
+        }
+        else if($CloseAction == 1) { // This will be used to close an action item
+            // Make sure AssignedToUserID equals userID by reassigning
+            $AssignedToUserID = $userID;
+
+            /*
+                To close an Action Item, , the OriginalActionItemID the Action Item will be linked to should be included,
+                as well as the ReferanceID (the ActionItemID of the Action Item being addressed. The CloseAction should be
+                passed as zero (1) to indicate that the Action Item should be closed out.  The AssignedToUserID should be
+                passed matching the UserID.
+            */
+            $addActionItemQuery = "
+                    UPDATE tactionitem
+                    SET actionComplete = Now()
+                    WHERE ActionItemID = $ReferanceID;
+
+                    INSERT INTO tnote( UserID, BusinessID, EmployeeID, InteractionTypeID, Note )
+                    VALUES ( $userID, $BusinessID, $EmployeeID, $InteractionTypeID,  \"$Note\" ) ;
+
+                    SELECT LAST_INSERT_ID( )
+                    INTO @noteID ;
+
+                    INSERT INTO tactionitem( OriginalActionItemID, ReferanceID, AssignedToUserID, NoteID, ActionComplete )
+                    VALUES ( $OriginalActionItemID, $ReferanceID, $AssignedToUserID, @noteID , Now() );
+                ";
+        }
+        else {
+            print "<h2 style='color: red;'>An error has occurred and no database updates have been processed.</h2>";
+        }
+
+        // Run the query, return true if the query completes successfully, return false if it does not
+        if($insertNewActionItem = mysqli_multi_query($dbc, $addActionItemQuery)) {
+            //print "<h2 style='color: green;'>Action Item Added!<br /></h2>";  // Used for testing
+
+            // Query ran successfully, return True
+            return True;
+        } else { // Unable to run the query
+            print "<h2 style='color: red;'>ERROR ENTERING DATA INTO DATABASE!</h2>
+                    <p>Error Message: " . mysqli_error($dbc) . "</p>
+                ";
+
+            // Query failed, return False
+            return False;
+        }
+    }  // Close function insertActionItem()
+
+    /*****************************************************************************************************/
 
 ?>
