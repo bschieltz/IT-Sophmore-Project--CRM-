@@ -33,12 +33,42 @@ class Interactions {
     /****************************************************************************************/
     // Submit interaction
     function submitInteraction(){
+        if($_SERVER['REQUEST_METHOD'] == 'GET') {
+            if (isset($_GET['interactionSubmit'])) {
+                $BusinessID = $_GET['BusinessID'];
+                $UserID = $_GET['UserID'];
+                $EmployeeID = $_GET['EmployeeID'];
+                ($EmployeeID != 0 ?: $EmployeeID = 'NULL' );
+                $InteractionTypeID = $_GET['InteractionTypeID'];
+                $noteType = $_GET['noteType'];
+                $Note = $_GET['Note'];
 
+                if ($noteType == 'Note') {
+                    if (!insertInteraction($UserID, $BusinessID, $EmployeeID, $InteractionTypeID, $Note)) {
+                        print "Note Values:" . $UserID . " " . $BusinessID . " " . $EmployeeID . " " . $InteractionTypeID . " " . $Note;
+                    }
+                } else {
+                    $AssignedToUserID = $_GET['AssignedToUserID'];
+                    $OriginalActionItemID = $_GET['OriginalActionItemID'];
+                    $ReferenceID = $_GET['ReferenceID'];
+                    $CloseAction = 1;
+                    if ($AssignedToUserID == 0) {
+                        $AssignedToUserID = $UserID;
+                    } else {
+                        $CloseAction = 0;
+                    }
+                    if (!insertActionItem($UserID, $BusinessID, $EmployeeID, $InteractionTypeID, $Note, $OriginalActionItemID, $ReferenceID, $AssignedToUserID, $CloseAction)) {
+
+                    }
+                }
+                //print_r($_GET);
+            }
+        }
     }
 
     /****************************************************************************************/
     // Print Edit Box
-    private function printEditBox($type,$sentI,$userID,$businessID,$businessName,$employeeID,$interactionType){
+    private function printEditBox($type,$sentI,$userID,$businessID,$businessName,$employeeID,$interactionType,$OriginalActionItemID,$ReferenceID){
         require('includes/mysqli_connect.php'); // connect to database
         $userListQuery = "SELECT UserID, FirstName, LastName FROM tuser";
         $userList = mysqli_query($dbc, $userListQuery) or die("Error: ".mysqli_error($dbc));
@@ -54,13 +84,15 @@ class Interactions {
                       <li class="editForwardClose"><a href="">Forward</a> | <a href=""> Close</a></li></h4>';
             }
         print'</ul>';
-        print"<form class='editBoxContent displayOff' name='toeditBox$sentI'>
-            <input type='hidden' name='submitInteraction' value='true' />
+//        <input type='hidden' name='submitInteraction' value='true' />
+        print"<form action='" . $_SERVER['PHP_SELF'] . "' class='editBoxContent displayOff' name='toeditBox$sentI' method='get'>
             <input type='hidden' name='BusinessID' value='$businessID'/>
             <input type='hidden' name='UserID' value='" . $_SESSION['userID'] . "'>
+            <input type='hidden' name='OriginalActionItemID' value='$OriginalActionItemID'>
+            <input type='hidden' name='ReferenceID' value='$ReferenceID'>
             Business: $businessName
             <div style='float:right;'>Involving: <select name='EmployeeID'>
-                <option value=''>None</option>";
+                <option value='0'>None</option>";
                     if (mysqli_num_rows($employeeList) > 0) {
                         for ($i=0; $i <= mysqli_num_rows($employeeList); $i++) {
                             if($row = mysqli_fetch_array($employeeList)) {
@@ -74,13 +106,13 @@ class Interactions {
                         print'<option value="' . $interactionList[$i][1] . '"' . ($interactionList[$i][0]==$interactionType ? ' Selected' : '') . '>' . $interactionList[$i][0] . '</option>' . "\r\n";
                     }
                 print"</select>
-            <div class='displayInline" . ($type != "note" ? " displayOff" : '') . "'>Type: <select class='InteractionSelection' name='InteractionType$sentI'>
+            <div class='displayInline" . ($type != "note" ? " displayOff" : '') . "'>Type: <select class='InteractionSelection' ID='InteractionType$sentI' name='noteType'>
                 <option value='Note'>Note</option>
                 <option value='Action Item'" . ($type != "note" ? ' Selected' : '') . ">Action Item</option>
             </select></div>
             <div style='float:right;' class='displayInline ShowInteractionType$sentI" . ($type == "note" ? " displayOff" : "") . "'>
-                Forward To: <select name='AssignedToUserID'>
-                <option value=''>Close</option>";
+                Forward To: <select name='AssignedToUserID'>";
+                if ($OriginalActionItemID != 0) {print"<option value='0'>Close</option>";}
                     if (mysqli_num_rows($userList) > 0) {
                         for ($i=0; $i <= mysqli_num_rows($userList); $i++) {
                             if($row = mysqli_fetch_array($userList)) {
@@ -91,7 +123,7 @@ class Interactions {
                 print"</select>
             </div>
             <textarea name='Note' rows='8' cols='40'></textarea>
-            <input type='button' value='Submit' name='Submit'/>
+            <input type='submit' value='Submit' name='interactionSubmit'/>
         </form>";
     }
 
@@ -104,6 +136,7 @@ class Interactions {
         $OriginalActionItemID = $row['OriginalActionItemID'];
         $NoteID = $row['NoteID'];
         $originalDate = $row['ActionItemCreated'];
+        $actionItemID = $row['ActionItemID'];
 
         if ($headerType == "action") {
             if (!is_null($row['actionComplete'])) {
@@ -120,9 +153,9 @@ class Interactions {
                 </li>
             </ul>
                <ul name='toExpandAI$headerType$i' class='DashAI displayOff $headerType'>
-                    <li style='float:right;'><b>Employee:</b> <a href='employee.php?EmployeeID=" . $row['employeeID'] . "'>" . $row['FirstName'] . " " . $row['LastName'] . "</a></li>
+                    <li style='float:right;'><b>Employee:</b> <a href='employee.php?EmployeeID=" . $row['employeeID'] . "'>" . ($row['FirstName'] != '' ? $row['FirstName'] : 'None') . " " . $row['LastName'] . "</a></li>
                     <li><b>Business: </b><a href='business.php?BusinessID=" . $row['BusinessID'] . "'>" . $row['BusinessName'] . "</a></li>
-                    <li style='float:right;'><b>Email:</b> <a href='mailto:" . $row['Email'] . "'>" . $row['Email'] . "</a></li>
+                    <li style='float:right;'><b>Email:</b> <a href='mailto:" . $row['Email'] . "'>" . ($row['Email'] != '' ? $row['Email'] : 'None') . "</a></li>
                     <li><b>Phone #:</b> " . $row['Phone'] . " ext: " . $row['Ext'] . "</li>
                     <li style='float:right;'>
                         <b>" . ($headerType == "action" ? "Assigned To: " : "Created By: ") . "</b><a href='user.php?UserID=" . $row['UserID'] . "'>" . $row['UserFirstName'] . " " . $row['UserLastName'] . "</a></li>
@@ -131,7 +164,7 @@ class Interactions {
                         if (is_null($row['actionComplete'])) {
                             if ($row['actionComplete'] == NULL && $headerType == "action") {
                                 if ($row['UserID'] == $_SESSION['userID']) {
-                                    $this->printEditBox($headerType, $i, $row['UserID'], $row['BusinessID'], $row['BusinessName'], $row['employeeID'],$row['InteractionType'],$OriginalActionItemID);
+                                    $this->printEditBox($headerType, $i, $row['UserID'], $row['BusinessID'], $row['BusinessName'], $row['employeeID'],$row['InteractionType'],$OriginalActionItemID,$actionItemID);
                                 }
                             }
                         }
@@ -273,7 +306,7 @@ class Interactions {
 
         if ($name != "") {
             if ($this->employeeID != "" || $this->businessID != ""){
-                $this->printEditBox("note",0,"",$this->businessID,$this->businessName,$this->employeeID,"",0);
+                $this->printEditBox("note",0,"",$this->businessID,$this->businessName,$this->employeeID,"",0,0,0);
             }
             // Run Action Items query
             if ($userActionItems = mysqli_query($dbc, $actionItemsQuery)) {

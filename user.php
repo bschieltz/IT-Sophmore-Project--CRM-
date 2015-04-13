@@ -195,9 +195,8 @@ if ((isset($_GET['UserID']) or $userID > 0) and $submitSuccessful) {
     if ((!empty($_GET['UserID']) or $userID > 0) and $submitSuccessful) {
         $actionItems = new Interactions();
         $actionItems->setUserID($userID);
+        $actionItems->submitInteraction();
         $actionItems->printInteractions();
-//        $actionItems->printActionItems();
-//        $actionItems->printNotes();
         print'<script type="text/javascript">showTag(".infoTag")</script>';
     } elseif (!empty($_GET['CreateUser']) or !$submitSuccessful) {
         print'<script type="text/javascript">showTag(".formTag")</script>';

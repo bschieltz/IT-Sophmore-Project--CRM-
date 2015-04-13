@@ -213,6 +213,7 @@ if ((!empty($_GET['EmployeeID']) or $employeeID > 0) and $submitSuccessful) {
         $actionItems = new Interactions();
         $actionItems->setEmployeeID($employeeID);
         $actionItems->setBusinessID($businessID);
+        $actionItems->submitInteraction();
         $actionItems->printInteractions();
         print'<script type="text/javascript">showTag(".infoTag")</script>';
     } elseif (!empty($_GET['CreateEmployee']) or !$submitSuccessful) {

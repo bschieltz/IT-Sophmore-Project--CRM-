@@ -178,7 +178,7 @@
 					ON tnote.interactiontypeID = tinteractiontype.interactiontypeID
                 Right JOIN tbusiness
                     ON tnote.businessID = tbusiness.businessID
-                Right JOIN temployee
+                LEFT JOIN temployee
                     ON tnote.employeeID = temployee.employeeID
 			WHERE $subject2 = $searchID
 			Order By NoteCreated DESC;
@@ -590,6 +590,7 @@
 
         $actionItems = new Interactions();
         $actionItems->setUserID($userID);
+        $actionItems->submitInteraction();
         $actionItems->printInteractions();
 
 	}
@@ -629,6 +630,8 @@
         // Connect to and select the database; Assures database connection is made
         include('includes/mysqli_connect.php');
 
+//        ($EmployeeID != 0 ?: $EmployeeID = 'NULL' );
+
         // Query to add new Interaction
         $addInteractionQuery = '
                 Insert Into tnote (UserID, BusinessID, EmployeeID, InteractionTypeID, Note)
@@ -652,6 +655,7 @@
         } else { // Unable to run the query
             print "<h2 style='color: red;'>ERROR ENTERING DATA INTO DATABASE!</h2>
                     <p>Error Message: " . mysqli_error($dbc) . "</p>
+                    <p>$addInteractionQuery</p>
                 ";
 
             // Query failed, return False
@@ -772,6 +776,7 @@
         } else { // Unable to run the query
             print "<h2 style='color: red;'>ERROR ENTERING DATA INTO DATABASE!</h2>
                     <p>Error Message: " . mysqli_error($dbc) . "</p>
+                    <p>$addActionItemQuery</p>
                 ";
 
             // Query failed, return False

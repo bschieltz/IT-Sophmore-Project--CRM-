@@ -214,6 +214,7 @@ ini_set('display_errors',1);  error_reporting(E_ALL);
     if ((!empty($_GET['BusinessID']) or $businessID > 0) and $submitSuccessful) {
         $actionItems = new Interactions();
         $actionItems->setBusinessID($businessID);
+        $actionItems->submitInteraction();
         $actionItems->printInteractions();
         print'<script type="text/javascript">showTag(".infoTag")</script>';
     } elseif (!empty($_GET['CreateBusiness']) or !$submitSuccessful) {
