@@ -304,6 +304,7 @@ class Interactions {
             $name = "Business";
         }
 
+        print $actionItemsQuery;
         if ($name != "") {
             if ($this->employeeID != "" || $this->businessID != ""){
                 $this->printEditBox("note",0,"",$this->businessID,$this->businessName,$this->employeeID,"",0,0,0);

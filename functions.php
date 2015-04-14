@@ -178,10 +178,10 @@
 					ON tnote.interactiontypeID = tinteractiontype.interactiontypeID
                 Right JOIN tbusiness
                     ON tnote.businessID = tbusiness.businessID
-                LEFT JOIN temployee
+                RIGHT JOIN temployee
                     ON tnote.employeeID = temployee.employeeID
 			WHERE $subject2 = $searchID
-			Order By NoteCreated DESC;
+			Order By NoteCreated DESC, ActionItemID DESC;
             ";
 //        print $userActionItemsQuery;
         return $userActionItemsQuery;
@@ -456,6 +456,7 @@
         /* Add Validation Code here*/
         /* Print Errors for correction.  Changes will still display on the page but are not committed to the database if this function returns false*/
 
+        if ($extension == "") {$extension = 'NULL';}
         if ($valid) {
             if ($employeeID > 0) { // edits employee if employeeID is greater than zero
                 $updateQuery = "UPDATE temployee
@@ -475,7 +476,8 @@
             } else { // adds employee
                 $updateQuery = "INSERT INTO temployee
                                 (BusinessID,Active,JobTitle,TitleID,FirstName,LastName,PhoneNumber,Extension,Email,PersonalNote)
-                                VALUES ($businessID,1,\"$jobTitle\",$titleID,\"$firstName\",\"$lastName\",\"$phoneNumber\",\"$extension\",\"$email\",\"$personalNote\")";
+                                VALUES ($businessID,1,'$jobTitle',$titleID,'$firstName','$lastName','$phoneNumber',$extension,'$email','$personalNote')";
+                print $updateQuery;
                     if (mysqli_query($dbc, $updateQuery)) {  // if successful get employee by looking up most recent record added to employee table
                         $updateQuery = "SELECT EmployeeID
                                     FROM temployee
