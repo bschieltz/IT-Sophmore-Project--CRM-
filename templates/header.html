@@ -37,7 +37,7 @@ require_once('functions.php');
 		<h1><a href="index.php"><image src="images/UCClermontBanner.jpg" /></a></h1>
 
         <?php
-            if(!isset($_SESSION['UserID'])) {
+            if(!isset($_SESSION["userID"])) {
                 print '<h2 id="nav" style="text-align: center;"> Welcome to the UC Clermont Customer Relationship Management System.</h2>';
             }
             else {
