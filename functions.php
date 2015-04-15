@@ -305,22 +305,32 @@
         if (!isset($primaryPhoneNumber)) {
             print"Error: enter a primary phone number<br>";
             $valid = false;
-        } // else if (regular expression match, phone num) { strip all non-numeric }
+        } else {
+            $primaryPhoneNumber = preg_replace("/[^0-9,.]/", "", $primaryPhoneNumber); // strip all non-numeric characters
+            if (strlen($primaryPhoneNumber) < 8) {
+                print"Error: Phone number too short.<br>";
+                $valid = false;
+            }
+            if (strlen($primaryPhoneNumber) > 11) {
+                print"Error: Phone number too long<br>";
+                $valid = false;
+            }
+        }
         // validate notes.
         if (!isset($notes)) {
             print"Error: please enter notes<br>";
             $valid = false;
         }
-        // validate address. TODO: Not sure if street2 is optional!
+        // validate address.
         if (!isset($street1)) {
             print"Error: enter a street address<br>";
             $valid = false;
         }
-        // may be optional, but not sure if database accepts NULL values
+        /* may be optional, but not sure if database accepts NULL values
         if (!isset($street2)) {
             print"Error: please enter a complete street address<br>";
             $valid = false;
-        }
+        }*/
         // validate zip
         if (!isset($zip_code)) {
             print"Error: please enter a valid zip code<br>";
