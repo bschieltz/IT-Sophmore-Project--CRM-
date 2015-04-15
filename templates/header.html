@@ -53,15 +53,15 @@ require_once('functions.php');
             }
         ?>
 	</div><!-- header -->
-    <?php
-        if(!isset($_SESSION['UserID'])) {
-            print "
-                <p>This system will be used to keep track of contacts made by the UC Clermont College Staff.</p>
-            ";
-        }
-        else {
-            print '
-                <div id="sidebar">
+    <div id="sidebar">
+        <?php
+            if(!isset($_SESSION['UserID'])) {
+                print "
+                    <p>This system will be used to keep track of contacts made by the UC Clermont College Staff.</p>
+                ";
+            }
+            else {
+                print '
                     <h2>Navigation</h2>
                     <p class="navigation">
                     <ul>
@@ -71,10 +71,10 @@ require_once('functions.php');
                         <li><a href="user.php?Search=+">Users</a></li>
                         <li><a href="logout.php?">Logout</a></li>
                     </ul>
-                </div><!-- sidebar -->
-            ';
-        }
-    ?>
+                ';
+            }
+        ?>
+    </div><!-- sidebar -->
 
 
 	<div id="content">
