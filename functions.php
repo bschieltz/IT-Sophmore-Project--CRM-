@@ -592,10 +592,10 @@
         $actionItems->setUserID($userID);
         $actionItems->submitInteraction();
 
-        print "<h2>Action Items:</h2>";
+        print "<h3>Action Items:</h3>";
         $actionItems->printActionItems();
 
-        print "<br /><br /><h2>All Interactions</h2>";
+        print "<br /><br /><h3>All Interactions:</h3>";
         $actionItems->printInteractions();
 
 	}
