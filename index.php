@@ -38,6 +38,7 @@
 					}
 					// Else if user found, login
 					else {
+                        location.reload();
 						define('TITLE', 'UCC CRMS Dashboard');
 						
 						// Pull user database info and assign to variables
