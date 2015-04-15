@@ -38,7 +38,7 @@ require_once('functions.php');
 
         <?php
             if(!isset($_SESSION['UserID'])) {
-                print '<h2 id="nav" style="text align=center;"> Welcome to the UC Clermont Customer Relationship Management System.</h2>';
+                print '<h2 id="nav" style="text-align=center;"> Welcome to the UC Clermont Customer Relationship Management System.</h2>';
             }
             else {
                 print '
@@ -53,18 +53,26 @@ require_once('functions.php');
             }
         ?>
 	</div><!-- header -->
-	
-	<div id="sidebar">
-		<h2>Navigation</h2>
-			<p class="navigation">
-			<ul>
-			<li><a href="index.php">Home</a></li>
-			<li><a href="business.php">Businesses</a></li>
-			<li><a href="employee.php">Employees</a></li>
-			<li><a href="user.php?Search=+">Users</a></li>
-			<li><a href="logout.php?">Logout</a></li>
-			</ul>
-	</div><!-- sidebar -->
+    <?php
+        if(!isset($_SESSION['UserID'])) {
+        }
+        else {
+            print '
+                <div id="sidebar">
+                    <h2>Navigation</h2>
+                    <p class="navigation">
+                    <ul>
+                        <li><a href="index.php">Home</a></li>
+                        <li><a href="business.php">Businesses</a></li>
+                        <li><a href="employee.php">Employees</a></li>
+                        <li><a href="user.php?Search=+">Users</a></li>
+                        <li><a href="logout.php?">Logout</a></li>
+                    </ul>
+                </div><!-- sidebar -->
+            ';
+        }
+    ?>
+
 
 	<div id="content">
  		<!-- BEGIN CHANGEABLE CONTENT. -->
