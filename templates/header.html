@@ -37,16 +37,20 @@ require_once('functions.php');
 		<h1><a href="index.php"><image src="images/UCClermontBanner.jpg" /></a></h1>
 
         <?php
-
-            print '
-                <ul id="nav">
-                <li> </li>
-                <li><a href="index.php">Home</a></li>
-                <li><a href="business.php">Businesses</a></li>
-                <li><a href="employee.php">Employees</a></li>
-                <li><a href="user.php?Search=+">Users</a></li>
-                <li><a href="logout.php?">Logout</a></li>
-                </ul>';
+            if(!isset($_SESSION['UserID']) {
+                print '<p>Welcome to the UC Clermont CRMS.</p>';
+            }
+            else {
+                print '
+                    <ul id="nav">
+                    <li> </li>
+                    <li><a href="index.php">Home</a></li>
+                    <li><a href="business.php">Businesses</a></li>
+                    <li><a href="employee.php">Employees</a></li>
+                    <li><a href="user.php?Search=+">Users</a></li>
+                    <li><a href="logout.php?">Logout</a></li>
+                    </ul>';
+            }
         ?>
 	</div><!-- header -->
 	
