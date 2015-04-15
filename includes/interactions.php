@@ -44,8 +44,15 @@ class Interactions {
                 $Note = $_GET['Note'];
 
                 if ($noteType == 'Note') {
-                    if (!insertInteraction($UserID, $BusinessID, $EmployeeID, $InteractionTypeID, $Note)) {
-                        print "Note Values:" . $UserID . " " . $BusinessID . " " . $EmployeeID . " " . $InteractionTypeID . " " . $Note;
+                    if (insertInteraction($UserID, $BusinessID, $EmployeeID, $InteractionTypeID, $Note)) {
+                        //print "Note Values:" . $UserID . " " . $BusinessID . " " . $EmployeeID . " " . $InteractionTypeID . " " . $Note;
+                        if ($this->userID > 0) {
+                            redirect("UserID=" . $this->userID);
+                        } elseif ($this->employeeID > 0) {
+                            redirect("EmployeeID=" . $this->employeeID);
+                        } elseif ($this->businessID > 0) {
+                            redirect("BusinessID=" . $this->businessID);
+                        }
                     }
                 } else {
                     $AssignedToUserID = $_GET['AssignedToUserID'];
@@ -57,8 +64,14 @@ class Interactions {
                     } else {
                         $CloseAction = 0;
                     }
-                    if (!insertActionItem($UserID, $BusinessID, $EmployeeID, $InteractionTypeID, $Note, $OriginalActionItemID, $ReferenceID, $AssignedToUserID, $CloseAction)) {
-
+                    if (insertActionItem($UserID, $BusinessID, $EmployeeID, $InteractionTypeID, $Note, $OriginalActionItemID, $ReferenceID, $AssignedToUserID, $CloseAction)) {
+                        if ($this->userID > 0) {
+                            redirect("UserID=" . $this->userID);
+                        } elseif ($this->employeeID > 0) {
+                            redirect("EmployeeID=" . $this->employeeID);
+                        } elseif ($this->businessID > 0) {
+                            redirect("BusinessID=" . $this->businessID);
+                        }
                     }
                 }
                 //print_r($_GET);
@@ -304,7 +317,7 @@ class Interactions {
             $name = "Business";
         }
 
-        print $actionItemsQuery;
+        //print $actionItemsQuery;
         if ($name != "") {
             if ($this->employeeID != "" || $this->businessID != ""){
                 $this->printEditBox("note",0,"",$this->businessID,$this->businessName,$this->employeeID,"",0,0,0);

@@ -1,5 +1,4 @@
 <?php
-	include('templates/header.html');
 ?>
 	<?php
 		if($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -26,6 +25,7 @@
 				if($user = mysqli_query($dbc, $userQuery)) {
 					if(mysqli_num_rows($user) == 0) {
 						define('TITLE', 'UCC CRMS');
+                        include('templates/header.html');
 
 						print "<div align='center'>";
 						print "<h2 style='color: red'>Sorry, we could not find you in our database.</h2>";
@@ -39,7 +39,8 @@
 					// Else if user found, login
 					else {
 						define('TITLE', 'UCC CRMS Dashboard');
-						
+                        include('templates/header.html');
+
 						// Pull user database info and assign to variables
 						$row = mysqli_fetch_array($user);
 						$userID = $row['UserID'];
@@ -64,12 +65,14 @@
 						
 						
 						// Pass info to build the dashboard
-						//dashboard($userID, $userFullName);
-                        echo "<script>window.location.href='" . $_SERVER['PHP_SELF'] . "?'</script>";
+						dashboard($userID, $userFullName);
+                        //echo "<script>window.location.href='" . $_SERVER['PHP_SELF'] . "?'</script>";
 					}
 				}
 				// Could not query the database
 				else {
+                    include('templates/header.html');
+
 					print '<p class="error">Could not retrieve the data because:<br />'
 						. mysqli_error($dbc) . '.</p>
 						<p>The query being run was: ' . $userQuery . '</p>';
@@ -82,14 +85,16 @@
 			// Check if a user is logged in
 			// If so get the session variables and build the dashboard
 			if(isset($_SESSION["userID"])) {
-                //location.reload(true);
+                define('TITLE', 'UCC CRMS Dashboard');
 				$userFullName = $_SESSION["userFullName"];
 				$userID = $_SESSION["userID"];
+                include('templates/header.html');
 
                 dashboard($userID, $userFullName);
 			}
 			else {
 				define('TITLE', 'UCC CRMS');
+                include('templates/header.html');
 				login_form();
 			}
 		}
