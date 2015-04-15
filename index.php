@@ -81,6 +81,7 @@
 			// Check if a user is logged in
 			// If so get the session variables and build the dashboard
 			if(isset($_SESSION["userID"])) {
+                location.reload(true);
 				$userFullName = $_SESSION["userFullName"];
 				$userID = $_SESSION["userID"];
 
