@@ -28,8 +28,8 @@
 
     /****************************************************************************************/
     // Redirect to current page with parameter
-    function redirect($loc, $timer){
-        sleep($timer);
+    function redirect($loc){
+        sleep(5);
         echo "<script>window.location.href='" . $_SERVER['PHP_SELF'] . "?" . $loc . "'</script>";
     }
 
@@ -96,19 +96,19 @@
                 temployee.Email as 'Email', personalNote as 'EmployeeNote', tnote.DateTime as 'NoteCreated',
                 tactionitem.DateTime as 'ActionItemCreated', ActionItemID, OriginalActionItemID, ReferanceID,
                 AssignedToUserID, tactionitem.NoteID as 'NoteID', actionComplete
-            FROM tnote
-                LEFT JOIN tactionitem
-                    ON tnote.noteid = tactionitem.noteid
-                LEFT JOIN tuser
-                    ON tactionitem.AssignedToUserID = tuser.userid
-                LEFT JOIN tbusiness
+            FROM tuser
+                JOIN tactionitem
+                    ON tuser.userID = tactionitem.AssignedToUserID
+                JOIN tnote
+                    ON tactionitem.noteID = tnote.noteID
+                JOIN tbusiness
                     ON tnote.businessID = tbusiness.businessID
-                LEFT JOIN temployee
-                    ON tnote.employeeid = temployee.employeeid
-                LEFT JOIN tinteractiontype
+                JOIN temployee
+                    ON tbusiness.businessID = temployee.businessID
+                JOIN tinteractiontype
 					ON tnote.interactiontypeID = tinteractiontype.interactiontypeID
-            Where $subject = $searchID AND ActionItemID IS NOT NULL AND actionComplete IS NULL
-            Order By NoteID DESC;
+            Where $subject = $searchID
+            Order By ActionItemCreated DESC;
             ";
 //        print $userActionItemsQuery;
         return $userActionItemsQuery;
@@ -162,7 +162,7 @@
                 LEFT JOIN tactionitem
                     ON tnote.noteID = tactionitem.noteID
                 LEFT JOIN tuser
-                    ON tactionitem.assignedtouserid = tuser.userid
+                    ON tnote.userid = tuser.userid
                 LEFT JOIN tbusiness
                     ON tnote.businessID = tbusiness.businessID
                 LEFT JOIN temployee
@@ -268,18 +268,11 @@
 
         $businessList = mysqli_query($dbc, $businessListQuery) or die("Error: ".mysqli_error($dbc));
         for ($i=0; $i <= mysqli_num_rows($businessList); $i++) { // repeat for each business matching search, create unordered list
-            if ($row = mysqli_fetch_array($businessList)) {
+            if($row = mysqli_fetch_array($businessList)) {
                 print '<li><a href="business.php?BusinessID=' . $row['BusinessID'] . '">' . $row['BusinessName'] . '</a></li>';
-                if (mysqli_num_rows($businessList) == 1) {
-                    print $_SERVER['PHP_SELF'] . " " . $_SERVER['HTTP_REFERER'];
-                    if (strpos($_SERVER['HTTP_REFERER'], $_SERVER['PHP_SELF']) !== FALSE) {
-                        redirect("BusinessID=" . $row['BusinessID'], 0);
-                    } else {
-                        redirect("BusinessID=" . $row['BusinessID'] . "&AddNewInteraction=True", 0);
-                    }
-                }
             }
         }
+
     }
 
     /****************************************************************************************/
@@ -290,18 +283,13 @@
     {
         require('includes/mysqli_connect.php'); // connect to database
 
-        $valid = true; // assume the best
+        $valid = true;
+        /* Add Validation Code here*/
         /* Print Errors for correction.  Changes will still display on the page but are not committed to the database if this function returns false*/
         // validate business name
         if (!isset($businessName)) {
             print"Error: enter a valid business name<br>";
             $valid = false;
-        } else {
-            $validationString = ("SELECT * FROM tBusiness WHERE BusinessName like " + $businessName);
-            if (mysqli_query($dbc, $validationString)) { // if existing businessName is found, we are inserting duplicate records
-                $valid = false;
-                print"Error: Business by that name already exists.";
-            }
         }
         //validate primary contact
         if (!isset($primaryContact)) {
@@ -312,32 +300,22 @@
         if (!isset($primaryPhoneNumber)) {
             print"Error: enter a primary phone number<br>";
             $valid = false;
-        } else {
-            $primaryPhoneNumber = preg_replace("/[^0-9,.]/", "", $primaryPhoneNumber); // strip all non-numeric characters
-            if (strlen($primaryPhoneNumber) < 8) {
-                print"Error: Phone number too short.<br>";
-                $valid = false;
-            }
-            if (strlen($primaryPhoneNumber) > 11) {
-                print"Error: Phone number too long<br>";
-                $valid = false;
-            }
-        }
+        } // else if (regular expression match, phone num) { strip all non-numeric }
         // validate notes.
         if (!isset($notes)) {
             print"Error: please enter notes<br>";
             $valid = false;
         }
-        // validate address.
+        // validate address. TODO: Not sure if street2 is optional!
         if (!isset($street1)) {
             print"Error: enter a street address<br>";
             $valid = false;
         }
-        /* may be optional, but not sure if database accepts NULL values
+        // may be optional, but not sure if database accepts NULL values
         if (!isset($street2)) {
             print"Error: please enter a complete street address<br>";
             $valid = false;
-        }*/
+        }
         // validate zip
         if (!isset($zip_code)) {
             print"Error: please enter a valid zip code<br>";
@@ -346,6 +324,20 @@
             print"Error: please enter a valid zip code<br>";
             $valid = false;
         }
+        // validate city
+        /*if (!isset($city)) {
+            print"Error: please enter a city<br>";
+            $valid = false;
+        }
+        // validate state prefix
+        if (!isset($statePrefix)) {
+            print"Error: please enter a two-letter state prefix";
+            $valid = false;
+        } else if (!preg_match('/\b[A-Z]{2}/', $statePrefix)) {
+            print"Error: please enter a two-letter state prefix";
+        $valid = false;
+        }*/
+        // TODO: query database to ensure current form submission is unique and not duplicate!
         if ($valid) { // passed validation
             if ($businessID > 0) { // if there is a business id then it is an edit submission
                 $updateQuery = "UPDATE tbusiness
@@ -597,79 +589,16 @@
 
 		print "<h2 style='color: #E00122;'>Welcome, $userFullName!</h2>";
 
-        print "<br /><form action='business.php' method='get'>
-                    <input type='search' id='searchInput' name='Search' placeholder='Business to add interaction for' style='width:100%;' /><br />
-                    <input type='submit' value='Add New Interaction'  class='myButton'/>
-                </form><br /><br />";
-
+        print "<br /><form action='notes.php' method='get'><input type='submit' value='Add New Interaction'  class='myButton'/></form>";
         print "<form action='business.php'>
-                <input type='hidden' name='CreateBusiness' value='True' />
-                <input type='submit' value='Add New Business'  class='myButton'/></form><br />";
+               <input type='hidden' name='CreateBusiness' value='True' />
+               <input type='submit' value='Add New Business'  class='myButton'/></form><br />";
 
 		print "<br /><br />";
 
         $actionItems = new Interactions();
         $actionItems->setUserID($userID);
         $actionItems->submitInteraction();
-
-        print "<h3>Action Items:</h3>";
-        $actionItems->printActionItems();
-
-/*
-        print "
-            <br />
-            <br />
-            <table class='contactTable'>
-                <caption>Most Contacted Businesses</caption>
-                <th>Business Name</th>
-                <tr><td>Example Business</td></tr>
-                <tr><td>Example Business</td></tr>
-                <tr><td>Example Business</td></tr>
-            </table>
-            <br />
-            <br />
-        ";
-*/
-        print "
-            <br />
-            <br />
-            <table class='contactTable'>
-                <caption>Most Contacted Employees</caption>
-                <th>Employee</th><th>Email</th><th>Phone</th><th>Business Name</th>
-                <tr>
-                    <td>Example Employee</td>
-                    <td>Example@employee.com</td>
-                    <td>513-555-5555</td>
-                    <td>Example Business</td>
-                </tr>
-                <tr>
-                    <td>Example Employee</td>
-                    <td>Example@employee.com</td>
-                    <td>513-555-5555</td>
-                    <td>Example Business</td>
-                </tr>
-                <tr>
-                    <td>Example Employee</td>
-                    <td>Example@employee.com</td>
-                    <td>513-555-5555</td>
-                    <td>Example Business</td>
-                </tr>
-                <tr>
-                    <td>Example Employee</td>
-                    <td>Example@employee.com</td>
-                    <td>513-555-5555</td>
-                    <td>Example Business</td>
-                </tr>
-                <tr>
-                    <td>Example Employee</td>
-                    <td>Example@employee.com</td>
-                    <td>513-555-5555</td>
-                    <td>Example Business</td>
-                </tr>
-            </table>
-        ";
-
-        print "<br /><br /><h3>All Interactions:</h3>";
         $actionItems->printInteractions();
 
 	}
