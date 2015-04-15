@@ -1,6 +1,7 @@
 <?php
     session_start();
     logout();
+    $_SESSION = array();
 
 	define('TITLE', 'UCC CRMS');
 	include('templates/header.html');
