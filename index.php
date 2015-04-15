@@ -65,7 +65,7 @@
 						
 						// Pass info to build the dashboard
 						//dashboard($userID, $userFullName);
-                        redirect("");
+                        echo "<script>window.location.href='" . $_SERVER['PHP_SELF'] . "?'</script>";
 					}
 				}
 				// Could not query the database
