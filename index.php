@@ -38,7 +38,6 @@
 					// Else if user found, login
 					else {
 						define('TITLE', 'UCC CRMS Dashboard');
-                        include('templates/header.html');
 
 						// Pull user database info and assign to variables
 						$row = mysqli_fetch_array($user);
@@ -64,8 +63,8 @@
 						
 						
 						// Pass info to build the dashboard
-						dashboard($userID, $userFullName);
-                        //echo "<script>window.location.href='" . $_SERVER['PHP_SELF'] . "?'</script>";
+						//dashboard($userID, $userFullName);
+                        echo "<script>window.location.href='" . $_SERVER['PHP_SELF'] . "?'</script>";
 					}
 				}
 				// Could not query the database
@@ -87,13 +86,11 @@
                 define('TITLE', 'UCC CRMS Dashboard');
 				$userFullName = $_SESSION["userFullName"];
 				$userID = $_SESSION["userID"];
-                include('templates/header.html');
 
                 dashboard($userID, $userFullName);
 			}
 			else {
 				define('TITLE', 'UCC CRMS');
-                include('templates/header.html');
 				login_form();
 			}
 		}
