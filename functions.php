@@ -283,13 +283,18 @@
     {
         require('includes/mysqli_connect.php'); // connect to database
 
-        $valid = true;
-        /* Add Validation Code here*/
+        $valid = true; // assume the best
         /* Print Errors for correction.  Changes will still display on the page but are not committed to the database if this function returns false*/
         // validate business name
         if (!isset($businessName)) {
             print"Error: enter a valid business name<br>";
             $valid = false;
+        } else {
+            $validationString = ("SELECT * FROM tBusiness WHERE BusinessName like " + $businessName);
+            if (mysqli_query($dbc, $validationString)) { // if existing businessName is found, we are inserting duplicate records
+                $valid = false;
+                print"Error: Business by that name already exists.";
+            }
         }
         //validate primary contact
         if (!isset($primaryContact)) {
@@ -324,19 +329,6 @@
             print"Error: please enter a valid zip code<br>";
             $valid = false;
         }
-        // validate city
-        /*if (!isset($city)) {
-            print"Error: please enter a city<br>";
-            $valid = false;
-        }
-        // validate state prefix
-        if (!isset($statePrefix)) {
-            print"Error: please enter a two-letter state prefix";
-            $valid = false;
-        } else if (!preg_match('/\b[A-Z]{2}/', $statePrefix)) {
-            print"Error: please enter a two-letter state prefix";
-        $valid = false;
-        }*/
         // TODO: query database to ensure current form submission is unique and not duplicate!
         if ($valid) { // passed validation
             if ($businessID > 0) { // if there is a business id then it is an edit submission
@@ -599,6 +591,11 @@
         $actionItems = new Interactions();
         $actionItems->setUserID($userID);
         $actionItems->submitInteraction();
+
+        print "<h2>Action Items:</h2>";
+        $actionItems->printActionItems();
+
+        print "<br /><br /><h2>All Interactions</h2>";
         $actionItems->printInteractions();
 
 	}
