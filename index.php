@@ -1,5 +1,3 @@
-<?php
-?>
 	<?php
 		if($_SERVER['REQUEST_METHOD'] == 'POST') {
 			// connect and select server
