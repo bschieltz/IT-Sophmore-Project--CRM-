@@ -1,6 +1,6 @@
 <?php
-    logout();
 	define('TITLE', 'UCC CRMS');
+    logout();
 	include('templates/header.html');
 ?>
 	<h3 style="color:red">You have been successfully logged out</h3>
