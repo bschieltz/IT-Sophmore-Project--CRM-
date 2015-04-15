@@ -25,11 +25,17 @@
 			</form>
 		';
 	} // Close function login_form()
-	
-	/****************************************************************************************/
 
-	// Search for user in the database 
-	function userName($email, $pass) {
+    /****************************************************************************************/
+    // Redirect to current page with parameter
+    function redirect($loc){
+        sleep(5);
+        echo "<script>window.location.href='" . $_SERVER['PHP_SELF'] . "?" . $loc . "'</script>";
+    }
+
+	/****************************************************************************************/
+	// Search for user in the database
+    function userName($email, $pass) {
 		// Search for user in the database 
 		$query = "Select *
 			FROM tuser join ttitle
@@ -151,37 +157,37 @@
                 temployee.LastName as 'LastName', temployee.PhoneNumber as 'Phone', temployee.Extension as 'Ext',
                 temployee.Email as 'Email', personalNote as 'EmployeeNote', tnote.DateTime as 'NoteCreated',
                 tactionitem.DateTime as 'ActionItemCreated', ActionItemID, OriginalActionItemID, ReferanceID,
-                AssignedToUserID, tactionitem.NoteID as 'NoteID', actionComplete
-            FROM tuser
-                JOIN tactionitem
-                    ON tuser.userID = tactionitem.AssignedToUserID
-                JOIN tnote
-                    ON tactionitem.noteID = tnote.noteID
-                JOIN tbusiness
+                AssignedToUserID, tnote.NoteID as 'NoteID', actionComplete
+            FROM tnote
+                LEFT JOIN tactionitem
+                    ON tnote.noteID = tactionitem.noteID
+                LEFT JOIN tuser
+                    ON tnote.userid = tuser.userid
+                LEFT JOIN tbusiness
                     ON tnote.businessID = tbusiness.businessID
-                JOIN temployee
-                    ON tbusiness.businessID = temployee.businessID
-                JOIN tinteractiontype
+                LEFT JOIN temployee
+                    ON tnote.EmployeeID = temployee.EmployeeID
+                LEFT JOIN tinteractiontype
 					ON tnote.interactiontypeID = tinteractiontype.interactiontypeID
             Where $subject = $searchID
-            UNION ALL
+            UNION DISTINCT
             SELECT tuser.UserID, tuser.FirstName as 'UserFirstName', tuser.LastName as 'UserLastName', InteractionType, Note, tbusiness.BusinessID as 'BusinessID',
                 BusinessName, temployee.EmployeeID as 'employeeID', temployee.FirstName as 'FirstName',
                 temployee.LastName as 'LastName', temployee.PhoneNumber as 'Phone', temployee.Extension as 'Ext',
                 temployee.Email as 'Email', personalNote as 'EmployeeNote', tnote.DateTime as 'NoteCreated',
                 NULL AS 'ActionItemCreated', NULL AS 'ActionItemID', NULL AS 'OriginalActionItemID', NULL AS 'ReferanceID',
                 NULL AS 'AssignedToUserID', tnote.NoteID as 'NoteID', NULL AS 'actionComplete'
-			FROM tuser
-				Right JOIN tnote
-					ON tuser.userID = tnote.userID
-				Right JOIN tinteractiontype
-					ON tnote.interactiontypeID = tinteractiontype.interactiontypeID
-                Right JOIN tbusiness
+			FROM tnote
+                LEFT JOIN tuser
+                    ON tnote.userid = tuser.userid
+                LEFT JOIN tbusiness
                     ON tnote.businessID = tbusiness.businessID
-                RIGHT JOIN temployee
-                    ON tnote.employeeID = temployee.employeeID
+                LEFT JOIN temployee
+                    ON tnote.EmployeeID = temployee.EmployeeID
+                LEFT JOIN tinteractiontype
+					ON tnote.interactiontypeID = tinteractiontype.interactiontypeID
 			WHERE $subject2 = $searchID
-			Order By NoteCreated DESC, ActionItemID DESC;
+			Order By NoteID DESC;
             ";
 //        print $userActionItemsQuery;
         return $userActionItemsQuery;

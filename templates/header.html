@@ -35,14 +35,19 @@ require_once('functions.php');
 	<div id="header">
 		<p class="description"></p>
 		<h1><a href="index.php"><image src="images/UCClermontBanner.jpg" /></a></h1>
-		<ul id="nav">
-			<li> </li>
-			<li><a href="index.php">Home</a></li>
-			<li><a href="business.php">Businesses</a></li>
-			<li><a href="employee.php">Employees</a></li>
-			<li><a href="user.php?Search=+">Users</a></li>
-			<li><a href="logout.php?">Logout</a></li>
-		</ul>
+
+        <?php
+
+            print '
+                <ul id="nav">
+                <li> </li>
+                <li><a href="index.php">Home</a></li>
+                <li><a href="business.php">Businesses</a></li>
+                <li><a href="employee.php">Employees</a></li>
+                <li><a href="user.php?Search=+">Users</a></li>
+                <li><a href="logout.php?">Logout</a></li>
+                </ul>';
+        ?>
 	</div><!-- header -->
 	
 	<div id="sidebar">
