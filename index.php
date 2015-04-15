@@ -1,4 +1,6 @@
 	<?php
+        include('templates/header.html');
+
 		if($_SERVER['REQUEST_METHOD'] == 'POST') {
 			// connect and select server
 			include('includes/mysqli_connect.php');
@@ -23,7 +25,6 @@
 				if($user = mysqli_query($dbc, $userQuery)) {
 					if(mysqli_num_rows($user) == 0) {
 						define('TITLE', 'UCC CRMS');
-                        include('templates/header.html');
 
 						print "<div align='center'>";
 						print "<h2 style='color: red'>Sorry, we could not find you in our database.</h2>";
