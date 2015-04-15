@@ -74,6 +74,7 @@
 						<p>The query being run was: ' . $userQuery . '</p>';
 				}
 			}
+            redirect("");
 		}
 		
 		// Logs user out and reprints the login form
