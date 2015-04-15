@@ -64,7 +64,8 @@
 						
 						
 						// Pass info to build the dashboard
-						dashboard($userID, $userFullName);
+						//dashboard($userID, $userFullName);
+                        redirect("");
 					}
 				}
 				// Could not query the database
@@ -74,7 +75,6 @@
 						<p>The query being run was: ' . $userQuery . '</p>';
 				}
 			}
-            redirect("");
 		}
 		
 		// Logs user out and reprints the login form
