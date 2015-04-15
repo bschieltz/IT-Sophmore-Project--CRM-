@@ -118,12 +118,6 @@ ini_set('display_errors',1);  error_reporting(E_ALL);
 ?>
 <div id="businessPage">
 
-    <!-- Add button -->
-    <form class="searchTag listTag infoTag"  action="business.php">
-        <input type="hidden" name="CreateBusiness" value="True"/>
-        <input id="addBusinessButton" type="submit" value="Add New Business" />
-    </form>
-
     <?php if ($businessID > 0) { //if we load a business, add create employee button
         print'<form class="infoTag" action="employee.php">
                 <input type="hidden" name="CreateEmployee" value="True"/>
@@ -137,6 +131,13 @@ ini_set('display_errors',1);  error_reporting(E_ALL);
         <input id="searchInput" type="search" name="Search" placeholder="Search for a Business" />
         <input id="searchButton" type="submit" value="Search" />
     </form>
+
+    <!-- Add button -->
+    <form class="searchTag listTag infoTag"  action="business.php">
+        <input type="hidden" name="CreateBusiness" value="True"/>
+        <input id="addBusinessButton" type="submit" value="Add New Business" />
+    </form>
+
 
     <!-- Search Results -->
     <div class="listTag displayOff">
