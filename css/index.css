@@ -47,6 +47,7 @@ h1 a {
 	max-width: 900px;
 	margin-left: auto;
 	margin-right: auto;
+    padding: 0px;
 }
 
 #header .description {
