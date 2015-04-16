@@ -321,7 +321,7 @@ a.more:hover {
 
 
 .contactTable table {
-    style=width: 95%;
+    width: 95%;
     border: 1px solid #000;
 }
 

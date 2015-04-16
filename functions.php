@@ -614,7 +614,7 @@
 
         print "
             <br />
-            <table class=\"contactTable\">
+            <table class='contactTable'>
                 <caption>Most Contacted Businesses</caption>
                 <th>Business Name</th>
                 <tr><td>Example Business</td></tr>
