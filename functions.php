@@ -600,7 +600,7 @@
 
         print "
             <br />
-            <table class='contactTable' style='width: 95%; border: 1px solid #000;'>
+            <table class='contactTable'>
                 <caption>Most Contacted Businesses</caption>
                 <th>Business Name</th>
                 <tr><td>Example Business</td></tr>
