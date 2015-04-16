@@ -599,7 +599,8 @@
                 </form><br /><br />";
 
         print "
-            <table style='width: 95%; border: 1px solid #000;'>
+            <br />
+            <table class='contactTable' style='width: 95%; border: 1px solid #000;'>
                 <caption>Most Contacted Businesses</caption>
                 <th>Business Name</th>
                 <tr><td>Example Business</td></tr>
@@ -609,7 +610,7 @@
         ";
 
         print "
-            <table style='width: 95%; border: 1px solid #000;'>
+            <table class='contactTable'>
                 <caption>Most Contacted Employees</caption>
                 <th>Employee</th><th>Business Name</th>
                 <tr><td>Example Employee</td><td>Example Business</td></tr>

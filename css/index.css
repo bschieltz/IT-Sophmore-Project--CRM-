@@ -320,6 +320,15 @@ a.more:hover {
 }
 
 
+.contactTable {
+    style=width: 95%;
+    border: 1px solid #000;
+}
+
+.contactTable tr {
+    border: 1px solid #000000;
+}
+
 /***************************** businesses page specific ***********************************************/
 
 #businessPage ul {
