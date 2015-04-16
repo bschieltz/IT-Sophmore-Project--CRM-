@@ -69,7 +69,7 @@ h1 a {
 	max-width: 960px;
     min-height: 700px;
     box-shadow: 10px 10px 5px #111;
-    border-bottom-color: #E00122;
+    border-bottom: 20px solid #E00122;
 
 }
 
