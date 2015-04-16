@@ -323,11 +323,12 @@ a.more:hover {
 .contactTable {
     margin-left: auto;
     margin-right: auto;
-    width: 50%;
+    width: 75%;
     border: 1px solid #000;
 }
 
 .contactTable td, th{
+    padding: 3px;
     border: 1px solid #000000;
 }
 
