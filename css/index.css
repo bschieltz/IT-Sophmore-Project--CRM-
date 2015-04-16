@@ -157,6 +157,7 @@ h1 a {
 }
 
 #sidebar {
+    display: none;
     float: right;
     position: fixed;
     width: 250px;
