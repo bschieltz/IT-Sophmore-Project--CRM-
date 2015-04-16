@@ -117,7 +117,7 @@ h1 a {
 }
 
 #content {
-    margin:0 275px 0 0 !important;
+    //margin:0 275px 0 0 !important;
 	border-right:1px solid #eee;
 	border-left:1px solid #eee;
 	padding:10px 25px 30px 25px;
