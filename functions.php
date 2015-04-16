@@ -631,6 +631,8 @@
         ";
 */
         print "
+            <br />
+            <br />
             <table class='contactTable'>
                 <caption>Most Contacted Employees</caption>
                 <th>Employee</th><th>Email</th><th>Phone</th><th>Business Name</th>
