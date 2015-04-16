@@ -328,8 +328,9 @@ a.more:hover {
 }
 
 .contactTable caption {
-    font-size: x-large;
-    font-weight: bolder;
+    margin:10px 0;
+    font:160% Trebuchet MS;
+    color:#222;
 }
 
 .contactTable td, th{
