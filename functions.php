@@ -615,7 +615,7 @@
         print "<h3>Action Items:</h3>";
         $actionItems->printActionItems();
 
-
+/*
         print "
             <br />
             <br />
@@ -655,7 +655,7 @@
             </table>
         ";
 
-
+*/
 
         print "<br /><br /><h3>All Interactions:</h3>";
         $actionItems->printInteractions();
