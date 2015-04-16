@@ -4,14 +4,6 @@
  * User: admin
  * Date: 3/24/2015
  * Time: 10:25 PM
- *
- * This class handles the displaying adding and responding to interactions on all pages
- * You can add interactions to any page by providing either a userID, businessID or EmployeeID using the following commands.
- *
- * $actionItems = new Interactions();
- * $actionItems->setUserID($userID);
- * $actionItems->submitInteraction();
- * $actionItems->printActionItems();
  */
 
 class Interactions {
@@ -22,13 +14,10 @@ class Interactions {
     private $alreadyPrintedNotes = [];
     private $businessName = "";
 
-    // set and get functions.  No known instances of get being used currently 04/18/15
     function getUserID(){return $this->userID;}
     function getBusinessID(){return $this->businessID;}
     function getEmployeeID(){return $this->employeeID;}
     function setUserID($userID){$this->userID = $userID;}
-
-    // if setting businessID grab business name.  Used when populating 'add new interaction'
     function setBusinessID($businessID){
         require('includes/mysqli_connect.php'); // connect to database
         $this->businessID = $businessID;
@@ -43,10 +32,6 @@ class Interactions {
 
     /****************************************************************************************/
     // Submit interaction
-    // on postback submits new or responded to action item or note and then redirects the page back to itself.
-    // this gives the database time to write across all tables and clears the address bar to prevent accidentally
-    // re-entering the data.
-
     function submitInteraction(){
         if($_SERVER['REQUEST_METHOD'] == 'GET') {
             if (isset($_GET['interactionSubmit'])) {
@@ -58,10 +43,9 @@ class Interactions {
                 $noteType = $_GET['noteType'];
                 $Note = $_GET['Note'];
 
-                if ($noteType == 'Note') { // notes are always new
+                if ($noteType == 'Note') {
                     if (insertInteraction($UserID, $BusinessID, $EmployeeID, $InteractionTypeID, $Note)) {
                         //print "Note Values:" . $UserID . " " . $BusinessID . " " . $EmployeeID . " " . $InteractionTypeID . " " . $Note;
-                        // redirect will always send the page back to itself, this just tells it which ID to load
                         if ($this->userID > 0) {
                             redirect("UserID=" . $this->userID, 5);
                         } elseif ($this->employeeID > 0) {
@@ -70,25 +54,17 @@ class Interactions {
                             redirect("BusinessID=" . $this->businessID, 5);
                         }
                     }
-                } else { // if not note then action item
+                } else {
                     $AssignedToUserID = $_GET['AssignedToUserID'];
                     $OriginalActionItemID = $_GET['OriginalActionItemID'];
                     $ReferenceID = $_GET['ReferenceID'];
-                    $CloseAction = 1; // true
-
-                    // the insertActionItem function handles whether it is a new, responded to, or closing action item.
-                    // see function for details, however correct values for submitting the correctly desired outcome are
-                    // defaulted in the form.  The exception is that is the form must set $AssignedToUserID to zero for closing
-                    // or else we have no way of knowing if the user intends to close or just create a new action item
-                    // assigned to themselves.
-                    // if they choose close then AssignedToUserID must be their ID and CloseAction = 1.
+                    $CloseAction = 1;
                     if ($AssignedToUserID == 0) {
                         $AssignedToUserID = $UserID;
                     } else {
-                        $CloseAction = 0; // false
+                        $CloseAction = 0;
                     }
                     if (insertActionItem($UserID, $BusinessID, $EmployeeID, $InteractionTypeID, $Note, $OriginalActionItemID, $ReferenceID, $AssignedToUserID, $CloseAction)) {
-                        // redirect will always send the page back to itself, this just tells it which ID to load
                         if ($this->userID > 0) {
                             redirect("UserID=" . $this->userID, 5);
                         } elseif ($this->employeeID > 0) {
@@ -121,10 +97,7 @@ class Interactions {
                       <li class="editForwardClose"><a href="">Forward</a> | <a href=""> Close</a></li></h4>';
             }
         print'</ul>';
-
-        // this section prints some static information and populates the drop down boxes.
-        // also decides which information to display based on note or action item and new or responding
-        // also defaults drop boxes to correct value.  IE if you are on an employee page it will default to that employee
+//        <input type='hidden' name='submitInteraction' value='true' />
         print"<form action='" . $_SERVER['PHP_SELF'] . "' class='editBoxContent " . (!empty($_GET['AddNewInteraction']) && $sentI == 0 ?: 'displayOff') . "' name='toeditBox$sentI' ID='toeditBox$sentI' method='get'>
             <input type='hidden' name='BusinessID' value='$businessID'/>
             <input type='hidden' name='UserID' value='" . $_SESSION['userID'] . "'>
@@ -183,16 +156,7 @@ class Interactions {
                 $actionCompete = " complete";
             }
         }
-
-        // this array prevents an item from getting printed more than once.
-        // this happens when a user is assigned an action item, forwards it to someone else
-        // and then it gets forwarded back to themselves.  In this instance the original action
-        // item assigned to them will show up as the first item in the history of the current one,
-        // not as a separate action item on it's own line.
-        // because the list is printed in DESC order the history items are always found first.
         array_push($this->alreadyPrintedNotes,$row['NoteID']);
-
-        // this section prints the header, which is the visible part the user clicks to expand the information
         print "
             <ul class='actionItemsList'>
                 <li class='interactionHeader $headerType $actionCompete'>
@@ -200,14 +164,8 @@ class Interactions {
                         <div>" . $actionDateTime . " >> " . $row['BusinessName'] . " >> " . substr($row['Note'],0,20) . "</div>
                     </a>
                 </li>
-            </ul>";
-
-        // this section prints the static information associated with each header.
-        // every item is giving a unique name and ID.  The javascript grabs this unique name from the header
-        // then adds 'to' to the front to find the corresponding collapsed tag in order to display it
-        // the javascript uses the name field.  The ID tag exists so that when a user clicks new interaction
-        // from the dashboard, only the correct 'add new interaction' expands.
-        print"<ul name='toExpandAI$headerType$i' class='DashAI displayOff $headerType'>
+            </ul>
+               <ul name='toExpandAI$headerType$i' class='DashAI displayOff $headerType'>
                     <li style='float:right;'><b>Employee:</b> <a href='employee.php?EmployeeID=" . $row['employeeID'] . "'>" . ($row['FirstName'] != '' ? $row['FirstName'] : 'None') . " " . $row['LastName'] . "</a></li>
                     <li><b>Business: </b><a href='business.php?BusinessID=" . $row['BusinessID'] . "'>" . $row['BusinessName'] . "</a></li>
                     <li style='float:right;'><b>Email:</b> <a href='mailto:" . $row['Email'] . "'>" . ($row['Email'] != '' ? $row['Email'] : 'None') . "</a></li>
@@ -216,9 +174,9 @@ class Interactions {
                         <b>" . ($headerType == "action" ? "Assigned To: " : "Created By: ") . "</b><a href='user.php?UserID=" . $row['UserID'] . "'>" . $row['UserFirstName'] . " " . $row['UserLastName'] . "</a></li>
                     <li><b>Interaction Type:</b> " . $row['InteractionType'] . "</li>
                     <li><div class='notes'> " . $row['Note'] . "</div>";
-                        if (is_null($row['actionComplete'])) { // this means that it is either an open action or note
-                            if ($row['actionComplete'] == NULL && $headerType == "action") { // this means it is indeed an open action item
-                                if ($row['UserID'] == $_SESSION['userID'] || $_SESSION["admin"]) { // this means the user is authorized to edit this action item by either being the user assigned or an admin
+                        if (is_null($row['actionComplete'])) {
+                            if ($row['actionComplete'] == NULL && $headerType == "action") {
+                                if ($row['UserID'] == $_SESSION['userID'] || $_SESSION["admin"]) {
                                     $this->printEditBox($headerType, $i, $row['UserID'], $row['BusinessID'], $row['BusinessName'], $row['employeeID'],$row['InteractionType'],$OriginalActionItemID,$actionItemID);
                                 }
                             }
@@ -227,7 +185,6 @@ class Interactions {
                 </ul>
         ";
 
-        // this section adds the history of every action item
         if ($headerType == "action") { // if action item print history
             require('includes/mysqli_connect.php');
             // Pull all associated Action Item Data
@@ -238,7 +195,7 @@ class Interactions {
                 $numHistoryItems = mysqli_num_rows($assocActionItems);
                 if(mysqli_num_rows($assocActionItems) == 0) {
                 } else {
-                    for($j=1; $j <= $numHistoryItems; $j++) { // loop through all history items found
+                    for($j=1; $j <= $numHistoryItems; $j++) {
                         if($assocRow = mysqli_fetch_array($assocActionItems)) {
                             // Convert DateTime to something usable
                             $AIDateTime = strtotime($assocRow['AIDate']);
@@ -265,7 +222,6 @@ class Interactions {
 
     /****************************************************************************************/
     // Print Action Items
-    //  IMPORTANT: Displays only open action items.
     function printActionItems(){
         require('includes/mysqli_connect.php');
         // Store Action Items query to variable
@@ -344,8 +300,6 @@ class Interactions {
 
     /****************************************************************************************/
     // Print notes and action items mixed by most recent
-    // This list is necessary from the other two because it prints both items intermingled
-    // this gives the user a better idea of the order in which the items happened.
     function printInteractions(){
         require('includes/mysqli_connect.php');
         // Store Action Items query to variable
@@ -356,7 +310,7 @@ class Interactions {
         if ($this->userID > 0) {
             $actionItemsQuery = pullInteractions($this->userID,"UserID");
             $name = "User";
-        } elseif ($this->employeeID > 0) {  // Pull employee first because both employee and business will be populated
+        } elseif ($this->employeeID > 0) {
             $actionItemsQuery = pullInteractions($this->employeeID,"EmployeeID");
             $name = "Employee";
         } elseif ($this->businessID > 0) {
@@ -365,25 +319,21 @@ class Interactions {
         }
 
         //print $actionItemsQuery;
-        if ($name != "") { // checks to make sure at least one ID is set
-
-            // Prints 'add new interaction' box, but only on business or employee pages.
-            // Cannot do from dashboard or user because you do not know which business to assign to
-            // and there will be too many to populate a dropdown
+        if ($name != "") {
             if ($this->employeeID != "" || $this->businessID != ""){
                 $this->printEditBox("note",0,"",$this->businessID,$this->businessName,$this->employeeID,"",0,0,0);
             }
             // Run Action Items query
             if ($userActionItems = mysqli_query($dbc, $actionItemsQuery)) {
                 if (mysqli_num_rows($userActionItems) == 0) { // If no action items are present, print statement
-                    print '<p style="color:red">No Interactions for this ' . $name . '</p>';
+                    print '<p style="color:red">No Interactions this ' . $name . '</p>';
                 } else {
                     $numberOfActionItems = mysqli_num_rows($userActionItems);
                     //print "<h4 style='padding-left: 25px;'>Action Items: 1-<b>$numberOfActionItems</b></h4>";
 
                     for ($i = 1; $i <= $numberOfActionItems; $i++) {
                         if ($row = mysqli_fetch_array($userActionItems)) {
-                            if (!in_array($row['NoteID'], $this->alreadyPrintedNotes)) { // if not already printed
+                            if (!in_array($row['NoteID'], $this->alreadyPrintedNotes)) {
                                 if ($row['ActionItemID'] != NULL) {
                                     $this->printItem($i, $row, "action");
                                 } else {
