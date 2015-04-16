@@ -618,6 +618,7 @@
 
         print "
             <br />
+            <br />
             <table class='contactTable'>
                 <caption>Most Contacted Businesses</caption>
                 <th>Business Name</th>
