@@ -324,12 +324,16 @@ a.more:hover {
     margin-left: auto;
     margin-right: auto;
     width: 75%;
-    border: 1px solid #000;
+    border: 1px solid #000000;
 }
 
-.contactTable td, th, tr{
+.contactTable td, th{
     padding: 3px;
     border: 1px solid #000000;
+}
+
+.contactTable tr{
+    outline: 1px solid #000000;
 }
 
 /***************************** businesses page specific ***********************************************/
