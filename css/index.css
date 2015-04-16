@@ -327,7 +327,7 @@ a.more:hover {
     border: 1px solid #000;
 }
 
-td.contactTable {
+.contactTable td{
     border: 1px solid #000000;
 }
 
