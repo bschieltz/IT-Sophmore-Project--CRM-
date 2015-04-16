@@ -333,7 +333,7 @@ a.more:hover {
 }
 
 .contactTable tr{
-    outline: 1px solid #000000;
+    outline: thin #000000;
 }
 
 /***************************** businesses page specific ***********************************************/
