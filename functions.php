@@ -28,8 +28,8 @@
 
     /****************************************************************************************/
     // Redirect to current page with parameter
-    function redirect($loc){
-        sleep(5);
+    function redirect($loc, $timer){
+        sleep($timer);
         echo "<script>window.location.href='" . $_SERVER['PHP_SELF'] . "?" . $loc . "'</script>";
     }
 
@@ -268,11 +268,13 @@
 
         $businessList = mysqli_query($dbc, $businessListQuery) or die("Error: ".mysqli_error($dbc));
         for ($i=0; $i <= mysqli_num_rows($businessList); $i++) { // repeat for each business matching search, create unordered list
-            if($row = mysqli_fetch_array($businessList)) {
+            if ($row = mysqli_fetch_array($businessList)) {
                 print '<li><a href="business.php?BusinessID=' . $row['BusinessID'] . '">' . $row['BusinessName'] . '</a></li>';
+                if (mysqli_num_rows($businessList) == 1) {
+                    redirect("BusinessID=" . $row['BusinessID'], 0);
+                }
             }
         }
-
     }
 
     /****************************************************************************************/
@@ -591,10 +593,14 @@
 
 		print "<h2 style='color: #E00122;'>Welcome, $userFullName!</h2>";
 
-        print "<br /><form action='notes.php' method='get'><input type='submit' value='Add New Interaction'  class='myButton'/></form>";
+        print "<br /><form action='business.php' method='get'>
+                    <input type='search' id='searchInput' name='Search' value='Business to add interaction for' />
+                    <input type='submit' value='Add New Interaction'  class='myButton'/>
+                </form>";
+
         print "<form action='business.php'>
-               <input type='hidden' name='CreateBusiness' value='True' />
-               <input type='submit' value='Add New Business'  class='myButton'/></form><br />";
+                <input type='hidden' name='CreateBusiness' value='True' />
+                <input type='submit' value='Add New Business'  class='myButton'/></form><br />";
 
 		print "<br /><br />";
 

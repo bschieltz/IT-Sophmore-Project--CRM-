@@ -47,11 +47,11 @@ class Interactions {
                     if (insertInteraction($UserID, $BusinessID, $EmployeeID, $InteractionTypeID, $Note)) {
                         //print "Note Values:" . $UserID . " " . $BusinessID . " " . $EmployeeID . " " . $InteractionTypeID . " " . $Note;
                         if ($this->userID > 0) {
-                            redirect("UserID=" . $this->userID);
+                            redirect("UserID=" . $this->userID, 5);
                         } elseif ($this->employeeID > 0) {
-                            redirect("EmployeeID=" . $this->employeeID);
+                            redirect("EmployeeID=" . $this->employeeID, 5);
                         } elseif ($this->businessID > 0) {
-                            redirect("BusinessID=" . $this->businessID);
+                            redirect("BusinessID=" . $this->businessID, 5);
                         }
                     }
                 } else {
@@ -66,11 +66,11 @@ class Interactions {
                     }
                     if (insertActionItem($UserID, $BusinessID, $EmployeeID, $InteractionTypeID, $Note, $OriginalActionItemID, $ReferenceID, $AssignedToUserID, $CloseAction)) {
                         if ($this->userID > 0) {
-                            redirect("UserID=" . $this->userID);
+                            redirect("UserID=" . $this->userID, 5);
                         } elseif ($this->employeeID > 0) {
-                            redirect("EmployeeID=" . $this->employeeID);
+                            redirect("EmployeeID=" . $this->employeeID, 5);
                         } elseif ($this->businessID > 0) {
-                            redirect("BusinessID=" . $this->businessID);
+                            redirect("BusinessID=" . $this->businessID, 5);
                         }
                     }
                 }
@@ -91,7 +91,7 @@ class Interactions {
 
         print "<ul class='editBoxHeader' name='editBox$sentI'>";
             if ($userID == "")  {
-                print'<li class="editNew"><a href=""><form><input type="button" id="addEmployeeButton" value="Add New Interaction" /></form></a></li>';
+                print'<li class="editNew"><a href="">Add New Interaction</a></li>';
             } else {
                 print'<h4 style="width: 75%; margin-left: auto; margin-right: auto; text-align: center;">
                       <li class="editForwardClose"><a href="">Forward</a> | <a href=""> Close</a></li></h4>';
