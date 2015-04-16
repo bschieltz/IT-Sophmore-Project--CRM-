@@ -271,7 +271,12 @@
             if ($row = mysqli_fetch_array($businessList)) {
                 print '<li><a href="business.php?BusinessID=' . $row['BusinessID'] . '">' . $row['BusinessName'] . '</a></li>';
                 if (mysqli_num_rows($businessList) == 1) {
-                    redirect("BusinessID=" . $row['BusinessID'], 0);
+                    print $_SERVER['PHP_SELF'] . " " . $_SERVER['HTTP_REFERER'];
+                    if (strpos($_SERVER['HTTP_REFERER'], $_SERVER['PHP_SELF']) !== FALSE) {
+                        redirect("BusinessID=" . $row['BusinessID'], 0);
+                    } else {
+                        redirect("BusinessID=" . $row['BusinessID'] . "&AddNewInteraction=True", 0);
+                    }
                 }
             }
         }
@@ -341,7 +346,6 @@
             print"Error: please enter a valid zip code<br>";
             $valid = false;
         }
-        // TODO: query database to ensure current form submission is unique and not duplicate!
         if ($valid) { // passed validation
             if ($businessID > 0) { // if there is a business id then it is an edit submission
                 $updateQuery = "UPDATE tbusiness
@@ -618,6 +622,8 @@
                 <caption>Most Contacted Businesses</caption>
                 <th>Business Name</th>
                 <tr><td>Example Business</td></tr>
+                <tr><td>Example Business</td></tr>
+                <tr><td>Example Business</td></tr>
             </table>
             <br />
             <br />
@@ -628,8 +634,9 @@
                 <caption>Most Contacted Employees</caption>
                 <th>Employee</th><th>Business Name</th>
                 <tr><td>Example Employee</td><td>Example Business</td></tr>
+                <tr><td>Example Employee</td><td>Example Business</td></tr>
+                <tr><td>Example Employee</td><td>Example Business</td></tr>
             </table>
-            <br />
             <br />
         ";
 
