@@ -337,7 +337,14 @@ a.more:hover {
     color:#222;
 }
 
-.contactTable td, th{
+.contactTable td{
+    font-size: 12px;
+    padding: 5px 10px 5px 10px;
+    border-left: 1px solid #000000;
+    border-right: 1px solid #000000;
+}
+
+.contactTable th{
     font-size: 12px;
     padding: 5px 10px 5px 10px;
     border-left: 1px solid #000000;
