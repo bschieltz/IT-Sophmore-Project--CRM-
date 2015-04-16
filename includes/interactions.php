@@ -229,10 +229,10 @@ class Interactions {
 
         if ($this->userID > 0) {
             $actionItemsQuery = pullUserActionItems($this->userID,"UserID");
-        } elseif ($this->businessID > 0) {
-            $actionItemsQuery = pullUserActionItems($this->businessID,"BusinessID");
         } elseif ($this->employeeID > 0) {
             $actionItemsQuery = pullUserActionItems($this->employeeID,"EmployeeID");
+        } elseif ($this->businessID > 0) {
+            $actionItemsQuery = pullUserActionItems($this->businessID,"BusinessID");
         }
         // Run Action Items query
         if($userActionItems = mysqli_query($dbc, $actionItemsQuery)) {
@@ -245,7 +245,7 @@ class Interactions {
                 for($i=1; $i<=$numberOfActionItems; $i++) {
                     if ($row = mysqli_fetch_array($userActionItems)) {
                         if (!in_array($row['NoteID'],$this->alreadyPrintedNotes)) {
-                            $this->printItem($i, $row, "action");
+                            $this->printItem($i."A", $row, "action");
                         }
                     }
                 }
@@ -267,10 +267,10 @@ class Interactions {
 //          print $this->userID . $this->businessID . $this->employeeID;
         if ($this->userID > 0) {
             $notesQuery = pullUserNotes($this->userID,"UserID");
-        } elseif ($this->businessID > 0) {
-            $notesQuery = pullUserNotes($this->businessID,"BusinessID");
         } elseif ($this->employeeID > 0) {
             $notesQuery = pullUserNotes($this->employeeID,"EmployeeID");
+        } elseif ($this->businessID > 0) {
+            $notesQuery = pullUserNotes($this->businessID,"BusinessID");
         }
         //print $notesQuery;
 
@@ -286,7 +286,7 @@ class Interactions {
                 for ($i = 1; $i <= $numberOfNotes && $i <= 5; $i++) {
                     if ($row = mysqli_fetch_array($notes)) {
                         if (!in_array($row['NoteID'],$this->alreadyPrintedNotes)) {
-                            $this->printItem($i, $row, "note");
+                            $this->printItem($i."N", $row, "note");
                         }
                     } else {
                     }
@@ -303,6 +303,7 @@ class Interactions {
     function printInteractions(){
         require('includes/mysqli_connect.php');
         // Store Action Items query to variable
+        $this->alreadyPrintedNotes = [];
         $actionItemsQuery = "";
         $name = "";
 

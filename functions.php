@@ -96,19 +96,19 @@
                 temployee.Email as 'Email', personalNote as 'EmployeeNote', tnote.DateTime as 'NoteCreated',
                 tactionitem.DateTime as 'ActionItemCreated', ActionItemID, OriginalActionItemID, ReferanceID,
                 AssignedToUserID, tactionitem.NoteID as 'NoteID', actionComplete
-            FROM tuser
-                JOIN tactionitem
-                    ON tuser.userID = tactionitem.AssignedToUserID
-                JOIN tnote
-                    ON tactionitem.noteID = tnote.noteID
-                JOIN tbusiness
+            FROM tnote
+                LEFT JOIN tactionitem
+                    ON tnote.noteid = tactionitem.noteid
+                LEFT JOIN tuser
+                    ON tactionitem.AssignedToUserID = tuser.userid
+                LEFT JOIN tbusiness
                     ON tnote.businessID = tbusiness.businessID
-                JOIN temployee
-                    ON tbusiness.businessID = temployee.businessID
-                JOIN tinteractiontype
+                LEFT JOIN temployee
+                    ON tnote.employeeid = temployee.employeeid
+                LEFT JOIN tinteractiontype
 					ON tnote.interactiontypeID = tinteractiontype.interactiontypeID
-            Where $subject = $searchID
-            Order By ActionItemCreated DESC;
+            Where $subject = $searchID AND ActionItemID IS NOT NULL AND actionComplete IS NULL
+            Order By NoteID DESC;
             ";
 //        print $userActionItemsQuery;
         return $userActionItemsQuery;
@@ -162,7 +162,7 @@
                 LEFT JOIN tactionitem
                     ON tnote.noteID = tactionitem.noteID
                 LEFT JOIN tuser
-                    ON tnote.userid = tuser.userid
+                    ON tactionitem.assignedtouserid = tuser.userid
                 LEFT JOIN tbusiness
                     ON tnote.businessID = tbusiness.businessID
                 LEFT JOIN temployee
@@ -596,7 +596,28 @@
         print "<br /><form action='business.php' method='get'>
                     <input type='search' id='searchInput' name='Search' placeholder='Business to add interaction for' style='width:100%;' /><br />
                     <input type='submit' value='Add New Interaction'  class='myButton'/>
-                </form>";
+                </form><br /><br />";
+
+        print "
+            <table style='width: 95%; border: 1px solid #000;'>
+                <caption>Most Contacted Businesses</caption>
+                <th>Business Name</th>
+                <tr><td>Example Business</td></tr>
+            </table>
+            <br />
+            <br />
+        ";
+
+        print "
+            <table style='width: 95%; border: 1px solid #000;'>
+                <caption>Most Contacted Employees</caption>
+                <th>Employee</th><th>Business Name</th>
+                <tr><td>Example Employee</td><td>Example Business</td></tr>
+            </table>
+            <br />
+            <br />
+        ";
+
 
         print "<form action='business.php'>
                 <input type='hidden' name='CreateBusiness' value='True' />
