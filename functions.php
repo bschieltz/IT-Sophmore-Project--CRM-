@@ -633,10 +633,25 @@
         print "
             <table class='contactTable'>
                 <caption>Most Contacted Employees</caption>
-                <th>Employee</th><th>Business Name</th>
-                <tr><td>Example Employee</td><td>Example Business</td></tr>
-                <tr><td>Example Employee</td><td>Example Business</td></tr>
-                <tr><td>Example Employee</td><td>Example Business</td></tr>
+                <th>Employee</th><th>Email</th><th>Phone</th><th>Business Name</th>
+                <tr>
+                    <td>Example Employee</td>
+                    <td>Example@employee.com</td>
+                    <td>513-555-5555</td>
+                    <td>Example Business</td>
+                </tr>
+                <tr>
+                    <td>Example Employee</td>
+                    <td>Example@employee.com</td>
+                    <td>513-555-5555</td>
+                    <td>Example Business</td>
+                </tr>
+                <tr>
+                    <td>Example Employee</td>
+                    <td>Example@employee.com</td>
+                    <td>513-555-5555</td>
+                    <td>Example Business</td>
+                </tr>
             </table>
         ";
 
