@@ -337,6 +337,10 @@ a.more:hover {
     outline: thin solid black;
 }
 
+.contactTable tr:nth-of-type(even) {
+    background-color: #eaeaea;
+}
+
 /***************************** businesses page specific ***********************************************/
 
 #businessPage ul {
