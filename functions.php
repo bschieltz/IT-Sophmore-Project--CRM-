@@ -594,7 +594,7 @@
 		print "<h2 style='color: #E00122;'>Welcome, $userFullName!</h2>";
 
         print "<br /><form action='business.php' method='get'>
-                    <input type='search' id='searchInput' name='Search' value='Business to add interaction for' /><br />
+                    <input type='search' id='searchInput' name='Search' placeholder='Business to add interaction for' style='width:100%;' /><br />
                     <input type='submit' value='Add New Interaction'  class='myButton'/>
                 </form>";
 
