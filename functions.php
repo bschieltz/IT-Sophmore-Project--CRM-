@@ -637,7 +637,6 @@
                 <tr><td>Example Employee</td><td>Example Business</td></tr>
                 <tr><td>Example Employee</td><td>Example Business</td></tr>
             </table>
-            <br />
         ";
 
 
