@@ -629,7 +629,7 @@
             <br />
             <br />
         ";
-
+*/
         print "
             <table class='contactTable'>
                 <caption>Most Contacted Employees</caption>
@@ -654,8 +654,6 @@
                 </tr>
             </table>
         ";
-
-*/
 
         print "<br /><br /><h3>All Interactions:</h3>";
         $actionItems->printInteractions();
