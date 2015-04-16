@@ -598,9 +598,23 @@
                     <input type='submit' value='Add New Interaction'  class='myButton'/>
                 </form><br /><br />";
 
+        print "<form action='business.php'>
+                <input type='hidden' name='CreateBusiness' value='True' />
+                <input type='submit' value='Add New Business'  class='myButton'/></form><br />";
+
+		print "<br /><br />";
+
+        $actionItems = new Interactions();
+        $actionItems->setUserID($userID);
+        $actionItems->submitInteraction();
+
+        print "<h3>Action Items:</h3>";
+        $actionItems->printActionItems();
+
+
         print "
             <br />
-            <table class='contactTable'>
+            <table class=\"contactTable\">
                 <caption>Most Contacted Businesses</caption>
                 <th>Business Name</th>
                 <tr><td>Example Business</td></tr>
@@ -620,18 +634,6 @@
         ";
 
 
-        print "<form action='business.php'>
-                <input type='hidden' name='CreateBusiness' value='True' />
-                <input type='submit' value='Add New Business'  class='myButton'/></form><br />";
-
-		print "<br /><br />";
-
-        $actionItems = new Interactions();
-        $actionItems->setUserID($userID);
-        $actionItems->submitInteraction();
-
-        print "<h3>Action Items:</h3>";
-        $actionItems->printActionItems();
 
         print "<br /><br /><h3>All Interactions:</h3>";
         $actionItems->printInteractions();
