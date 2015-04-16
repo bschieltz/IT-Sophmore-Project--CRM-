@@ -328,7 +328,8 @@ a.more:hover {
 }
 
 .contactTable caption {
-    font-size: xx-large;
+    font-size: x-large;
+    font-weight: bolder;
 }
 
 .contactTable td, th{
