@@ -133,7 +133,7 @@ require('includes/mysqli_connect.php');
     </form>
 
     <!-- Add button -->
-    <form class="searchTag listTag infoTag"  action="business.php">
+    <form class="searchTag listTag"  action="business.php">
         <input type="hidden" name="CreateBusiness" value="True"/>
         <input id="addBusinessButton" type="submit" value="Add New Business" />
     </form>

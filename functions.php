@@ -297,7 +297,7 @@
             print"Error: enter a valid business name<br>";
             $valid = false;
         } else {
-            $validationString = ("SELECT * FROM tBusiness WHERE BusinessName like " + $businessName);
+            $validationString = ("SELECT * FROM tBusiness WHERE BusinessName like '" + $businessName + "'");
             if (mysqli_query($dbc, $validationString)) { // if existing businessName is found, we are inserting duplicate records
                 $valid = false;
                 print"Error: Business by that name already exists.";
