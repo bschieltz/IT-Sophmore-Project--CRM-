@@ -180,8 +180,8 @@ if ((isset($_GET['UserID']) or $userID > 0) and $submitSuccessful) {
             print 'Change Password: <input type="password" name="Password1" value="" /><br />
             Re-Type Password: <input type="password" name="Password2" value="" /><br />' : "");
         ?>
-        <input id="cancelButton" type="submit" value="Cancel" />
         <input id="submitButton" type="submit" value="Submit" />
+        <input id="cancelButton" type="submit" value="Cancel" />
     </form>
 
     <br />
