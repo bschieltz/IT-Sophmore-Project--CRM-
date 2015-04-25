@@ -574,9 +574,6 @@
 
         if ($valid) {
             if ($userID > 0) { // edits user if $userID is greater than zero
-
-                $hashedPass = password_hash($password1, PASSWORD_DEFAULT);
-
                 $updateQuery = "UPDATE tuser
                                 SET TitleID = $titleID
                                    ,FirstName = '$firstName'
@@ -585,7 +582,7 @@
                                    ,Admin = $admin
                                    ,PhoneNumber = '$phoneNumber'
                                    ,InteractionTypeID = '$interactionTypeID' " .
-                                    ($hashedPass != "" ? ",Password = '$hashedPass'" : "") .
+                                    ($password1 != "" ? ",Password = '$password1'" : "") .
                                 " WHERE UserID = $userID";
                 if (mysqli_query($dbc, $updateQuery)) { //if successful
                     print'<p>Record Updated</p>';
@@ -593,11 +590,9 @@
                 }
             } else { // adds user
                 // Hash the password for security
-                $hashedPass = password_hash($password1, PASSWORD_DEFAULT);
-
                 $updateQuery = "INSERT INTO tuser
                                 (Active,TitleID,FirstName,LastName,Email,Admin,PhoneNumber,InteractionTypeID,Password)
-                                VALUES (1,$titleID,\"$firstName\",\"$lastName\",\"$email\",\"$admin\",\"$phoneNumber\",\"$interactionTypeID\",\"$hashedPass\")";
+                                VALUES (1,$titleID,\"$firstName\",\"$lastName\",\"$email\",\"$admin\",\"$phoneNumber\",\"$interactionTypeID\",\"$password1\")";
                 if (mysqli_query($dbc, $updateQuery)) {  // if successful get user by looking up most recent record added to user table
                     $updateQuery = "SELECT UserID
                                     FROM tuser

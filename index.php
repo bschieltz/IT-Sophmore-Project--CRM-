@@ -17,11 +17,9 @@
 			else {
 				// Sanitize the email for security
 				$email = filter_var($email, FILTER_SANITIZE_EMAIL);
-
-                $hashedPass = password_hash($pass, PASSWORD_DEFAULT);
 				
 				// Query for user
-				$userQuery = userName($email, $hashedPass);
+				$userQuery = userName($email, $pass);
 					
 				// if user not found, display error message
 				if($user = mysqli_query($dbc, $userQuery)) {
