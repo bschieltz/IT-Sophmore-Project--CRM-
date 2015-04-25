@@ -23,7 +23,7 @@
  */
 require 'templates/header.html';
 require('includes/mysqli_connect.php');
-ini_set('display_errors',1);  error_reporting(E_ALL);
+//ini_set('display_errors',1);  error_reporting(E_ALL);
 ?>
 
 <?php
@@ -133,7 +133,7 @@ ini_set('display_errors',1);  error_reporting(E_ALL);
     </form>
 
     <!-- Add button -->
-    <form class="searchTag listTag infoTag"  action="business.php">
+    <form class="searchTag listTag"  action="business.php">
         <input type="hidden" name="CreateBusiness" value="True"/>
         <input id="addBusinessButton" type="submit" value="Add New Business" />
     </form>
@@ -217,6 +217,9 @@ ini_set('display_errors',1);  error_reporting(E_ALL);
         $actionItems->setBusinessID($businessID);
         $actionItems->submitInteraction();
         $actionItems->printInteractions();
+        if (!empty($_GET['AddNewInteraction'])) {
+            print "<script type='text/javascript'>scrollToElement($('#toeditBox0'))</script>";
+        }
         print'<script type="text/javascript">showTag(".infoTag")</script>';
     } elseif (!empty($_GET['CreateBusiness']) or !$submitSuccessful) {
         print'<script type="text/javascript">showTag(".formTag")</script>';
