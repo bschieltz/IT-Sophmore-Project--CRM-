@@ -141,17 +141,40 @@
     function pullInteractions($searchID,$subject) {
         if ($subject == "UserID") {
             $subject = "AssignedToUserID";
-            $subject2 = "tuser.UserID";
+            $subject2 = "tnote.UserID";
         } elseif ($subject == "BusinessID") {
-            $subject = "tbusiness.BusinessID";
-            $subject2 = "tbusiness.BusinessID";
+            $subject = "tnote.BusinessID";
+            $subject2 = "tnote.BusinessID";
         } elseif ($subject = "EmployeeID") {
-            $subject = "temployee.EmployeeID";
-            $subject2 = "temployee.EmployeeID";
+            $subject = "tnote.EmployeeID";
+            $subject2 = "tnote.EmployeeID";
         }
 
         // Query to pull all uncompleted action items
         $userActionItemsQuery = "
+            SELECT tnote.UserID, concat(aUser.FirstName,' ',aUser.LastName) as AssignedToName, concat(nUser.FirstName,' ',nUser.LastName) as CreatedName, InteractionType, Note, tnote.BusinessID,
+                BusinessName, `PrimaryPhone#` as BusinessPhone, tnote.employeeID, temployee.FirstName,
+                temployee.LastName, temployee.PhoneNumber, temployee.Extension,
+                temployee.Email, personalNote, tnote.DateTime as 'NoteCreated',
+                tactionitem.DateTime as 'ActionItemCreated', ActionItemID, OriginalActionItemID, ReferanceID,
+                AssignedToUserID, tnote.NoteID, actionComplete
+              FROM tnote
+                LEFT JOIN tactionitem
+                    ON tnote.noteID = tactionitem.noteID
+                LEFT JOIN tuser aUser
+                    ON tactionitem.assignedtouserid = aUser.userid
+                LEFT JOIN tuser nUser
+                    ON tnote.userid = nUser.userid
+                LEFT JOIN tbusiness
+                    ON tnote.businessID = tbusiness.businessID
+                LEFT JOIN temployee
+                    ON tnote.EmployeeID = temployee.EmployeeID
+                LEFT JOIN tinteractiontype
+					ON tnote.interactiontypeID = tinteractiontype.interactiontypeID
+                WHERE $subject = $searchID OR $subject2 = $searchID
+                ORDER BY tnote.NoteID DESC";
+
+        /*$userActionItemsQuery = "
             SELECT tuser.UserID, tuser.FirstName as 'UserFirstName', tuser.LastName as 'UserLastName', InteractionType, Note, tbusiness.BusinessID as 'BusinessID',
                 BusinessName, temployee.employeeID as 'employeeID', temployee.FirstName as 'FirstName',
                 temployee.LastName as 'LastName', temployee.PhoneNumber as 'Phone', temployee.Extension as 'Ext',
@@ -188,7 +211,7 @@
 					ON tnote.interactiontypeID = tinteractiontype.interactiontypeID
 			WHERE $subject2 = $searchID
 			Order By NoteID DESC;
-            ";
+            ";*/
 //        print $userActionItemsQuery;
         return $userActionItemsQuery;
     }
@@ -297,7 +320,7 @@
             print"Error: enter a valid business name<br>";
             $valid = false;
         } else {
-            $validationString = ("SELECT * FROM tBusiness WHERE BusinessName like " + $businessName);
+            $validationString = ("SELECT * FROM tBusiness WHERE BusinessName like '" + $businessName + "'");
             if (mysqli_query($dbc, $validationString)) { // if existing businessName is found, we are inserting duplicate records
                 $valid = false;
                 print"Error: Business by that name already exists.";
@@ -566,6 +589,9 @@
                     return array(true, $userID);
                 }
             } else { // adds user
+                // Hash the password for security
+                $password1 = password_hash($password1, PASSWORD_DEFAULT);
+
                 $updateQuery = "INSERT INTO tuser
                                 (Active,TitleID,FirstName,LastName,Email,Admin,PhoneNumber,InteractionTypeID,Password)
                                 VALUES (1,$titleID,\"$firstName\",\"$lastName\",\"$email\",\"$admin\",\"$phoneNumber\",\"$interactionTypeID\",\"$password1\")";

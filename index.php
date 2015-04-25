@@ -17,6 +17,8 @@
 			else {
 				// Sanitize the email for security
 				$email = filter_var($email, FILTER_SANITIZE_EMAIL);
+
+                $pass = password_hash($pass, PASSWORD_DEFAULT);
 				
 				// Query for user
 				$userQuery = userName($email, $pass);
