@@ -574,6 +574,9 @@
 
         if ($valid) {
             if ($userID > 0) { // edits user if $userID is greater than zero
+
+                $password1 = password_hash($password1, PASSWORD_DEFAULT);
+
                 $updateQuery = "UPDATE tuser
                                 SET TitleID = $titleID
                                    ,FirstName = '$firstName'
