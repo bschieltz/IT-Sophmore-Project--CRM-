@@ -763,6 +763,8 @@
 
             echo "<SCRIPT>
                 alert('$message');
+                header('Location: index.php;');
+                exit();
                 </SCRIPT>";
 
             print "<h3 style='color: red;'>ERROR ENTERING DATA INTO DATABASE!</h3>
