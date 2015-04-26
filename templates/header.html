@@ -65,7 +65,7 @@ require_once('functions.php');
         } else {
             document.getElementById('sidebar').style.visibility = 'hidden';
         }
-        document.write("Screen Width is: " + screenWidth + ".");
+        document.getElementById("sidebar").innerHTML = "Screen Width is: " + screenWidth + ".";
     </script>
     <div id="sidebar">
         <?php
