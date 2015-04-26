@@ -138,7 +138,7 @@ if ((isset($_GET['UserID']) or $userID > 0) and $submitSuccessful) {
     <!-- User search -->
     <form class="searchTag listTag" action="user.php">
         <input type="search" name="Search" id='searchInput' placeholder="Search for a User" />
-        <input id="addUserButton" type="submit" value="Search" />
+        <input id="searchButton" type="submit" value="Search" />
     </form>
 
     <!-- Add User Button -->
