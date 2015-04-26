@@ -422,6 +422,7 @@ a.more:hover {
 /***************************** info pages ***********************************************/
 
 .primaryInfo {
+    width: 60%;
     border: 1px solid #810e05;
     background-color: #fdfdfd;
     margin: 2px 40px 5px 2px;
