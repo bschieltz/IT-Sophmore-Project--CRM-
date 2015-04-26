@@ -27,9 +27,10 @@
 						define('TITLE', 'UCC CRMS');
 
 						print "<div align='center'>";
-						print "<h2 style='color: red'>Sorry, we could not find you in our database.</h2>";
-						print "<p style='color: red'>You can try again or contact
-							this system administrator for access.
+						print "<h3 style='color: red'>Sorry, we could not find you in our database.</h3>";
+                        print "<p style='color: red'>There was an error with your Email/Password combination, please try again.</p>";
+						print "<p style='color: red; font-size: smaller;'>If the problem persist, please contact
+							the system administrator.
 						</p>";
 						print "</div>";
 						// Print the login form
