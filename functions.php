@@ -674,7 +674,7 @@
 
 
         // Add New Interaction Search Box & Button
-        print "<br /><form action='business.php' method='get'>
+        print "<form action='business.php' method='get'>
                     <input type='search' id='searchInput' name='Search' placeholder='Business to add interaction for' style='width:50%;' /><br />
                     <input type='submit' value='Add New Interaction'  class='myButton'/>
                 </form>";
