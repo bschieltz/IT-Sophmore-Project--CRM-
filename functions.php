@@ -758,6 +758,13 @@
             // Query ran successfully, return True
             return True;
         } else { // Unable to run the query
+
+            $message = 'This is a message.';
+
+            echo "<SCRIPT>
+                alert('$message');
+                </SCRIPT>";
+
             print "<h3 style='color: red;'>ERROR ENTERING DATA INTO DATABASE!</h3>
                     <p>You are not currently logged in, please click <a href='index.php'>HERE</a> to log in.</p>
                 ";
