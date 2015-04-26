@@ -647,7 +647,7 @@
         print "<h2 style='color: #E00122;'>Welcome, $userFullName!</h2>";
 
         // Most Contacted Businesses and Employees
-        print'<div class="mostContacted" style="padding-top: 25px; padding-bottom: 25px;">
+        print'<div class="mostContacted" style="padding-bottom: 25px;">
                     <dl>
                         <dt>Most Contacted Businesses</dt>';
         if($businesses){
