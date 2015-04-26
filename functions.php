@@ -460,7 +460,9 @@
         if (mysqli_num_rows($employeeList) > 0) {
             for ($i=0; $i <= mysqli_num_rows($employeeList); $i++) {
                 if($row = mysqli_fetch_array($employeeList)) {
+                    print '<div class="primaryInfo" style="padding-top: 0px;">';
                     print '<li><a href="employee.php?EmployeeID=' . $row['EmployeeID'] . '">' . $row['FirstName'] . ' ' . $row['LastName'] . '</a></li>';
+                    print '</div>';
                 }
             }
         } else {
