@@ -765,11 +765,19 @@
                 alert('$message');
                 </SCRIPT>";
 
-
-            print "<h3 style='color: red;'>ERROR ENTERING DATA INTO DATABASE!</h3>
+            if($userID = '') {
+                print "<h3 style='color: red;'>ERROR ENTERING DATA INTO DATABASE!</h3>
                     <p>You are not currently logged in, please click
                     <a href='index.php' style='text-decoration: underline'>HERE</a> to log in.</p>
                 ";
+            } else {
+                print "<h3 style='color: red;'>ERROR ENTERING DATA INTO DATABASE!</h3>
+                    <p>An error occurred while trying to enter the data into the database,
+                    however, no information was saved, please try your action again.
+                    If the problem persists, please contact the
+                    <a href='mailto: alexanf@mail.uc.edu?subject=UCC CRMS Help' style='text-decoration: underline;'>
+							system administrator</a>.</p>";
+            }
 
             // Query failed, return False
             return False;
