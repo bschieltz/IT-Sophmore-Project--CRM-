@@ -286,7 +286,7 @@ a.more:hover {
 	padding-left: 5px;
 }
 
-.myButton, #addBusinessButton, #searchButton, #addEmployeeButton, #cancelButton, #submitButton {
+.myButton {
     /*float: left;*/
 	margin-left: auto;
 	margin-right: auto;
@@ -400,7 +400,6 @@ a.more:hover {
     background: rgba(255,255,255,0.9);
     border-radius: 5px;
 }
-/*  Commented out to lump in with other button css coding
 #addBusinessButton, #searchButton, #addEmployeeButton, #cancelButton, #submitButton {
     margin-left: auto;
     margin-right: auto;
@@ -429,7 +428,7 @@ a.more:hover {
     padding:15px 15px;
     text-decoration:none;
     text-shadow:0px 1px 0px #810e05;
-}*/
+}
 
 /***************************** info pages ***********************************************/
 
