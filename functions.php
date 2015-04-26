@@ -640,12 +640,6 @@
 
         print "<h2 style='color: #E00122;'>Welcome, $userFullName!</h2>";
 
-        // Add New Interaction Search Box & Button
-        print "<br /><form action='business.php' method='get'>
-                    <input type='search' id='searchInput' name='Search' placeholder='Business to add interaction for' style='width:50%;' /><br />
-                    <input type='submit' value='Add New Interaction'  class='myButton'/>
-                </form>";
-
         // Most Contacted Businesses and Employees
         print'<div class="mostContacted">
                     <dl>
@@ -673,6 +667,11 @@
         </div>'; // End Most Contacted Businesses and Employees
 
 
+        // Add New Interaction Search Box & Button
+        print "<br /><form action='business.php' method='get'>
+                    <input type='search' id='searchInput' name='Search' placeholder='Business to add interaction for' style='width:50%;' /><br />
+                    <input type='submit' value='Add New Interaction'  class='myButton'/>
+                </form>";
 
 
         // Add New Business Button
