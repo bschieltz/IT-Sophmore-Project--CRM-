@@ -37,13 +37,11 @@ h1 a {
 
 #header {
     border-top:solid #000000;
-
-
-
-
 }
+
 #header img {
-    max-width: 95%;
+    display: block;
+    max-width: 100%;
     margin-left: auto;
     margin-right: auto;
 }
