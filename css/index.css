@@ -225,6 +225,7 @@ h1 a {
     background-color:#E00122;
     color:#fff;
     text-decoration:none;
+    border-radius: 5px;
 }
 
 p.navigation {
