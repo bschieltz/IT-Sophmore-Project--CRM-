@@ -387,7 +387,7 @@ a.more:hover {
     inset 0 0 8px  rgba(0,0,0,0.9),
     0 0 16px rgba(0,0,0,0.9);
     padding: 15px 15px;
-    margin: 15px 15px;
+    margin: 15px 0px 15px;
     background: rgba(255,255,255,0.9);
 }
 #addBusinessButton, #searchButton, #addEmployeeButton, #cancelButton, #submitButton {
