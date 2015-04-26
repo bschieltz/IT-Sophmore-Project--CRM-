@@ -66,8 +66,8 @@ h1 a {
     width:auto;
     margin:0 auto;
     background-color: #ffffff;
-    min-width: 960px;
-    max-width: 960px;
+    min-width: 760px;
+    max-width: 760px;
     min-height: 900px;
     box-shadow: 10px 10px 5px #111;
     border-bottom: 20px solid #E00122;
