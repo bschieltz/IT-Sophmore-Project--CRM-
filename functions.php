@@ -293,7 +293,9 @@
         $businessList = mysqli_query($dbc, $businessListQuery) or die("Error: ".mysqli_error($dbc));
         for ($i=0; $i <= mysqli_num_rows($businessList); $i++) { // repeat for each business matching search, create unordered list
             if ($row = mysqli_fetch_array($businessList)) {
+                print '<div class="mostContacted">';
                 print '<li><a href="business.php?BusinessID=' . $row['BusinessID'] . '">' . $row['BusinessName'] . '</a></li>';
+                print '</div>';
                 if (mysqli_num_rows($businessList) == 1) {
                     print $_SERVER['PHP_SELF'] . " " . $_SERVER['HTTP_REFERER'];
                     if (strpos($_SERVER['HTTP_REFERER'], $_SERVER['PHP_SELF']) !== FALSE) {
