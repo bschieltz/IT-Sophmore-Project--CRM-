@@ -137,6 +137,8 @@ if ((!empty($_GET['EmployeeID']) or $employeeID > 0) and $submitSuccessful) {
 
     <!-- Search results -->
     <div class="listTag displayOff">
+        <br />
+        <h3>Search Results:</h3>
         <ul>
             <?php if (!empty($_GET['Search'])) {displayEmployeeList();} ?>
         </ul>
