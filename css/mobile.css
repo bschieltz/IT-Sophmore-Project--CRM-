@@ -42,8 +42,8 @@ h1 a {
 #header img {
     display: block;
     max-width: 100%;
-    margin-left: auto;
-    margin-right: auto;
+    margin-left: 0;
+    margin-right: 0;
 }
 
 #header .description {
