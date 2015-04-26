@@ -620,10 +620,53 @@
 			noAuth();
 		}
 
-		print "<h2 style='color: #E00122;'>Welcome, $userFullName!</h2>";
+        //query to get top 5 businesses contacted
+        $businessesQuery = "SELECT tnote.BusinessID, COUNT(*) as businessCount, tbusiness.BusinessName
+            FROM tnote INNER JOIN tbusiness ON tnote.BusinessID = tbusiness.BusinessID
+            WHERE UserID = $userID
+            GROUP BY BusinessID
+            ORDER BY businessCount Desc
+            LIMIT 5";
+        $businesses = mysqli_query($dbc, $businessesQuery);
+
+        //Query to get most contacted employees
+        $employeesQuery = "SELECT tnote.EmployeeID, COUNT(*) as employeeCount, temployee.FirstName, temployee.LastName
+            FROM tnote INNER JOIN temployee ON tnote.EmployeeID = temployee.EmployeeID
+            WHERE UserID = $userID and Active = 1
+            GROUP BY EmployeeID
+            ORDER BY employeeCount Desc
+            LIMIT 5";
+        $employees = mysqli_query($dbc, $employeesQuery);
+
+        print'<div class="mostContacted">
+                    <dl>
+                        <dt>Most Contacted Businesses</dt>';
+                        if($businesses){
+                            for($i=0; $i <= mysqli_num_rows($businesses); $i++) {
+                                if($row = mysqli_fetch_array($businesses)) {
+                                    print '<dd><a href="business.php?BusinessID='. $row['BusinessID'] . '">' . $row['BusinessName'] . '</a></dd>';
+                                }
+                            }
+                        }
+        print'</dl>
+
+        <!-- Most contacted employees (which is different from recent employees) -->
+        <dl>
+            <dt>Most Contacted Employees</dt>';
+            if($employees){
+                for($i=0; $i <= mysqli_num_rows($employees); $i++) {
+                    if($row = mysqli_fetch_array($employees)) {
+                        print '<dd><a href="employee.php?EmployeeID='. $row['EmployeeID'] . '">' . $row['FirstName'] . ' ' . $row['LastName'] . '</a></dd>';
+                    }
+                }
+            }
+        print'</dl>
+        </div>';
+
+        print "<h2 style='color: #E00122;'>Welcome, $userFullName!</h2>";
 
         print "<br /><form action='business.php' method='get'>
-                    <input type='search' id='searchInput' name='Search' placeholder='Business to add interaction for' style='width:100%;' /><br />
+                    <input type='search' id='searchInput' name='Search' placeholder='Business to add interaction for' style='width:50%;' /><br />
                     <input type='submit' value='Add New Interaction'  class='myButton'/>
                 </form>";
 

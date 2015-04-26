@@ -178,20 +178,20 @@ require('includes/mysqli_connect.php');
             }?>
         </div>
 
-        <ul>
-            <li>Business Name: <?= $businessName ?></li>
-            <li>Primary Contact: <?= $primaryContact ?></li>
-            <li>Phone Number: <?= $primaryPhoneNumber ?></li>
-            <li>Address: <?= $street1 . " " . $street2 ?></li>
-            <li>City/State/Zip: <?= $city . ", " . $statePrefix . " " . $zip_code ?></li>
-            <li>Notes: <?= $notes ?></li>
+        <ul class="primaryInfo">
+            <li><b>Business Name:</b></b> <?= $businessName ?></li>
+            <li><b>Primary Contact:</b> <?= $primaryContact ?></li>
+            <li><b>Phone Number:</b> <?= $primaryPhoneNumber ?></li>
+            <li><b>Address:</b> <?= $street1 . " " . $street2 ?></li>
+            <li><b>City/State/Zip:</b> <?= $city . ", " . $statePrefix . " " . $zip_code ?></li>
+            <li><b>Notes:</b> <?= $notes ?></li>
         </ul>
         <input class="myButton" id="editButton" type="submit" value="Edit" />
     </div>
 
     <!-- Edit / Add form.  If the variables have data the fields get filled out -->
     <!-- The submit receiving function knows if it is an add or edit based on the existence of a business id -->
-    <form class="formTag displayOff">
+    <form class="primaryInfo formTag displayOff">
         <input type="hidden" name="Submit" value="True"/> <!-- hidden field to pass submit value and trigger function -->
         <input type="hidden" name="BusinessID" value="<?= $businessID ?>"/> <!-- hidden field to pass business id -->
         Business Name: <input type="text" name="BusinessName" size="20" value="<?= $businessName ?>" placeholder="Starbucks"/><br />

@@ -195,22 +195,22 @@ if ((isset($_GET['UserID']) or $userID > 0) and $submitSuccessful) {
             </dl>
         </div>
 
-        <ul>
-            <li>Status: <?= ($active ? "Active" : "Inactive") ?></li>
-            <li>Title: <?= $title ?></li>
-            <li>First Name: <?= $firstName ?></li>
-            <li>Last Name: <?= $lastName ?></li>
-            <li>Phone Number: <?= $phoneNumber ?></li>
-            <li>Email: <a href="mailto:<?= $email ?>"><?= $email ?></a></li>
-            <?php ($_SESSION["admin"] ? print"<li>Admin: " . ($admin ? "Yes" : "No") . "</li>" : ""); ?>
-            <li>Interaction Type: <?= $interactionType ?></li>
+        <ul class="primaryInfo">
+            <li><b>Status:</b> <?= ($active ? "Active" : "Inactive") ?></li>
+            <li><b>Title:</b> <?= $title ?></li>
+            <li><b>First Name:</b> <?= $firstName ?></li>
+            <li><b>Last Name:</b> <?= $lastName ?></li>
+            <li><b>Phone Number:</b> <?= $phoneNumber ?></li>
+            <li><b>Email:</b> <a href="mailto:<?= $email ?>"><?= $email ?></a></li>
+            <?php ($_SESSION["admin"] ? print"<li><b>Admin:</b> " . ($admin ? "Yes" : "No") . "</li>" : ""); ?>
+            <li><b> Type:</b> <?= $interactionType ?></li>
         </ul>
         <?php ($_SESSION["admin"] || $_SESSION["userID"] == $userID ? print'<input class="myButton" id="editButton" type="submit" value="Edit" />' : '')?>
 
     </div>
 
     <!-- Form for adding/editing users. -->
-    <form class="formTag displayOff" method="post">
+    <form class="primaryInfo formTag displayOff" method="post">
         <input type="hidden" name="Submit" value="True"/>
         <input type="hidden" name="UserID" value="<?= $userID ?>"/>
         Title: <select name="TitleID">

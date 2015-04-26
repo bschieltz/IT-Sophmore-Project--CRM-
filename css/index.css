@@ -423,8 +423,32 @@ a.more:hover {
 
 .primaryInfo {
     border: 1px solid #810e05;
-    margin: 2px 2px 5px 2px;
-    padding: 5px;
+    background-color: #fdfdfd;
+    margin: 2px 40px 5px 2px;
+    padding: 0px;
+    box-shadow: 3px 3px 7px rgba(0,0,0,0.4);
+}
+
+.primaryInfo b {
+    display: inline-block;
+    width: 130px;
+    color: #000000;
+    margin: 0;
+    padding: 0;
+    white-space: nowrap;
+}
+
+.primaryInfo li {
+    border-bottom: 1px solid #e8e8e8;
+    padding: 2px 5px 2px 5px;
+}
+
+.primaryInfo li:hover {
+    background-color: #e8e8e8;
+}
+
+#content .primaryInfo a {
+    text-decoration: underline;
 }
 
 .mostContacted {
@@ -437,6 +461,7 @@ dl {
     display: block;
     border: 1px solid #810e05;
     color: #000000;
+    background-color: #ffffff;
     margin: 2px 2px 5px 2px;
     padding: 2px;
     box-shadow: 7px 7px 7px rgba(0,0,0,0.4);
