@@ -638,32 +638,33 @@
             LIMIT 5";
         $employees = mysqli_query($dbc, $employeesQuery);
 
+        print "<h2 style='color: #E00122;'>Welcome, $userFullName!</h2>";
+
         print'<div class="mostContacted">
                     <dl>
                         <dt>Most Contacted Businesses</dt>';
-                        if($businesses){
-                            for($i=0; $i <= mysqli_num_rows($businesses); $i++) {
-                                if($row = mysqli_fetch_array($businesses)) {
-                                    print '<dd><a href="business.php?BusinessID='. $row['BusinessID'] . '">' . $row['BusinessName'] . '</a></dd>';
-                                }
-                            }
-                        }
+        if($businesses){
+            for($i=0; $i <= mysqli_num_rows($businesses); $i++) {
+                if($row = mysqli_fetch_array($businesses)) {
+                    print '<dd><a href="business.php?BusinessID='. $row['BusinessID'] . '">' . $row['BusinessName'] . '</a></dd>';
+                }
+            }
+        }
         print'</dl>
 
         <!-- Most contacted employees (which is different from recent employees) -->
         <dl>
             <dt>Most Contacted Employees</dt>';
-            if($employees){
-                for($i=0; $i <= mysqli_num_rows($employees); $i++) {
-                    if($row = mysqli_fetch_array($employees)) {
-                        print '<dd><a href="employee.php?EmployeeID='. $row['EmployeeID'] . '">' . $row['FirstName'] . ' ' . $row['LastName'] . '</a></dd>';
-                    }
+        if($employees){
+            for($i=0; $i <= mysqli_num_rows($employees); $i++) {
+                if($row = mysqli_fetch_array($employees)) {
+                    print '<dd><a href="employee.php?EmployeeID='. $row['EmployeeID'] . '">' . $row['FirstName'] . ' ' . $row['LastName'] . '</a></dd>';
                 }
             }
+        }
         print'</dl>
         </div>';
 
-        print "<h2 style='color: #E00122;'>Welcome, $userFullName!</h2>";
 
         print "<br /><form action='business.php' method='get'>
                     <input type='search' id='searchInput' name='Search' placeholder='Business to add interaction for' style='width:50%;' /><br />
