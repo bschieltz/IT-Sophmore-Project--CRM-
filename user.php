@@ -207,7 +207,7 @@ if ((isset($_GET['UserID']) or $userID > 0) and $submitSuccessful) {
             <?php ($_SESSION["admin"] ? print"<li><b>Admin:</b> " . ($admin ? "Yes" : "No") . "</li>" : ""); ?>
             <li><b> Type:</b> <?= $interactionType ?></li>
         </ul>
-        <?php ($_SESSION["admin"] || $_SESSION["userID"] == $userID ? print'<input class="myButton" id="editButton" type="submit" value="Edit" />' : '')?>
+        <?php ($_SESSION["admin"] || $_SESSION["userID"] == $userID ? print'<input class="myButton" id="editButton" type="submit" value="Edit User Info" />' : '')?>
 
     </div>
 
