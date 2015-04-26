@@ -763,9 +763,10 @@
 
             echo "<SCRIPT>
                 alert('$message');
-                header('Location: http://homepages.uc.edu/group1/index.php;');
-                exit();
                 </SCRIPT>";
+            header('Location: http://homepages.uc.edu/group1/index.php;');
+            exit();
+
 
             print "<h3 style='color: red;'>ERROR ENTERING DATA INTO DATABASE!</h3>
                     <p>You are not currently logged in, please click
