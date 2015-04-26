@@ -57,16 +57,6 @@ require_once('functions.php');
         ?>
 	</div><!-- header -->
 
-    <script type="text/javascript">
-        var screenWidth = window.screen.width;
-
-        if(screenWidth > 900) {
-            document.getElementById('sidebar').style.visibility = 'visible';
-        } else {
-            document.getElementById('sidebar').style.visibility = 'hidden';
-        }
-        document.getElementById("sidebar").innerHTML = "Screen Width is: " + screenWidth + ".";
-    </script>
     <div id="sidebar">
         <?php
             if(!isset($_SESSION["userID"])) {
@@ -101,7 +91,18 @@ require_once('functions.php');
         ?>
     </div><!-- sidebar -->
 
+    <script type="text/javascript">
+        var screenWidth = window.screen.width;
 
-	<div id="content">
+        if(screenWidth > 900) {
+            document.getElementById('sidebar').style.visibility = 'visible';
+        } else {
+            document.getElementById('sidebar').style.visibility = 'hidden';
+        }
+        document.getElementById("sidebar").innerHTML = "<p>Screen Width is: " + screenWidth + ".";
+    </script>
+
+
+    <div id="content">
  		<!-- BEGIN CHANGEABLE CONTENT. -->
 		<!-- Script 8.2 - header.html -->
