@@ -145,7 +145,7 @@ if ((isset($_GET['UserID']) or $userID > 0) and $submitSuccessful) {
     <?php ($_SESSION["admin"] ? print'
     <form class="searchTag listTag"  action="user.php">
         <input type="hidden" name="CreateUser" value="True"/>
-        <input class="myButton" id="addUserButton" type="submit" value="Add New User" />
+        <input class="searchButton" id="addUserButton" type="submit" value="Add New User" />
     </form>' : ''); ?>
 
     <!-- Search results -->
