@@ -764,7 +764,6 @@
             echo "<SCRIPT>
                 alert('$message');
                 </SCRIPT>";
-            exit();
 
 
             print "<h3 style='color: red;'>ERROR ENTERING DATA INTO DATABASE!</h3>
