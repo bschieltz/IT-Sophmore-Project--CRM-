@@ -398,6 +398,7 @@ a.more:hover {
     padding: 15px 15px;
     margin: 5px 0px 15px;
     background: rgba(255,255,255,0.9);
+    border-radius: 5px;
 }
 #addBusinessButton, #searchButton, #addEmployeeButton, #cancelButton, #submitButton {
     margin-left: auto;
