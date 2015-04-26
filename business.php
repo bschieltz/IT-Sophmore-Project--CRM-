@@ -118,14 +118,6 @@ require('includes/mysqli_connect.php');
 ?>
 <div id="businessPage">
 
-    <?php if ($businessID > 0) { //if we load a business, add create employee button
-        print'<form class="infoTag" action="employee.php">
-                <input type="hidden" name="CreateEmployee" value="True"/>
-                <input type="hidden" name="BusinessID" value=" '. $businessID . '"/>
-                <input class="searchTag listTag infoTag" id="addEmployeeButton" type="submit" value="Add New Employee" />
-              </form>';
-        }
-    ?>
     <!-- Search Box -->
     <form class="searchTag listTag" action="business.php">
         <input id="searchInput" type="search" name="Search" placeholder="Search for a Business" />
@@ -148,48 +140,60 @@ require('includes/mysqli_connect.php');
 
     <!-- Business Info -->
     <div class="infoTag displayOff">
-        <ul>
-            <li>Business Name: <?= $businessName ?></li>
-            <li>Primary Contact: <?= $primaryContact ?></li>
-            <li>Phone Number: <?= $primaryPhoneNumber ?></li>
-            <li>Address: <?= $street1 . " " . $street2 ?></li>
-            <li>City/State/Zip: <?= $city . ", " . $statePrefix . " " . $zip_code ?></li>
-            <li>Notes: <?= $notes ?></li>
-        </ul>
-        <input id="editButton" type="submit" value="Edit" />
-
-        <!-- List of employees that work for the company -->
-        <dl>
-            <dt>Employees:</dt>
+        <div class="mostContacted">
             <?php
-                if($employees){
-                    for($i=0; $i <= mysqli_num_rows($employees); $i++) {
-                        if($row = mysqli_fetch_array($employees)) {
-                            print '<dd><a href="employee.php?EmployeeID='. $row['EmployeeID'] . '">' . $row['FirstName'] . " " . $row['LastName'] . '</a></dd>';
+            // List of employees that work for the company
+            if ($employees) {
+                if (mysqli_num_rows($employees) > 0) {
+                    print"<dl>
+                        <dt>Employees</dt>";
+                        for ($i = 0; $i <= mysqli_num_rows($employees); $i++) {
+                            if ($row = mysqli_fetch_array($employees)) {
+                                print '<dd><a href="employee.php?EmployeeID=' . $row['EmployeeID'] . '">' . $row['FirstName'] . " " . $row['LastName'] . '</a></dd>';
+                            }
                         }
-                    }
-                }
-            ?>
-        </dl>
-
-        <!-- list of top 5 UC employees that contact business in order of most contact -->
-        <dl>
-            <dt>Most often in contact with UC Staff:</dt>
-            <?php
-            if($ucStaff){
-                for($i=0; $i <= mysqli_num_rows($ucStaff); $i++) {
-                    if($row = mysqli_fetch_array($ucStaff)) {
-                        print '<dd><a href="user.php?UserID='. $row['UserID'] . '">' . $row['FirstName'] . " " . $row['LastName'] . '</a></dd>';
-                    }
+                print"</dl>";
                 }
             }
-            ?>
-        </dl>
+            // List of top 5 UC employees that contact business in order of most contact
+            if($ucStaff){
+                if (mysqli_num_rows($ucStaff) > 0) {
+                    print"<dl>
+                        <dt>Most often in contact with UC Staff</dt>";
+                        for($i=0; $i <= mysqli_num_rows($ucStaff); $i++) {
+                            if($row = mysqli_fetch_array($ucStaff)) {
+                                print '<dd><a href="user.php?UserID='. $row['UserID'] . '">' . $row['FirstName'] . " " . $row['LastName'] . '</a></dd>';
+                            }
+                        }
+                print"</dl>";
+                }
+            }?>
+        </div>
+
+        <ul class="primaryInfo">
+            <li><b>Business Name:</b></b> <?= $businessName ?></li>
+            <li><b>Primary Contact:</b> <?= $primaryContact ?></li>
+            <li><b>Phone Number:</b> <?= $primaryPhoneNumber ?></li>
+            <li><b>Address:</b> <?= $street1 . " " . $street2 ?></li>
+            <li><b>City/State/Zip:</b> <?= $city . ", " . $statePrefix . " " . $zip_code ?></li>
+            <li><b>Notes:</b> <?= $notes ?></li>
+        </ul>
+        <input class="myButton" id="editButton" type="submit" value="Edit" />
     </div>
+
+    <?php if ($businessID > 0) { //if we load a business, add create employee button
+        print'<br /><form class="infoTag" action="employee.php">
+                <input type="hidden" name="CreateEmployee" value="True"/>
+                <input type="hidden" name="BusinessID" value=" '. $businessID . '"/>
+                <input class="searchTag listTag infoTag" id="addEmployeeButton" type="submit" value="Add New Employee" />
+              </form>';
+    }
+    ?>
+
 
     <!-- Edit / Add form.  If the variables have data the fields get filled out -->
     <!-- The submit receiving function knows if it is an add or edit based on the existence of a business id -->
-    <form class="formTag displayOff">
+    <form class="primaryInfo formTag displayOff">
         <input type="hidden" name="Submit" value="True"/> <!-- hidden field to pass submit value and trigger function -->
         <input type="hidden" name="BusinessID" value="<?= $businessID ?>"/> <!-- hidden field to pass business id -->
         Business Name: <input type="text" name="BusinessName" size="20" value="<?= $businessName ?>" placeholder="Starbucks"/><br />
@@ -202,8 +206,8 @@ require('includes/mysqli_connect.php');
         <input type="text" name="zip_code" size="2" value="<?= $zip_code ?>" placeholder="45255"/><br />
         Notes:<br /><textarea name="Notes" rows="4" cols="50"><?= $notes ?></textarea><br />
 
-        <input id="cancelButton" type="submit" value="Cancel" />
-        <input id="submitButton" type="submit" value="Submit" />
+        <input class="myButton" id="cancelButton" type="submit" value="Cancel" />
+        <input class="myButton" id="submitButton" type="submit" value="Submit" />
     </form>
 
     <br /><br /><br />

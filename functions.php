@@ -90,26 +90,27 @@
 
         // Query to pull all uncompleted action items
         $userActionItemsQuery = "
-            SELECT tuser.UserID, tuser.FirstName as 'UserFirstName', tuser.LastName as 'UserLastName', InteractionType, Note, tbusiness.BusinessID as 'BusinessID',
-                BusinessName, temployee.employeeID as 'employeeID', temployee.FirstName as 'FirstName',
-                temployee.LastName as 'LastName', temployee.PhoneNumber as 'Phone', temployee.Extension as 'Ext',
-                temployee.Email as 'Email', personalNote as 'EmployeeNote', tnote.DateTime as 'NoteCreated',
+            SELECT tnote.UserID, concat(aUser.FirstName,' ',aUser.LastName) as AssignedToName, concat(nUser.FirstName,' ',nUser.LastName) as CreatedName, InteractionType, Note, tnote.BusinessID,
+                BusinessName, `PrimaryPhone#` as BusinessPhone, tnote.employeeID, temployee.FirstName,
+                temployee.LastName, temployee.PhoneNumber, temployee.Extension,
+                temployee.Email, personalNote, tnote.DateTime as 'NoteCreated',
                 tactionitem.DateTime as 'ActionItemCreated', ActionItemID, OriginalActionItemID, ReferanceID,
-                AssignedToUserID, tactionitem.NoteID as 'NoteID', actionComplete
+                AssignedToUserID, tnote.NoteID, actionComplete
             FROM tnote
                 LEFT JOIN tactionitem
-                    ON tnote.noteid = tactionitem.noteid
-                LEFT JOIN tuser
-                    ON tactionitem.AssignedToUserID = tuser.userid
+                    ON tnote.noteID = tactionitem.noteID
+                LEFT JOIN tuser aUser
+                    ON tactionitem.assignedtouserid = aUser.userid
+                LEFT JOIN tuser nUser
+                    ON tnote.userid = nUser.userid
                 LEFT JOIN tbusiness
                     ON tnote.businessID = tbusiness.businessID
                 LEFT JOIN temployee
-                    ON tnote.employeeid = temployee.employeeid
+                    ON tnote.EmployeeID = temployee.EmployeeID
                 LEFT JOIN tinteractiontype
 					ON tnote.interactiontypeID = tinteractiontype.interactiontypeID
             Where $subject = $searchID AND ActionItemID IS NOT NULL AND actionComplete IS NULL
-            Order By NoteID DESC;
-            ";
+            Order By NoteID DESC;            ";
 //        print $userActionItemsQuery;
         return $userActionItemsQuery;
     }
@@ -619,12 +620,55 @@
 			noAuth();
 		}
 
-		print "<h2 style='color: #E00122;'>Welcome, $userFullName!</h2>";
+        //query to get top 5 businesses contacted
+        $businessesQuery = "SELECT tnote.BusinessID, COUNT(*) as businessCount, tbusiness.BusinessName
+            FROM tnote INNER JOIN tbusiness ON tnote.BusinessID = tbusiness.BusinessID
+            WHERE UserID = $userID
+            GROUP BY BusinessID
+            ORDER BY businessCount Desc
+            LIMIT 5";
+        $businesses = mysqli_query($dbc, $businessesQuery);
+
+        //Query to get most contacted employees
+        $employeesQuery = "SELECT tnote.EmployeeID, COUNT(*) as employeeCount, temployee.FirstName, temployee.LastName
+            FROM tnote INNER JOIN temployee ON tnote.EmployeeID = temployee.EmployeeID
+            WHERE UserID = $userID and Active = 1
+            GROUP BY EmployeeID
+            ORDER BY employeeCount Desc
+            LIMIT 5";
+        $employees = mysqli_query($dbc, $employeesQuery);
+
+        print'<div class="mostContacted">
+                    <dl>
+                        <dt>Most Contacted Businesses</dt>';
+                        if($businesses){
+                            for($i=0; $i <= mysqli_num_rows($businesses); $i++) {
+                                if($row = mysqli_fetch_array($businesses)) {
+                                    print '<dd><a href="business.php?BusinessID='. $row['BusinessID'] . '">' . $row['BusinessName'] . '</a></dd>';
+                                }
+                            }
+                        }
+        print'</dl>
+
+        <!-- Most contacted employees (which is different from recent employees) -->
+        <dl>
+            <dt>Most Contacted Employees</dt>';
+            if($employees){
+                for($i=0; $i <= mysqli_num_rows($employees); $i++) {
+                    if($row = mysqli_fetch_array($employees)) {
+                        print '<dd><a href="employee.php?EmployeeID='. $row['EmployeeID'] . '">' . $row['FirstName'] . ' ' . $row['LastName'] . '</a></dd>';
+                    }
+                }
+            }
+        print'</dl>
+        </div>';
+
+        print "<h2 style='color: #E00122;'>Welcome, $userFullName!</h2>";
 
         print "<br /><form action='business.php' method='get'>
-                    <input type='search' id='searchInput' name='Search' placeholder='Business to add interaction for' style='width:100%;' /><br />
+                    <input type='search' id='searchInput' name='Search' placeholder='Business to add interaction for' style='width:50%;' /><br />
                     <input type='submit' value='Add New Interaction'  class='myButton'/>
-                </form><br /><br />";
+                </form>";
 
         print "<form action='business.php'>
                 <input type='hidden' name='CreateBusiness' value='True' />
@@ -638,60 +682,6 @@
 
         print "<h3>Action Items:</h3>";
         $actionItems->printActionItems();
-
-/*
-        print "
-            <br />
-            <br />
-            <table class='contactTable'>
-                <caption>Most Contacted Businesses</caption>
-                <th>Business Name</th>
-                <tr><td>Example Business</td></tr>
-                <tr><td>Example Business</td></tr>
-                <tr><td>Example Business</td></tr>
-            </table>
-            <br />
-            <br />
-        ";
-*/
-        print "
-            <br />
-            <br />
-            <table class='contactTable'>
-                <caption>Most Contacted Employees</caption>
-                <th>Employee</th><th>Email</th><th>Phone</th><th>Business Name</th>
-                <tr>
-                    <td>Example Employee</td>
-                    <td>Example@employee.com</td>
-                    <td>513-555-5555</td>
-                    <td>Example Business</td>
-                </tr>
-                <tr>
-                    <td>Example Employee</td>
-                    <td>Example@employee.com</td>
-                    <td>513-555-5555</td>
-                    <td>Example Business</td>
-                </tr>
-                <tr>
-                    <td>Example Employee</td>
-                    <td>Example@employee.com</td>
-                    <td>513-555-5555</td>
-                    <td>Example Business</td>
-                </tr>
-                <tr>
-                    <td>Example Employee</td>
-                    <td>Example@employee.com</td>
-                    <td>513-555-5555</td>
-                    <td>Example Business</td>
-                </tr>
-                <tr>
-                    <td>Example Employee</td>
-                    <td>Example@employee.com</td>
-                    <td>513-555-5555</td>
-                    <td>Example Business</td>
-                </tr>
-            </table>
-        ";
 
         print "<br /><br /><h3>All Interactions:</h3>";
         $actionItems->printInteractions();
