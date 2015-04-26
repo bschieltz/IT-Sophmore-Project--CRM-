@@ -151,6 +151,8 @@ if ((isset($_GET['UserID']) or $userID > 0) and $submitSuccessful) {
     <!-- Search results -->
     <div class="listTag displayOff">
         <ul>
+            <br />
+            <h3>Users:</h3>
             <?php if (!empty($_GET['Search'])) {displayUserList();} ?>
         </ul>
     </div>
