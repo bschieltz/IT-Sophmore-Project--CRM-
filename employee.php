@@ -170,7 +170,7 @@ if ((!empty($_GET['EmployeeID']) or $employeeID > 0) and $submitSuccessful) {
 
         <ul class="primaryInfo">
             <li><b>Status:</b> <?= ($active ? "Active" : "Inactive") ?></li>
-            <li><b>Job Title:</b> <?= $jobTitle ?></li>
+            <li><b>Job Title:</b> <style="text-align:right;"><?= $jobTitle ?></li>
             <li><b>Title:</b> <?= $title ?></li>
             <li><b>First Name:</b> <?= $firstName ?></li>
             <li><b>Last Name:</b> <?= $lastName ?></li>
