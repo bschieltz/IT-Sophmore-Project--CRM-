@@ -134,6 +134,7 @@ require('includes/mysqli_connect.php');
     <!-- Search Results -->
     <div class="listTag displayOff">
         <br />
+        <h3>Search Results:</h3>
         <ul>
             <?php if (!empty($_GET['Search'])) {displayBusinessList();} ?>
         </ul>
