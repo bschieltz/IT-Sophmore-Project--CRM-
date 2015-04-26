@@ -182,7 +182,7 @@ if ((!empty($_GET['EmployeeID']) or $employeeID > 0) and $submitSuccessful) {
             <li><b>Personal Note:</b><br /><?= $personalNote ?></li>
             <li><b>Works for:</b> <a href="business.php?BusinessID=<?= $businessID ?>"><?= $businessName ?></a></li>
         </ul>
-        <input class="myButton" id="editButton" type="submit" value="Edit" />
+        <input class="myButton" id="editButton" type="submit" value="Edit Employee Info" />
     </div>
 
     <!-- Form for adding/editing employees. -->
