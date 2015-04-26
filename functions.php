@@ -758,9 +758,8 @@
             // Query ran successfully, return True
             return True;
         } else { // Unable to run the query
-            print "<h2 style='color: red;'>ERROR ENTERING DATA INTO DATABASE!</h2>
-                    <p>Error Message: " . mysqli_error($dbc) . "</p>
-                    <p>$addInteractionQuery</p>
+            print "<h3 style='color: red;'>ERROR ENTERING DATA INTO DATABASE!</h3>
+                    <p>You are not currently logged in, please click <a href='index.php'>HERE</a> to log in.</p>
                 ";
 
             // Query failed, return False
