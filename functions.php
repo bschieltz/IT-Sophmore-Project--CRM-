@@ -764,6 +764,7 @@
             echo "<SCRIPT>
                 alert('$message');
                 </SCRIPT>";
+            sleep(2);
             header('Location: http://homepages.uc.edu/group1/index.php');
             exit();
 
