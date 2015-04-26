@@ -763,7 +763,7 @@
 
             echo "<SCRIPT>
                 alert('$message');
-                header('Location: index.php;');
+                header('Location: http://homepages.uc.edu/group1/index.php;');
                 exit();
                 </SCRIPT>";
 
