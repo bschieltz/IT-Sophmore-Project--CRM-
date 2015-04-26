@@ -170,7 +170,6 @@ require('includes/mysqli_connect.php');
             }?>
         </div>
 
-        <br />
         <ul class="primaryInfo">
             <li><b>Business Name:</b></b> <?= $businessName ?></li>
             <li><b>Primary Contact:</b> <?= $primaryContact ?></li>
