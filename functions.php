@@ -766,7 +766,8 @@
                 </SCRIPT>";
 
             print "<h3 style='color: red;'>ERROR ENTERING DATA INTO DATABASE!</h3>
-                    <p>You are not currently logged in, please click <a href='index.php'>HERE</a> to log in.</p>
+                    <p>You are not currently logged in, please click
+                    <a href='index.php' style='text-decoration: underline'>HERE</a> to log in.</p>
                 ";
 
             // Query failed, return False
