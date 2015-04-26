@@ -26,7 +26,7 @@ require_once('functions.php');
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<link rel="stylesheet" href="css/index.css" type="text/css" media="screen,projection" />
     <link rel="stylesheet" href="css/mobile.css" type="text/css" media="handheld" />
-    <link rel="stylesheet" href="css/mobile.css" type="text/css" media="screen and (max-width: 480)" />
+    <link rel="stylesheet" href="css/mobile.css" type="text/css" media="screen and (max-width: 760px)" />
 
 	<link rel="icon" type="image/ico" href="images/favicon.ico" />
 </head>
@@ -90,19 +90,6 @@ require_once('functions.php');
             }
         ?>
     </div><!-- sidebar -->
-
-    <script type="text/javascript">
-        var screenWidth = window.screen.width;
-
-        if(screenWidth > 900) {
-            document.getElementById('sidebar').style.visibility = 'visible';
-        } else {
-            //document.getElementById("header").innerHTML = "<p>" + screenWidth + "</p>";
-            document.getElementById('sidebar').style.visibility = 'hidden';
-        }
-        document.getElementById("sidebar").innerHTML = "<p>" + screenWidth + "</p>";
-    </script>
-
 
     <div id="content">
  		<!-- BEGIN CHANGEABLE CONTENT. -->
