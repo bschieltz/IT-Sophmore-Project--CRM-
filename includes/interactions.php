@@ -53,7 +53,7 @@ class Interactions {
                 $BusinessID = $_GET['BusinessID'];
                 $UserID = $_GET['UserID'];
                 $EmployeeID = $_GET['EmployeeID'];
-                ($EmployeeID != 0 ?: $EmployeeID = 'NULL' );
+                ($EmployeeID != 0 ?: $EmployeeID = 'None' );
                 $InteractionTypeID = $_GET['InteractionTypeID'];
                 $noteType = $_GET['noteType'];
                 $Note = $_GET['Note'];
@@ -88,6 +88,53 @@ class Interactions {
                         $CloseAction = 0; // false
                     }
                     if (insertActionItem($UserID, $BusinessID, $EmployeeID, $InteractionTypeID, $Note, $OriginalActionItemID, $ReferenceID, $AssignedToUserID, $CloseAction)) {
+                        if ($CloseAction == 0) { // action is assigned to someone, send them an email
+                            require('includes/mysqli_connect.php'); // connect to database
+                            $userQuery = "SELECT Email FROM tuser WHERE UserID = $AssignedToUserID";
+                            $user = mysqli_query($dbc, $userQuery) or die("Error: ".mysqli_error($dbc));
+                            $row = mysqli_fetch_array($user);
+                            $userEmail = $row['Email'];
+
+                            $businessQuery = "SELECT BusinessName FROM tbusiness WHERE BusinessID = $BusinessID";
+                            $business = mysqli_query($dbc, $businessQuery) or die("Error: ".mysqli_error($dbc));
+                            $row = mysqli_fetch_array($business);
+                            $businessName = $row['BusinessName'];
+
+                            $employeeQuery = "SELECT FirstName, LastName FROM temployee WHERE EmployeeID = $EmployeeID";
+                            $employee = mysqli_query($dbc, $employeeQuery) or die("Error: ".mysqli_error($dbc));
+                            $row = mysqli_fetch_array($employee);
+                            $employeeName = $row['FirstName'] . " " . $row['LastName'];
+
+                            $interactionQuery = "SELECT InteractionType FROM tinteractiontype WHERE InteractionTypeID = $InteractionTypeID";
+                            $interaction = mysqli_query($dbc, $interactionQuery) or die("Error: ".mysqli_error($dbc));
+                            $row = mysqli_fetch_array($interaction);
+                            $interactionType = $row['InteractionType'];
+
+                            //Email link only needs to go to the business or employee page, not a user page.
+                            if ($EmployeeID > 0) {
+                                $url = "http://$_SERVER[HTTP_HOST]/group1/employee.php?EmployeeID=$EmployeeID";
+                            } else {
+                                $url = "http://$_SERVER[HTTP_HOST]/group1/business.php?BusinessID=$BusinessID";
+                            }
+                            $subject = 'UC CRM: New Action Item';
+
+                            $headers = "From: UC CRM\r\n";
+                            //$headers .= "Reply-To: ". strip_tags($_POST['req-email']) . "\r\n";
+                            $headers .= "MIME-Version: 1.0\r\n";
+                            $headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
+
+                            $message = '<html><body>';
+                            $message .= '<table rules="all" style="border-color: #666;" cellpadding="10">';
+                            $message .= "<tr style='background: #E00122; color: #ffffff;'><td><strong>Business:</strong> </td><td>" . $businessName . "</td></tr>";
+                            $message .= "<tr><td><strong>Employee:</strong> </td><td>" . $employeeName . "</td></tr>";
+                            $message .= "<tr><td><strong>Interaction Type:</strong> </td><td>" . $interactionType . "</td></tr>";
+                            $message .= "<tr><td><strong>Note:</strong> </td><td>" . $Note . "</td></tr>";
+                            $message .= "<tr><td colspan='2' align='center'><a href='$url' style='color: black;'><strong>View On Website</strong></a></td></tr>";
+                            $message .= "</table>";
+                            $message .= "</body></html>";
+
+                            mail($userEmail, $subject, $message, $headers);
+                        }
                         // redirect will always send the page back to itself, this just tells it which ID to load
                         if ($this->userID > 0) {
                             redirect("UserID=" . $this->userID, 5);
@@ -115,7 +162,7 @@ class Interactions {
 
         print "<ul class='editBoxHeader' name='editBox$sentI'>";
             if ($userID == "")  {
-                print'<li class="editNew"><a href="">Add New Interaction</a></li>';
+                print'<li class="myButton editNew"><a href="">Add New Interaction</a></li>';
             } else {
                 print'<h4 style="width: 75%; margin-left: auto; margin-right: auto; text-align: center;">
                       <li class="editForwardClose"><a href="">Forward</a> | <a href=""> Close</a></li></h4>';
@@ -177,8 +224,12 @@ class Interactions {
         $NoteID = $row['NoteID'];
         $originalDate = $row['ActionItemCreated'];
         $actionItemID = $row['ActionItemID'];
+        $businessPhone = $row['BusinessPhone'];
+        $employeePhone = $row['PhoneNumber'];
+        $businessPhone = "(".substr($businessPhone, 0, 3).") ".substr($businessPhone, 3, 3)."-".substr($businessPhone,6);
+        $employeePhone = "(".substr($employeePhone, 0, 3).") ".substr($employeePhone, 3, 3)."-".substr($employeePhone,6);
 
-        if ($headerType == "action") {
+        if (!is_null($actionItemID)) {
             if (!is_null($row['actionComplete'])) {
                 $actionCompete = " complete";
             }
@@ -211,10 +262,14 @@ class Interactions {
                     <li style='float:right;'><b>Employee:</b> <a href='employee.php?EmployeeID=" . $row['employeeID'] . "'>" . ($row['FirstName'] != '' ? $row['FirstName'] : 'None') . " " . $row['LastName'] . "</a></li>
                     <li><b>Business: </b><a href='business.php?BusinessID=" . $row['BusinessID'] . "'>" . $row['BusinessName'] . "</a></li>
                     <li style='float:right;'><b>Email:</b> <a href='mailto:" . $row['Email'] . "'>" . ($row['Email'] != '' ? $row['Email'] : 'None') . "</a></li>
-                    <li><b>Phone #:</b> " . $row['Phone'] . " ext: " . $row['Ext'] . "</li>
-                    <li style='float:right;'>
-                        <b>" . ($headerType == "action" ? "Assigned To: " : "Created By: ") . "</b><a href='user.php?UserID=" . $row['UserID'] . "'>" . $row['UserFirstName'] . " " . $row['UserLastName'] . "</a></li>
-                    <li><b>Interaction Type:</b> " . $row['InteractionType'] . "</li>
+                    <li><b>Phone #:</b> " . ($row['PhoneNumber'] == "" ? $businessPhone : $employeePhone . " ext: " . $row['Ext']) . "</li>
+                    <li style='float:right;'>";
+                    if ($actionItemID != NULL) {
+                        print"<b>Assigned To: </b><a href='user.php?UserID=" . $row['AssignedToUserID'] . "'>" . $row['AssignedToName'] . "</a></li>";
+                    } else {
+                        print"<b>Created By: " . "</b><a href='user.php?UserID=" . $row['UserID'] . "'>" . $row['CreatedName'] . "</a></li>";
+                    }
+                    print"<li><b>Interaction Type:</b> " . $row['InteractionType'] . "</li>
                     <li><div class='notes'> " . $row['Note'] . "</div>";
                         if (is_null($row['actionComplete'])) { // this means that it is either an open action or note
                             if ($row['actionComplete'] == NULL && $headerType == "action") { // this means it is indeed an open action item
@@ -385,7 +440,9 @@ class Interactions {
                         if ($row = mysqli_fetch_array($userActionItems)) {
                             if (!in_array($row['NoteID'], $this->alreadyPrintedNotes)) { // if not already printed
                                 if ($row['ActionItemID'] != NULL) {
-                                    $this->printItem($i, $row, "action");
+                                    if ($row['AssignedToUserID'] == $this->userID || $this->userID == 0 || $row['AssignedToUserID'] == 0) {
+                                        $this->printItem($i, $row, "action");
+                                    }
                                 } else {
                                     $this->printItem($i, $row, "note");
                                 }

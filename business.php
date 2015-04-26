@@ -148,6 +148,36 @@ require('includes/mysqli_connect.php');
 
     <!-- Business Info -->
     <div class="infoTag displayOff">
+        <div class="mostContacted">
+            <?php
+            // List of employees that work for the company
+            if ($employees) {
+                if (mysqli_num_rows($employees) > 0) {
+                    print"<dl>
+                        <dt>Employees</dt>";
+                        for ($i = 0; $i <= mysqli_num_rows($employees); $i++) {
+                            if ($row = mysqli_fetch_array($employees)) {
+                                print '<dd><a href="employee.php?EmployeeID=' . $row['EmployeeID'] . '">' . $row['FirstName'] . " " . $row['LastName'] . '</a></dd>';
+                            }
+                        }
+                print"</dl>";
+                }
+            }
+            // List of top 5 UC employees that contact business in order of most contact
+            if($ucStaff){
+                if (mysqli_num_rows($ucStaff) > 0) {
+                    print"<dl>
+                        <dt>Most often in contact with UC Staff</dt>";
+                        for($i=0; $i <= mysqli_num_rows($ucStaff); $i++) {
+                            if($row = mysqli_fetch_array($ucStaff)) {
+                                print '<dd><a href="user.php?UserID='. $row['UserID'] . '">' . $row['FirstName'] . " " . $row['LastName'] . '</a></dd>';
+                            }
+                        }
+                print"</dl>";
+                }
+            }?>
+        </div>
+
         <ul>
             <li>Business Name: <?= $businessName ?></li>
             <li>Primary Contact: <?= $primaryContact ?></li>
@@ -156,35 +186,7 @@ require('includes/mysqli_connect.php');
             <li>City/State/Zip: <?= $city . ", " . $statePrefix . " " . $zip_code ?></li>
             <li>Notes: <?= $notes ?></li>
         </ul>
-        <input id="editButton" type="submit" value="Edit" />
-
-        <!-- List of employees that work for the company -->
-        <dl>
-            <dt>Employees:</dt>
-            <?php
-                if($employees){
-                    for($i=0; $i <= mysqli_num_rows($employees); $i++) {
-                        if($row = mysqli_fetch_array($employees)) {
-                            print '<dd><a href="employee.php?EmployeeID='. $row['EmployeeID'] . '">' . $row['FirstName'] . " " . $row['LastName'] . '</a></dd>';
-                        }
-                    }
-                }
-            ?>
-        </dl>
-
-        <!-- list of top 5 UC employees that contact business in order of most contact -->
-        <dl>
-            <dt>Most often in contact with UC Staff:</dt>
-            <?php
-            if($ucStaff){
-                for($i=0; $i <= mysqli_num_rows($ucStaff); $i++) {
-                    if($row = mysqli_fetch_array($ucStaff)) {
-                        print '<dd><a href="user.php?UserID='. $row['UserID'] . '">' . $row['FirstName'] . " " . $row['LastName'] . '</a></dd>';
-                    }
-                }
-            }
-            ?>
-        </dl>
+        <input class="myButton" id="editButton" type="submit" value="Edit" />
     </div>
 
     <!-- Edit / Add form.  If the variables have data the fields get filled out -->
@@ -202,8 +204,8 @@ require('includes/mysqli_connect.php');
         <input type="text" name="zip_code" size="2" value="<?= $zip_code ?>" placeholder="45255"/><br />
         Notes:<br /><textarea name="Notes" rows="4" cols="50"><?= $notes ?></textarea><br />
 
-        <input id="cancelButton" type="submit" value="Cancel" />
-        <input id="submitButton" type="submit" value="Submit" />
+        <input class="myButton" id="cancelButton" type="submit" value="Cancel" />
+        <input class="myButton" id="submitButton" type="submit" value="Submit" />
     </form>
 
     <br /><br /><br />

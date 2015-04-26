@@ -146,42 +146,45 @@ if ((!empty($_GET['EmployeeID']) or $employeeID > 0) and $submitSuccessful) {
     <form class="formTag displayOff" action="employee.php">
         <input type="hidden" name="ChangeActive" value="<?= $active ?>"/>
         <input type="hidden" name="EmployeeID" value="<?= $employeeID ?>"/>
-        <input class="formTag" id="changeActive" type="submit" value=<?= ($active ? print'"Suspend Employee"' : print'"Activate Employee"') ?>/>
+        <input class="myButton" id="changeActive" type="submit" value=<?= ($active ? print'"Suspend Employee"' : print'"Activate Employee"') ?>/>
     </form>
 
     <!-- Employee Information -->
     <div class="infoTag displayOff">
-        <ul>
-            <li>Status: <?= ($active ? "Active" : "Inactive") ?></li>
-            <li>Job Title: <?= $jobTitle ?></li>
-            <li>Title: <?= $title ?></li>
-            <li>First Name: <?= $firstName ?></li>
-            <li>Last Name: <?= $lastName ?></li>
-            <li>Phone Number: <?= $phoneNumber ?></li>
-            <li>Ext: <?= $extension ?></li>
-            <li>Email: <a href="mailto:<?= $email ?>"><?= $email ?></a></li>
-            <li>Personal Note: <?= $personalNote ?></li>
-            <li>Works for: <a href="business.php?BusinessID=<?= $businessID ?>"><?= $businessName ?></a></li>
-        </ul>
-        <input id="editButton" type="submit" value="Edit" />
 
-        <!-- most contacted UC staff based on number of notes -->
-        <dl>
-            <dt>Most often in contact with UC Staff:</dt>
-            <?php
-            if($ucStaff){
-                for($i=0; $i <= mysqli_num_rows($ucStaff); $i++) {
-                    if($row = mysqli_fetch_array($ucStaff)) {
-                        print '<dd><a href="user.php?UserID='. $row['UserID'] . '">' . $row['FirstName'] . " " . $row['LastName'] . '</a></dd>';
+        <div class="mostContacted">
+            <!-- most contacted UC staff based on number of notes -->
+            <dl>
+                <dt>Most often in contact with UC Staff</dt>
+                <?php
+                if($ucStaff){
+                    for($i=0; $i <= mysqli_num_rows($ucStaff); $i++) {
+                        if($row = mysqli_fetch_array($ucStaff)) {
+                            print '<dd><a href="user.php?UserID='. $row['UserID'] . '">' . $row['FirstName'] . " " . $row['LastName'] . '</a></dd>';
+                        }
                     }
                 }
-            }
-            ?>
-        </dl>
+                ?>
+            </dl>
+        </div>
+
+        <ul class="primaryInfo">
+            <li><b>Status:</b> <?= ($active ? "Active" : "Inactive") ?></li>
+            <li><b>Job Title:</b> <?= $jobTitle ?></li>
+            <li><b>Title:</b> <?= $title ?></li>
+            <li><b>First Name:</b> <?= $firstName ?></li>
+            <li><b>Last Name:</b> <?= $lastName ?></li>
+            <li><b>Phone Number:</b> <?= $phoneNumber ?></li>
+            <li><b>Ext:</b> <?= $extension ?></li>
+            <li><b>Email:</b> <a href="mailto:<?= $email ?>"><?= $email ?></a></li>
+            <li><b>Personal Note:</b> <?= $personalNote ?></li>
+            <li><b>Works for:</b> <a href="business.php?BusinessID=<?= $businessID ?>"><?= $businessName ?></a></li>
+        </ul>
+        <input class="myButton" id="editButton" type="submit" value="Edit" />
     </div>
 
     <!-- Form for adding/editing employees. -->
-    <form class="formTag displayOff">
+    <form class="primaryInfo formTag displayOff">
         <input type="hidden" name="Submit" value="True"/>
         <input type="hidden" name="BusinessID" value="<?= $businessID ?>"/>
         <input type="hidden" name="EmployeeID" value="<?= $employeeID ?>"/>
@@ -199,8 +202,8 @@ if ((!empty($_GET['EmployeeID']) or $employeeID > 0) and $submitSuccessful) {
         Ext: <input type="text" name="Extension" size="20" value="<?= $extension ?>" placeholder=""/><br />
         Email: <input type="text" name="Email" size="20" value="<?= $email ?>" placeholder=""/><br />
         Note: <br /><textarea rows="4" cols="50" name="PersonalNote"placeholder=""/><?= $personalNote ?></textarea><br />
-        <input id="cancelButton" type="submit" value="Cancel" />
-        <input id="submitButton" type="submit" value="Submit" />
+        <input class="myButton" id="cancelButton" type="submit" value="Cancel" />
+        <input class="myButton" id="submitButton" type="submit" value="Submit" />
     </form>
 
     <br /><br /><br />

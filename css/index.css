@@ -21,7 +21,7 @@ h1 {
 }
 
 h1 a {
-	text-decoration:none;
+	/*text-decoration:none;*/
 	color:#333;
 }
 
@@ -278,7 +278,7 @@ a.more:hover {
 }
 
 .myButton {
-    float: left;
+    /*float: left;*/
 	margin-left: auto;
 	margin-right: auto;
 	width: 50%;
@@ -306,6 +306,15 @@ a.more:hover {
 	padding:6px 24px;
 	text-decoration:none;
 	text-shadow:0px 1px 0px #810e05;
+}
+
+.editNew {
+    float: none;
+    color: #ffffff;
+}
+
+#content .editNew a {
+    color: #ffffff;
 }
 .myButton:hover {
 	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #E00122), color-stop(1, #f24537));
@@ -410,10 +419,39 @@ a.more:hover {
     text-shadow:0px 1px 0px #810e05;
 }
 
-/***************************** users page specific ***********************************************/
+/***************************** info pages ***********************************************/
 
+.primaryInfo {
+    border: 1px solid #810e05;
+    margin: 2px 2px 5px 2px;
+    padding: 5px;
+}
 
+.mostContacted {
+    display: inline;
+    float: right;
+    font-size: small;
+}
 
+dl {
+    display: block;
+    border: 1px solid #810e05;
+    color: #000000;
+    margin: 2px 2px 5px 2px;
+    padding: 2px;
+    box-shadow: 7px 7px 7px rgba(0,0,0,0.4);
+}
+
+dt {
+    color: #ffffff;
+    background-color: #810e05;
+    padding: 2px;
+    margin: -2px -2px 0px -2px;
+}
+
+dd {
+    text-decoration: underline;
+}
 /***************************** interactions specific ***********************************************/
 
 .recentContacts, .actionItemsList{
@@ -497,7 +535,7 @@ a.more:hover {
     /*border: solid 1px black;*/
     padding: 3px;
 }
-/***************************** Reports page specific ***********************************************/
+/***************************** all pages ***********************************************/
 
 .displayOff {
     display: none;
