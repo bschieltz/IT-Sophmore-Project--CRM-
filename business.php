@@ -180,7 +180,7 @@ require('includes/mysqli_connect.php');
             <li><b>City/State/Zip:</b> <?= $city . ", " . $statePrefix . " " . $zip_code ?></li>
             <li><b>Notes:</b><br /><?= $notes ?></li>
         </ul>
-        <input class="myButton" id="editButton" type="submit" value="Edit" />
+        <input class="myButton" id="editButton" type="submit" value="Edit Business Info" />
     </div>
 
     <?php if ($businessID > 0) { //if we load a business, add create employee button
