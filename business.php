@@ -177,7 +177,7 @@ require('includes/mysqli_connect.php');
             <li><b>Phone Number:</b> <?= $primaryPhoneNumber ?></li>
             <li><b>Address:</b> <?= $street1 . " " . $street2 ?></li>
             <li><b>City/State/Zip:</b> <?= $city . ", " . $statePrefix . " " . $zip_code ?></li>
-            <li><b>Notes:</b> <?= $notes ?></li>
+            <li><b>Notes:</b><br /><?= $notes ?></li>
         </ul>
         <input class="myButton" id="editButton" type="submit" value="Edit" />
     </div>
