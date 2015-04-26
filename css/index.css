@@ -325,7 +325,7 @@ a.more:hover {
 #content .editNew a {
     color: #ffffff;
 }
-.myButton:hover, #addBusinessButton, #searchButton, #addEmployeeButton, #cancelButton, #submitButton {
+.myButton:hover {
 	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #E00122), color-stop(1, #f24537));
 	background:-moz-linear-gradient(top, #E00122 5%, #f24537 100%);
 	background:-webkit-linear-gradient(top, #E00122 5%, #f24537 100%);
@@ -428,6 +428,19 @@ a.more:hover {
     padding:15px 15px;
     text-decoration:none;
     text-shadow:0px 1px 0px #810e05;
+}
+
+
+#addBusinessButton:hover, #searchButton:hover, #addEmployeeButton:hover, #cancelButton:hover, #submitButton:hover {
+    background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #E00122), color-stop(1, #f24537));
+    background:-moz-linear-gradient(top, #E00122 5%, #f24537 100%);
+    background:-webkit-linear-gradient(top, #E00122 5%, #f24537 100%);
+    background:-o-linear-gradient(top, #E00122 5%, #f24537 100%);
+    background:-ms-linear-gradient(top, #E00122 5%, #f24537 100%);
+    background:linear-gradient(to bottom, #E00122 5%, #f24537 100%);
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#E00122', endColorstr='#f24537',GradientType=0);
+    background-color:#E00122;
+    color: #000000;
 }
 
 /***************************** info pages ***********************************************/
