@@ -42,6 +42,8 @@ $password2 = "";
 $submitSuccessful = true;  // defaults to true.  only turns false if database update fails for validation reasons.
 $titleList = pullTitles();
 $interactionList = pullInteractionTypes();
+$businesses = [];
+$employees = [];
 
 if (isset($_POST['Submit'])) {
     $userID = $_POST['UserID'];
@@ -79,7 +81,11 @@ if (($_POST['ChangeActive'] == 0) || ($_POST['ChangeActive'] == 1)) {
 // by requiring $submitSuccessful a failed update/add will cause the form to get populated with the submitted information for correction
 if ((isset($_GET['UserID']) or $userID > 0) and $submitSuccessful) {
     if ($userID == 0) {
-        $userID = $_GET['UserID'];
+        if (isset($_GET['AssignedToUserID'])) {
+            $userID = $_GET['AssignedToUserID'];
+        } else {
+            $userID = $_GET['UserID'];
+        }
     }
     $userQuery = "SELECT `UserID`, `TitleID`, `FirstName`, `LastName`, `Email`, `Admin`, `Active`,
                  `PhoneNumber`, `InteractionTypeID` FROM `tuser`  WHERE UserID = $userID";
@@ -101,6 +107,25 @@ if ((isset($_GET['UserID']) or $userID > 0) and $submitSuccessful) {
     // Get user interaction type
     $interactionType = getInteractionType($interactionTypeID);
 
+    //query to get top 5 businesses contacted
+    $businessesQuery = "SELECT tnote.BusinessID, COUNT(*) as businessCount, tbusiness.BusinessName
+            FROM tnote INNER JOIN tbusiness ON tnote.BusinessID = tbusiness.BusinessID
+            WHERE UserID = $userID
+            GROUP BY BusinessID
+            ORDER BY businessCount Desc
+            LIMIT 5";
+    $businesses = mysqli_query($dbc, $businessesQuery);
+
+    //Query to get most contacted employees
+    $employeesQuery = "SELECT tnote.EmployeeID, COUNT(*) as employeeCount, temployee.FirstName, temployee.LastName
+            FROM tnote INNER JOIN temployee ON tnote.EmployeeID = temployee.EmployeeID
+            WHERE UserID = $userID and Active = 1
+            GROUP BY EmployeeID
+            ORDER BY employeeCount Desc
+            LIMIT 5";
+    $employees = mysqli_query($dbc, $employeesQuery);
+
+
 } elseif (!empty($_GET['CreateUser']) or !$submitSuccessful) { // if create called or submission fails get business ID from url
 
 } elseif (!empty($_GET['Search'])) {
@@ -110,18 +135,18 @@ if ((isset($_GET['UserID']) or $userID > 0) and $submitSuccessful) {
 ?>
 <div id="userPage">
 
-    <!-- Add User Button -->
-    <?php ($_SESSION["admin"] ? print'
-    <form class="searchTag listTag"  action="user.php">
-        <input type="hidden" name="CreateUser" value="True"/>
-        <input id="addUserButton" type="submit" value="Add New User" />
-    </form>' : ''); ?>
-
     <!-- User search -->
     <form class="searchTag listTag" action="user.php">
         <input type="search" name="Search" id='searchInput' placeholder="Search for a User" />
         <input id="searchButton" type="submit" value="Search" />
     </form>
+
+    <!-- Add User Button -->
+    <?php ($_SESSION["admin"] ? print'
+    <form class="searchTag listTag"  action="user.php">
+        <input type="hidden" name="CreateUser" value="True"/>
+        <input class="myButton" id="addUserButton" type="submit" value="Add New User" />
+    </form>' : ''); ?>
 
     <!-- Search results -->
     <div class="listTag displayOff">
@@ -135,26 +160,57 @@ if ((isset($_GET['UserID']) or $userID > 0) and $submitSuccessful) {
     <form class="formTag displayOff" action="user.php" method="post">
         <input type="hidden" name="ChangeActive" value="' . $active . '"/>
         <input type="hidden" name="UserID" value="' . $userID . '"/>
-        <input class="formTag" id="changeActive" type="submit" value="' . ($active ? "Suspend User" : "Activate User") . '"/>
+        <input class="myButton" id="changeActive" type="submit" value="' . ($active ? "Suspend User" : "Activate User") . '"/>
     </form>' : ''); ?>
 
     <!-- User Information -->
     <div class="infoTag displayOff">
-        <ul>
-            <li>Status: <?= ($active ? "Active" : "Inactive") ?></li>
-            <li>Title: <?= $title ?></li>
-            <li>First Name: <?= $firstName ?></li>
-            <li>Last Name: <?= $lastName ?></li>
-            <li>Phone Number: <?= $phoneNumber ?></li>
-            <li>Email: <a href="mailto:<?= $email ?>"><?= $email ?></a></li>
-            <?php ($_SESSION["admin"] ? print"<li>Admin: " . ($admin ? "Yes" : "No") . "</li>" : ""); ?>
-            <li>Interaction Type: <?= $interactionType ?></li>
+        <!-- Most contacted businesses (which is different from recent businesses) -->
+        <div class="mostContacted">
+            <dl>
+                <dt>Most Contacted Businesses</dt>
+                <?php
+                if($businesses){
+                    for($i=0; $i <= mysqli_num_rows($businesses); $i++) {
+                        if($row = mysqli_fetch_array($businesses)) {
+                            print '<dd><a href="business.php?BusinessID='. $row['BusinessID'] . '">' . $row['BusinessName'] . '</a></dd>';
+                        }
+                    }
+                }
+                ?>
+            </dl>
+
+            <!-- Most contacted employees (which is different from recent employees) -->
+            <dl>
+                <dt>Most Contacted Employees</dt>
+                <?php
+                if($employees){
+                    for($i=0; $i <= mysqli_num_rows($employees); $i++) {
+                        if($row = mysqli_fetch_array($employees)) {
+                            print '<dd><a href="employee.php?EmployeeID='. $row['EmployeeID'] . '">' . $row['FirstName'] . ' ' . $row['LastName'] . '</a></dd>';
+                        }
+                    }
+                }
+                ?>
+            </dl>
+        </div>
+
+        <ul class="primaryInfo">
+            <li><b>Status:</b> <?= ($active ? "Active" : "Inactive") ?></li>
+            <li><b>Title:</b> <?= $title ?></li>
+            <li><b>First Name:</b> <?= $firstName ?></li>
+            <li><b>Last Name:</b> <?= $lastName ?></li>
+            <li><b>Phone Number:</b> <?= $phoneNumber ?></li>
+            <li><b>Email:</b> <a href="mailto:<?= $email ?>"><?= $email ?></a></li>
+            <?php ($_SESSION["admin"] ? print"<li><b>Admin:</b> " . ($admin ? "Yes" : "No") . "</li>" : ""); ?>
+            <li><b> Type:</b> <?= $interactionType ?></li>
         </ul>
-        <?php ($_SESSION["admin"] || $_SESSION["userID"] == $userID ? print'<input id="editButton" type="submit" value="Edit" />' : '')?>
+        <?php ($_SESSION["admin"] || $_SESSION["userID"] == $userID ? print'<input class="myButton" id="editButton" type="submit" value="Edit" />' : '')?>
+
     </div>
 
     <!-- Form for adding/editing users. -->
-    <form class="formTag displayOff" method="post">
+    <form class="primaryInfo formTag displayOff" method="post">
         <input type="hidden" name="Submit" value="True"/>
         <input type="hidden" name="UserID" value="<?= $userID ?>"/>
         Title: <select name="TitleID">
@@ -180,10 +236,14 @@ if ((isset($_GET['UserID']) or $userID > 0) and $submitSuccessful) {
             print 'Change Password: <input type="password" name="Password1" value="" /><br />
             Re-Type Password: <input type="password" name="Password2" value="" /><br />' : "");
         ?>
-        <input id="submitButton" type="submit" value="Submit" />
-        <input id="cancelButton" type="submit" value="Cancel" />
+        <input class="myButton" id="cancelButton" type="submit" value="Cancel" />
+        <input class="myButton" id="submitButton" type="submit" value="Submit" />
     </form>
 
+    <br />
+    <br />
+    <br />
+    <br />
     <br />
 
     <?php
