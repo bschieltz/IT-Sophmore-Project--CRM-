@@ -552,7 +552,9 @@
         if (mysqli_num_rows($userList) > 0) {
             for ($i=0; $i <= mysqli_num_rows($userList); $i++) {
                 if($row = mysqli_fetch_array($userList)) {
+                    print '<div class="primaryInfo" style="padding-top: 0px;">';
                     print '<li><a href="user.php?UserID=' . $row['UserID'] . '">' . $row['FirstName'] . ' ' . $row['LastName'] . '</a></li>';
+                    print '</div>';
                 }
             }
         } else {
