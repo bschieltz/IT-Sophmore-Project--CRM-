@@ -177,7 +177,7 @@ if ((!empty($_GET['EmployeeID']) or $employeeID > 0) and $submitSuccessful) {
             <li><b>Phone Number:</b> <?= $phoneNumber ?></li>
             <li><b>Ext:</b> <?= $extension ?></li>
             <li><b>Email:</b> <a href="mailto:<?= $email ?>"><?= $email ?></a></li>
-            <li><b>Personal Note:</b> <?= $personalNote ?></li>
+            <li><b>Personal Note:</b><br /><?= $personalNote ?></li>
             <li><b>Works for:</b> <a href="business.php?BusinessID=<?= $businessID ?>"><?= $businessName ?></a></li>
         </ul>
         <input class="myButton" id="editButton" type="submit" value="Edit" />
