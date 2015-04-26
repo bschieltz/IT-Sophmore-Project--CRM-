@@ -759,7 +759,7 @@
             return True;
         } else { // Unable to run the query
 
-            $message = 'This is a message.';
+            $message = 'Note was not entered in the database, please see page for more info.';
 
             echo "<SCRIPT>
                 alert('$message');
