@@ -204,8 +204,8 @@ if ((!empty($_GET['EmployeeID']) or $employeeID > 0) and $submitSuccessful) {
         Ext: <input type="text" name="Extension" size="20" value="<?= $extension ?>" placeholder=""/><br />
         Email: <input type="text" name="Email" size="20" value="<?= $email ?>" placeholder=""/><br />
         Note: <br /><textarea rows="4" cols="50" name="PersonalNote"placeholder=""/><?= $personalNote ?></textarea><br />
-        <input class="myButton" id="cancelButton" type="submit" value="Cancel" />
         <input class="myButton" id="submitButton" type="submit" value="Submit" />
+        <input class="myButton" id="cancelButton" type="submit" value="Cancel" />
     </form>
 
     <br /><br /><br />

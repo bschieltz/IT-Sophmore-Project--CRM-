@@ -187,7 +187,7 @@ require('includes/mysqli_connect.php');
         print'<br /><form class="infoTag" action="employee.php">
                 <input type="hidden" name="CreateEmployee" value="True"/>
                 <input type="hidden" name="BusinessID" value=" '. $businessID . '"/>
-                <input class="searchTag listTag infoTag" id="addEmployeeButton" type="submit" value="Add New Employee" />
+                <input class="searchTag listTag infoTag myButton" id="addEmployeeButton" type="submit" value="Add New Employee" />
               </form>';
     }
     ?>
