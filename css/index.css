@@ -437,7 +437,7 @@ a.more:hover {
     color: #000000;
     margin: 0;
     padding: 0;
-    white-space: nowrap;
+    //white-space: nowrap;
 }
 
 .primaryInfo li {
