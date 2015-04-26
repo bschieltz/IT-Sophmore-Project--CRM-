@@ -646,11 +646,6 @@
                     <input type='submit' value='Add New Interaction'  class='myButton'/>
                 </form>";
 
-        // Add New Business Button
-        print "<form action='business.php'>
-                <input type='hidden' name='CreateBusiness' value='True' />
-                <input type='submit' value='Add New Business'  class='myButton'/></form><br />";
-
         // Most Contacted Businesses and Employees
         print'<div class="mostContacted">
                     <dl>
@@ -675,7 +670,15 @@
             }
         }
         print'</dl>
-        </div>';
+        </div>'; // End Most Contacted Businesses and Employees
+
+
+
+
+        // Add New Business Button
+        print "<form action='business.php'>
+                <input type='hidden' name='CreateBusiness' value='True' />
+                <input type='submit' value='Add New Business'  class='myButton'/></form><br />";
 
 
 		print "<br /><br />";
