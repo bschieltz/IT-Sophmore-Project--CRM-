@@ -56,7 +56,17 @@ require_once('functions.php');
             }
         ?>
 	</div><!-- header -->
+
     <div id="sidebar">
+        <script>
+            var screenWidth = window.screen.width;
+
+            if(screenWidth > 767) {
+                document.getElementById('sidebar').style.visibility = 'visible';
+            } else {
+                document.getElementById('sidebar').style.visibility = 'hidden';
+            }
+        </script>
         <?php
             if(!isset($_SESSION["userID"])) {
                 print "
