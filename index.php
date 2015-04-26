@@ -27,9 +27,11 @@
 						define('TITLE', 'UCC CRMS');
 
 						print "<div align='center'>";
-                        print "<h4 style='color: red'>There was an error with your Email/Password combination, please try again.</h4>";
+                        print "<h4 style='color: red'>There was an error with your Email/Password combination,
+                            please try again.</h4>";
 						print "<p style='color: red; font-size: smaller;'>If the problem persist, please contact
-							the <a href='mailto: alexanf@mail.uc.edu?subject=UCC CRMS Help'>system administrator</a>.
+							the <a href='mailto: alexanf@mail.uc.edu?subject=UCC CRMS Help' style='text-decoration: underline;'>
+							system administrator</a>.
 						</p>";
 						print "</div>";
 						// Print the login form
