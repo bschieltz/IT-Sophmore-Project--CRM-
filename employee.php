@@ -140,6 +140,25 @@ if ((!empty($_GET['EmployeeID']) or $employeeID > 0) and $submitSuccessful) {
 
 ?>
 <div id="employeePage">
+    <!-- Print most contacted employees if userID is set and on search page -->
+    <?php
+        if(isset($userID) && $employee == 0) {
+            print'<div class="mostContacted" style="padding-bottom: 25px;">
+            <!-- Most contacted employees (which is different from recent employees) -->
+            <dl>
+                <dt>Most Contacted Employees</dt>';
+                if($employees){
+                    for($i=0; $i <= mysqli_num_rows($employees); $i++) {
+                        if($row = mysqli_fetch_array($employees)) {
+                            print '<dd><a href="employee.php?EmployeeID='. $row['EmployeeID'] . '">' . $row['FirstName'] . ' ' . $row['LastName'] . '</a></dd>';
+                        }
+                    }
+                }
+                print'</dl>
+            </div>'; // End Most Contacted Businesses and Employees
+        }
+    ?>
+
 
     <!-- Employee search -->
     <form class="searchTag listTag" action="employee.php">
