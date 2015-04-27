@@ -115,6 +115,14 @@ require('includes/mysqli_connect.php');
 
     }
 
+    //query to get top 5 businesses contacted
+    $businessesQuery = "SELECT tnote.BusinessID, COUNT(*) as businessCount, tbusiness.BusinessName
+                FROM tnote INNER JOIN tbusiness ON tnote.BusinessID = tbusiness.BusinessID
+                WHERE UserID = $userID
+                GROUP BY BusinessID
+                ORDER BY businessCount Desc
+                LIMIT 5";
+    $businesses = mysqli_query($dbc, $businessesQuery);
 ?>
 <div id="businessPage">
 
@@ -130,6 +138,20 @@ require('includes/mysqli_connect.php');
         <input id="addBusinessButton" type="submit" value="Add New Business" />
     </form>
 
+<?php
+    // Most Contacted Businesses and Employees
+    print'<div class="mostContacted" style="padding-bottom: 25px;">
+        <dl>
+            <dt>Most Contacted Businesses</dt>';
+            if($businesses){
+            for($i=0; $i <= mysqli_num_rows($businesses); $i++) {
+            if($row = mysqli_fetch_array($businesses)) {
+            print '<dd><a href="business.php?BusinessID='. $row['BusinessID'] . '">' . $row['BusinessName'] . '</a></dd>';
+            }
+            }
+            }
+            print'</dl>
+?>
 
     <!-- Search Results -->
     <div class="listTag displayOff">
