@@ -262,7 +262,7 @@ class Interactions {
                     <li style='float:right;'><b>Employee:</b> <a href='employee.php?EmployeeID=" . $row['employeeID'] . "'>" . ($row['FirstName'] != '' ? $row['FirstName'] : 'None') . " " . $row['LastName'] . "</a></li>
                     <li><b>Business: </b><a href='business.php?BusinessID=" . $row['BusinessID'] . "'>" . $row['BusinessName'] . "</a></li>
                     <li style='float:right;'><b>Email:</b> <a href='mailto:" . $row['Email'] . "'>" . ($row['Email'] != '' ? $row['Email'] : 'None') . "</a></li>
-                    <li><b>Phone #:</b> " . ($row['PhoneNumber'] == "" ? $businessPhone : $employeePhone . " ext: " . $row['Ext']) . "</li>
+                    <li><b>Phone #:</b> " . ($row['PhoneNumber'] == "" ? $businessPhone : $employeePhone . " ext: " . $row['Extension']) . "</li>
                     <li style='float:right;'>";
                     if ($actionItemID != NULL) {
                         print"<b>Assigned To: </b><a href='user.php?UserID=" . $row['AssignedToUserID'] . "'>" . $row['AssignedToName'] . "</a></li>";
