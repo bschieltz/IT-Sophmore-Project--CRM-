@@ -208,8 +208,8 @@ require('includes/mysqli_connect.php');
         <input type="text" name="zip_code" size="2" value="<?= $zip_code ?>" placeholder="45255"/><br />
         Notes:<br /><textarea name="Notes" rows="4" cols="50"><?= $notes ?></textarea><br />
 
-        <input class="myButton" id="cancelButton" type="submit" value="Cancel" />
         <input class="myButton" id="submitButton" type="submit" value="Submit" />
+        <input class="myButton" id="cancelButton" type="submit" value="Cancel" />
     </form>
 
     <br /><br /><br />
