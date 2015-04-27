@@ -150,7 +150,7 @@ require('includes/mysqli_connect.php');
                     }
                 }
             }
-    print'</dl>
+    print'</dl></div>';
 ?>
 
     <!-- Search Results -->
