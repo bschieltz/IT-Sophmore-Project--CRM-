@@ -407,7 +407,6 @@ a.more:hover {
     border-radius: 5px;
 }
 #addBusinessButton, #searchButton, #addEmployeeButton, #cancelButton, #submitButton {
-    //float: left;
     margin-left: auto;
     margin-right: auto;
     width: 45%;
