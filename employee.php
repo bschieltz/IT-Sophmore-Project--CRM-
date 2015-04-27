@@ -26,6 +26,7 @@ require('includes/mysqli_connect.php');
 ?>
 
 <?php
+$userID = $_SESSION["userID"];
 $businessID = 0;
 $employeeID = 0;
 $active = 1;
@@ -67,6 +68,17 @@ if (!empty($_GET['Submit'])) {
 
     // Get employee title
     $title = getTitle($titleID);
+
+
+    //Query to get most contacted employees
+    $employeesQuery = "SELECT tnote.EmployeeID, COUNT(*) as employeeCount, temployee.FirstName, temployee.LastName
+            FROM tnote INNER JOIN temployee ON tnote.EmployeeID = temployee.EmployeeID
+            WHERE UserID = $userID and Active = 1
+            GROUP BY EmployeeID
+            ORDER BY employeeCount Desc
+            LIMIT 5";
+    $employees = mysqli_query($dbc, $employeesQuery);
+
 
 }
 

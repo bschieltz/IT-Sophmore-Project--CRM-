@@ -128,7 +128,7 @@ require('includes/mysqli_connect.php');
 <div id="businessPage">
 
     <?php
-    if(isset($userID)) {
+    if(isset($userID) && $businessID == 0) {
         // Most Contacted Businesses and Employees
         print'<div class="mostContacted" style="padding-bottom: 25px;">
         <dl>
