@@ -244,6 +244,11 @@ blockquote {
 	border:1px solid #eee;
 }
 
+textarea {
+    max-width: 90%;
+    margin-left: 5%;
+}
+
 #content ul, ol {
 	/*margin:10px 10px 10px 50px;
 	border-top:1px solid #eee;*/
