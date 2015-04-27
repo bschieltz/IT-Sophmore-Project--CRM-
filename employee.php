@@ -206,6 +206,7 @@ if ((!empty($_GET['EmployeeID']) or $employeeID > 0) and $submitSuccessful) {
         Note: <br /><textarea rows="4" cols="50" name="PersonalNote"placeholder=""/><?= $personalNote ?></textarea><br />
         <input class="myButton" id="submitButton" type="submit" value="Submit" />
         <input class="myButton" id="cancelButton" type="submit" value="Cancel" />
+        <br />
     </form>
 
     <br /><br /><br />
