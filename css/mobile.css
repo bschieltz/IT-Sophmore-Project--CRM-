@@ -58,10 +58,6 @@ h1 a {
     border-bottom:20px solid #fafafa;
 }
 
-#header h2 {
-    font-size: medium;
-}
-
 #wrapper {
     width:auto;
     margin:0 auto;
@@ -71,7 +67,6 @@ h1 a {
     min-height: 900px;
     box-shadow: 10px 10px 5px #111;
     border-bottom: 20px solid #E00122;
-
 }
 
 #nav {
@@ -403,6 +398,7 @@ a.more:hover {
     border-radius: 5px;
 }
 #addBusinessButton, #searchButton, #addEmployeeButton, #cancelButton, #submitButton {
+    /*float: left;*/
     margin-left: auto;
     margin-right: auto;
     width: 50%;
@@ -425,11 +421,54 @@ a.more:hover {
     cursor:pointer;
     color:#ffffff;
     font-family:arial;
-    font-size:15px;
+    font-size:20px;
     font-weight:bold;
-    padding:15px 15px;
+    padding:6px 24px;
     text-decoration:none;
     text-shadow:0px 1px 0px #810e05;
+
+    /*
+        margin-left: auto;
+        margin-right: auto;
+        width: 50%;
+        -moz-box-shadow:inset 0px 3px 0px 0px #f5978e;
+        -webkit-box-shadow:inset 0px 3px 0px 0px #f5978e;
+        box-shadow:inset 0px 3px 0px 0px #f5978e;
+        background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #f24537), color-stop(1, #c62d1f));
+        background:-moz-linear-gradient(top, #f24537 5%, #E00122 100%);
+        background:-webkit-linear-gradient(top, #f24537 5%, #E00122 100%);
+        background:-o-linear-gradient(top, #f24537 5%, #E00122 100%);
+        background:-ms-linear-gradient(top, #f24537 5%, #E00122 100%);
+        background:linear-gradient(to bottom, #f24537 5%, #E00122 100%);
+        filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#f24537', endColorstr='#E00122',GradientType=0);
+        background-color:#f24537;
+        -moz-border-radius:6px;
+        -webkit-border-radius:6px;
+        border-radius:6px;
+        border:1px solid #ffffff;
+        display:inline-block;
+        cursor:pointer;
+        color:#ffffff;
+        font-family:arial;
+        font-size:15px;
+        font-weight:bold;
+        padding:15px 15px;
+        text-decoration:none;
+        text-shadow:0px 1px 0px #810e05;
+        */
+}
+
+
+#addBusinessButton:hover, #searchButton:hover, #addEmployeeButton:hover, #cancelButton:hover, #submitButton:hover {
+    background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #E00122), color-stop(1, #f24537));
+    background:-moz-linear-gradient(top, #E00122 5%, #f24537 100%);
+    background:-webkit-linear-gradient(top, #E00122 5%, #f24537 100%);
+    background:-o-linear-gradient(top, #E00122 5%, #f24537 100%);
+    background:-ms-linear-gradient(top, #E00122 5%, #f24537 100%);
+    background:linear-gradient(to bottom, #E00122 5%, #f24537 100%);
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#E00122', endColorstr='#f24537',GradientType=0);
+    background-color:#E00122;
+    color: #000000;
 }
 
 /***************************** info pages ***********************************************/
