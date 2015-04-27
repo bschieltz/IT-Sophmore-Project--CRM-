@@ -144,13 +144,13 @@ require('includes/mysqli_connect.php');
         <dl>
             <dt>Most Contacted Businesses</dt>';
             if($businesses){
-            for($i=0; $i <= mysqli_num_rows($businesses); $i++) {
-            if($row = mysqli_fetch_array($businesses)) {
-            print '<dd><a href="business.php?BusinessID='. $row['BusinessID'] . '">' . $row['BusinessName'] . '</a></dd>';
+                for($i=0; $i <= mysqli_num_rows($businesses); $i++) {
+                    if($row = mysqli_fetch_array($businesses)) {
+                        print '<dd><a href="business.php?BusinessID='. $row['BusinessID'] . '">' . $row['BusinessName'] . '</a></dd>';
+                    }
+                }
             }
-            }
-            }
-            print'</dl>
+    print'</dl>
 ?>
 
     <!-- Search Results -->
