@@ -273,7 +273,7 @@ class Interactions {
                     <li><div class='notes'> " . $row['Note'] . "</div>";
                         if (is_null($row['actionComplete'])) { // this means that it is either an open action or note
                             if ($row['actionComplete'] == NULL && $headerType == "action") { // this means it is indeed an open action item
-                                if ($row['UserID'] == $_SESSION['userID'] || $_SESSION["admin"]) { // this means the user is authorized to edit this action item by either being the user assigned or an admin
+                                if ($row['AssignedToUserID'] == $_SESSION['userID'] || $_SESSION["admin"]) { // this means the user is authorized to edit this action item by either being the user assigned or an admin
                                     $this->printEditBox($headerType, $i, $row['UserID'], $row['BusinessID'], $row['BusinessName'], $row['employeeID'],$row['InteractionType'],$OriginalActionItemID,$actionItemID);
                                 }
                             }
@@ -307,7 +307,7 @@ class Interactions {
                                     <li><a href='#' name='ExpandAIH$i$j' class='AIHClass'>" . substr($assocRow['Note'],0,40) . "</a></li>
                                 </ul>
                                 <ul name='toExpandAIH$i$j' class='DashAI displayOff DashAIH toExpandAIaction$i'>
-                                    <li><b>UC Staff:</b><a href='user.php?UserID=" . $assocRow['AssignedToUserID'] . "'> $pUserName &nbsp&nbsp&nbsp</a> <b>Date:</b> $AIDateTime</li>
+                                    <li><b>UC Staff:</b><a href='user.php?UserID=" . $assocRow['AssignedToUserID'] . "'> $pUserName</a> &nbsp&nbsp&nbsp <b>Date:</b> $AIDateTime</li>
                                     <li><b>Notes: </b><br /><div class='notes'> " . $assocRow['Note'] . "</div></li>
                                 </ul>
                             ";
