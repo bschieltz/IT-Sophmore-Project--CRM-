@@ -713,12 +713,12 @@
 
 	// Handle unauthorized user
 	function noAuth() {
-		$nogo = "Unauthorized user! Please contact your system administrator for assistance.";
+		$nogo = "You are not authorized to use this site. Please contact your system administrator for assistance.";
+        logout();
 		print "<SCRIPT LANGUAGE='JavaScript'>
     window.alert('$nogo')
     window.location.href='logout.php';
     </SCRIPT>";
-		logout();
 	}
 
     /****************************************************************************************/
