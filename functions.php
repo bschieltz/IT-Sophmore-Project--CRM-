@@ -717,7 +717,7 @@
         logout();
 		print "<SCRIPT LANGUAGE='JavaScript'>
     window.alert('$nogo')
-    window.location.href='logout.php';
+    window.location.href='index.php';
     </SCRIPT>";
 	}
 
