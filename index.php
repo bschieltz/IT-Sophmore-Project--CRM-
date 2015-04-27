@@ -63,10 +63,14 @@
 						
 						/******  Begin building dashboard  *****/
 						
-						
-						// Pass info to build the dashboard
-						//dashboard($userID, $userFullName);
-                        echo "<script>window.location.href='" . $_SERVER['PHP_SELF'] . "?'</script>";
+
+                        if($userAuth != 1) {
+                            noAuth();
+                        } else {
+                            // Pass info to build the dashboard
+                            echo "<script>window.location.href='" . $_SERVER['PHP_SELF'] . "?'</script>";
+                        }
+
 					}
 				}
 				// Could not query the database
