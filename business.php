@@ -202,7 +202,7 @@ require('includes/mysqli_connect.php');
         Primary Contact: <input type="text" name="PrimaryContact" size="20" value="<?= $primaryContact ?>" placeholder="Bill Jones"/><br />
         Phone Number: <input type="text" name="PrimaryPhoneNumber" size="20" value="<?= $primaryPhoneNumber ?>" placeholder="513-987-6543"/><br />
         Address: <input type="text" name="Street1" size="20" value="<?= $street1 ?>" placeholder="123 Main St"/><br />
-        <input type="text" name="Street2" size="20" value="<?= $street2 ?>" placeholder="Suite 345"/><br />
+        <input type="text" name="Street2" size="20" style="margin-left: 5%;" value="<?= $street2 ?>" placeholder="Suite 345"/><br />
         City/State/Zip: <input type="text" name="city" size="15" value="<?= $city ?>" placeholder="Cincinnati"/>
         <input type="text" name="StatePrefix" size="1" value="<?= $statePrefix ?>" placeholder="OH"/>
         <input type="text" name="zip_code" size="2" value="<?= $zip_code ?>" placeholder="45255"/><br />
