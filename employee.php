@@ -69,17 +69,6 @@ if (!empty($_GET['Submit'])) {
     // Get employee title
     $title = getTitle($titleID);
 
-
-    //Query to get most contacted employees
-    $employeesQuery = "SELECT tnote.EmployeeID, COUNT(*) as employeeCount, temployee.FirstName, temployee.LastName
-            FROM tnote INNER JOIN temployee ON tnote.EmployeeID = temployee.EmployeeID
-            WHERE UserID = $userID and Active = 1
-            GROUP BY EmployeeID
-            ORDER BY employeeCount Desc
-            LIMIT 5";
-    $employees = mysqli_query($dbc, $employeesQuery);
-
-
 }
 
 if (($_GET['ChangeActive'] == 0) || ($_GET['ChangeActive'] == 1)) {
@@ -137,6 +126,15 @@ if ((!empty($_GET['EmployeeID']) or $employeeID > 0) and $submitSuccessful) {
 } elseif (!empty($_GET['Search'])) {
 
 }
+
+    //Query to get most contacted employees
+    $employeesQuery = "SELECT tnote.EmployeeID, COUNT(*) as employeeCount, temployee.FirstName, temployee.LastName
+                FROM tnote INNER JOIN temployee ON tnote.EmployeeID = temployee.EmployeeID
+                WHERE UserID = $userID and Active = 1
+                GROUP BY EmployeeID
+                ORDER BY employeeCount Desc
+                LIMIT 5";
+    $employees = mysqli_query($dbc, $employeesQuery);
 
 ?>
 <div id="employeePage">
