@@ -603,6 +603,10 @@ dd {
     margin: 0 0 0 60px;
 }
 
+.dashAI a {
+    text-decoration: underline;
+}
+
 #content .editBoxContent textarea {
     width: 99.8%;
     margin-top: 3px;
