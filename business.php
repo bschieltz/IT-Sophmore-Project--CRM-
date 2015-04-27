@@ -27,6 +27,7 @@ require('includes/mysqli_connect.php');
 ?>
 
 <?php
+    $userID = $_SESSION["userID"];
     $businessID = 0;
     $businessName = "";
     $primaryContact = "";
@@ -139,18 +140,20 @@ require('includes/mysqli_connect.php');
     </form>
 
 <?php
-    // Most Contacted Businesses and Employees
-    print'<div class="mostContacted" style="padding-bottom: 25px;">
+    if(isset($userID)) {
+        // Most Contacted Businesses and Employees
+        print'<div class="mostContacted" style="padding-bottom: 25px;">
         <dl>
             <dt>Most Contacted Businesses</dt>';
-            if($businesses){
-                for($i=0; $i <= mysqli_num_rows($businesses); $i++) {
-                    if($row = mysqli_fetch_array($businesses)) {
-                        print '<dd><a href="business.php?BusinessID='. $row['BusinessID'] . '">' . $row['BusinessName'] . '</a></dd>';
-                    }
+        if($businesses){
+            for($i=0; $i <= mysqli_num_rows($businesses); $i++) {
+                if($row = mysqli_fetch_array($businesses)) {
+                    print '<dd><a href="business.php?BusinessID='. $row['BusinessID'] . '">' . $row['BusinessName'] . '</a></dd>';
                 }
             }
-    print'</dl></div>';
+        }
+        print'</dl></div>';
+    }
 ?>
 
     <!-- Search Results -->
