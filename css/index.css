@@ -603,7 +603,7 @@ dd {
     margin: 0 0 0 60px;
 }
 
-.dashAI a {
+#content .dashAI a {
     text-decoration: underline;
 }
 
