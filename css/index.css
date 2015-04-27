@@ -247,6 +247,7 @@ blockquote {
 textarea {
     max-width: 90%;
     margin-left: 5%;
+    margin-bottom: 5px;
 }
 
 #content ul, ol {
