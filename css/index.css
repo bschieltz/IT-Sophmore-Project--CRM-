@@ -486,7 +486,7 @@ a.more:hover {
     border: 1px solid #810e05;
     background-color: #fdfdfd;
     margin: 2px 40px 5px 2px;
-    padding: 5px;
+    padding: 10px 5px 10px 5px;
     padding-top: 10px;
     padding-bottom: 10px;
     box-shadow: 3px 3px 7px rgba(0,0,0,0.4);
