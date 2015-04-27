@@ -408,7 +408,6 @@ a.more:hover {
 }
 #addBusinessButton, #searchButton, #addEmployeeButton, #cancelButton, #submitButton {
     float: left;
-    clear: both;
     margin-left: auto;
     margin-right: auto;
     width: 45%;
