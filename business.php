@@ -127,19 +127,7 @@ require('includes/mysqli_connect.php');
 ?>
 <div id="businessPage">
 
-    <!-- Search Box -->
-    <form class="searchTag listTag" action="business.php">
-        <input id="searchInput" type="search" name="Search" placeholder="Search for a Business" />
-        <input id="searchButton" type="submit" value="Search" />
-    </form>
-
-    <!-- Add button -->
-    <form class="searchTag listTag"  action="business.php">
-        <input type="hidden" name="CreateBusiness" value="True"/>
-        <input id="addBusinessButton" type="submit" value="Add New Business" />
-    </form>
-
-<?php
+    <?php
     if(isset($userID)) {
         // Most Contacted Businesses and Employees
         print'<div class="mostContacted" style="padding-bottom: 25px;">
@@ -154,7 +142,20 @@ require('includes/mysqli_connect.php');
         }
         print'</dl></div>';
     }
-?>
+    ?>
+
+    <!-- Search Box -->
+    <form class="searchTag listTag" action="business.php">
+        <input id="searchInput" type="search" name="Search" placeholder="Search for a Business" />
+        <input id="searchButton" type="submit" value="Search" />
+    </form>
+
+    <!-- Add button -->
+    <form class="searchTag listTag"  action="business.php">
+        <input type="hidden" name="CreateBusiness" value="True"/>
+        <input id="addBusinessButton" type="submit" value="Add New Business" />
+    </form>
+
 
     <!-- Search Results -->
     <div class="listTag displayOff">
